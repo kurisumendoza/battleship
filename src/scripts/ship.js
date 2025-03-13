@@ -7,6 +7,7 @@ class Ship {
 
   // Increases hitCount
   hit() {
+    if (this.hitCount === this.length) return;
     this.hitCount += 1;
   }
 
