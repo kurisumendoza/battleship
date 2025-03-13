@@ -16,6 +16,6 @@ describe('adding hit count to the ship', () => {
   });
 
   test('verify if ship is sunk', () => {
-    expect(ship.isSunk).toBeTruthy();
+    expect(ship.hasSunk).toBeTruthy();
   });
 });

@@ -1,18 +1,21 @@
 class Ship {
-  constructor(length, isSunk = false) {
+  constructor(length) {
     this.length = length;
     this.hitCount = 0;
-    this.isSunk = isSunk;
+    this.hasSunk = false;
+  }
+
+  // Calculates whether the ship should be considered sunk
+  #isSunk() {
+    if (this.length === this.hitCount) return true;
+    return false;
   }
 
   // Increases hitCount
   hit() {
-    if (this.hitCount === this.length) return;
+    if (this.hitCount === this.length) return (this.hasSunk = this.#isSunk());
     this.hitCount += 1;
   }
-
-  // Calculates whether the ship should be considered sunk
-  isSunk() {}
 
   // Returns an object with the ship's status
   getShip() {
