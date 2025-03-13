@@ -5,6 +5,8 @@ class Ship {
     this.isSunk = isSunk;
   }
 
+  hit() {}
+
   getShip() {
     return {
       length: this.length,
