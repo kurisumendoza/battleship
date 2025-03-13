@@ -1,12 +1,16 @@
 class Ship {
-  constructor(length, hitCount = 0, isSunk = false) {
+  constructor(length, isSunk = false) {
     this.length = length;
-    this.hitCount = hitCount;
+    this.hitCount = 0;
     this.isSunk = isSunk;
   }
 
-  hit() {}
+  // Increases hitCount
+  hit() {
+    this.hitCount += 1;
+  }
 
+  // Returns an object with the ship's status
   getShip() {
     return {
       length: this.length,
