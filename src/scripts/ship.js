@@ -11,6 +11,9 @@ class Ship {
     this.hitCount += 1;
   }
 
+  // Calculates whether the ship should be considered sunk
+  isSunk() {}
+
   // Returns an object with the ship's status
   getShip() {
     return {
