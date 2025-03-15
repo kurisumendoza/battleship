@@ -2,7 +2,7 @@ import Ship from '../scripts/ship';
 
 const ship = new Ship(3);
 
-describe('adding hit count to the ship', () => {
+describe('Ship class methods', () => {
   test('add hit count', () => {
     ship.hit();
     expect(ship.hitCount).toBe(1);
@@ -17,5 +17,13 @@ describe('adding hit count to the ship', () => {
 
   test('verify if ship is sunk', () => {
     expect(ship.hasSunk).toBeTruthy();
+  });
+
+  test('return Ship object correctly', () => {
+    expect(ship.getShip()).toEqual({
+      length: 3,
+      hitCount: 3,
+      hasSunk: true,
+    });
   });
 });
