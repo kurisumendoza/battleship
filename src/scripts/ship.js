@@ -26,7 +26,7 @@ class Ship {
     return {
       length: this.length,
       hitCount: this.hitCount,
-      isSunk: this.isSunk,
+      hasSunk: this.hasSunk,
     };
   }
 }
