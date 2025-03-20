@@ -53,4 +53,11 @@ describe('Gameboard attack handling', () => {
       true,
     );
   });
+
+  test('Marks ship as sunk when all its tiles are hit', () => {
+    gameboard.placeShip(gameboard.ships.destroyer, [0, 8], 'horizontal');
+    gameboard.receiveAttack([0, 8]);
+    gameboard.receiveAttack([0, 9]);
+    expect(gameboard.ships.destroyer.hasSunk).toBe(true);
+  });
 });
