@@ -49,9 +49,7 @@ describe('Gameboard attack handling', () => {
 
   test('Stores coordinates of successful hits', () => {
     gameboard.receiveAttack([9, 5]);
-    expect(gameboard.hit.some(([row, col]) => row === 9 && col === 5)).toBe(
-      true,
-    );
+    expect(gameboard.hit.has(`${9},${5}`)).toBe(true);
   });
 
   test('Marks ship as sunk when all its tiles are hit', () => {

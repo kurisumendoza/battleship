@@ -4,7 +4,7 @@ class Gameboard {
   constructor() {
     this.board = new Array(10).fill(null).map(() => new Array(10).fill(null));
     this.ships = initializeShips();
-    this.hit = [];
+    this.hit = new Set();
   }
 
   // Places specified ships on the board
@@ -28,14 +28,11 @@ class Gameboard {
   receiveAttack(coords) {
     const [row, col] = coords;
 
-    if (
-      this.hit.some(([r, c]) => r === row && c === col) ||
-      this.board[row][col] === 'miss'
-    )
+    if (this.hit.has(`${row},${col}`) || this.board[row][col] === 'miss')
       throw new Error('Tile has already been hit');
 
     if (this.board[row][col] && this.board[row][col] !== 'miss') {
-      this.hit.push(coords);
+      this.hit.add(`${row},${col}`);
       this.board[row][col].hit();
     } else {
       this.board[row][col] = 'miss';
