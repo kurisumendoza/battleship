@@ -46,4 +46,11 @@ describe('Gameboard attack handling', () => {
     gameboard.receiveAttack([5, 2]);
     expect(gameboard.board[5][2]).toBe('miss');
   });
+
+  test('Stores coordinates of successful hits', () => {
+    gameboard.receiveAttack([9, 5]);
+    expect(gameboard.hit.some(([row, col]) => row === 9 && col === 5)).toBe(
+      true,
+    );
+  });
 });
