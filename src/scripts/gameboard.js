@@ -24,12 +24,16 @@ class Gameboard {
     }
   }
 
-  // Records successful and missed shots
+  // Updates board on successful and missed shots
   receiveAttack(coords) {
     const [row, col] = coords;
 
-    this.board[row][col] ??= 'miss';
-    if (this.board[row][col]) this.hit.push(coords);
+    if (this.board[row][col] && this.board[row][col] !== 'miss') {
+      this.hit.push(coords);
+      this.board[row][col].hit();
+    } else {
+      this.board[row][col] = 'miss';
+    }
   }
 }
 
