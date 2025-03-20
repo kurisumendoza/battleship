@@ -60,4 +60,11 @@ describe('Gameboard attack handling', () => {
     gameboard.receiveAttack([0, 9]);
     expect(gameboard.ships.destroyer.hasSunk).toBe(true);
   });
+
+  test('Prevents hitting a tile that has already been hit', () => {
+    gameboard.receiveAttack([5, 5]);
+    expect(() => gameboard.receiveAttack([5, 5])).toThrow(
+      new Error('Tile has already been hit'),
+    );
+  });
 });
