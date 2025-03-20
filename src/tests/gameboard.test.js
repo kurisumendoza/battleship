@@ -40,3 +40,10 @@ describe('Verify ship placements', () => {
     ).toThrow(new Error('Out of bounds'));
   });
 });
+
+describe('Gameboard attack handling', () => {
+  test('Marks a missed shot on the board', () => {
+    gameboard.receiveAttack([5, 2]);
+    expect(gameboard.board[5][2]).toBe('miss');
+  });
+});
