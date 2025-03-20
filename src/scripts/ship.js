@@ -14,11 +14,8 @@ class Ship {
   // Increases hitCount
   hit() {
     if (this.hasSunk) return;
-    if (this.hitCount === this.length) {
-      this.hasSunk = this.#isSunk();
-      return;
-    }
     this.hitCount += 1;
+    if (this.hitCount === this.length) this.hasSunk = this.#isSunk();
   }
 
   // Returns an object with the ship's status
