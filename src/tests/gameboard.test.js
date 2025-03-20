@@ -33,4 +33,10 @@ describe('Verify ship placements', () => {
 
     expect(tilesFilled).toBe(true);
   });
+
+  test('Will not work when out of bounds', () => {
+    expect(() =>
+      gameboard.placeShip(gameboard.ships.battleship, [0, 9], 'horizontal'),
+    ).toThrow(new Error('Out of bounds'));
+  });
 });
