@@ -22,6 +22,13 @@ class Gameboard {
       ] = ship;
     }
   }
+
+  // Records successful and missed shots
+  receiveAttack(coords) {
+    const [row, col] = coords;
+
+    this.board[row][col] ??= 'miss';
+  }
 }
 
 export default Gameboard;
