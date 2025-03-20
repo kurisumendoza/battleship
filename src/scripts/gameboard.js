@@ -4,6 +4,7 @@ class Gameboard {
   constructor() {
     this.board = new Array(10).fill(null).map(() => new Array(10).fill(null));
     this.ships = initializeShips();
+    this.hit = [];
   }
 
   // Places specified ships on the board
@@ -28,6 +29,7 @@ class Gameboard {
     const [row, col] = coords;
 
     this.board[row][col] ??= 'miss';
+    if (this.board[row][col]) this.hit.push(coords);
   }
 }
 
