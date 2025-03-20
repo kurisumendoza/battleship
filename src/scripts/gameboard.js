@@ -28,6 +28,12 @@ class Gameboard {
   receiveAttack(coords) {
     const [row, col] = coords;
 
+    if (
+      this.hit.some(([r, c]) => r === row && c === col) ||
+      this.board[row][col] === 'miss'
+    )
+      throw new Error('Tile has already been hit');
+
     if (this.board[row][col] && this.board[row][col] !== 'miss') {
       this.hit.push(coords);
       this.board[row][col].hit();
