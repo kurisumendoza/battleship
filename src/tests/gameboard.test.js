@@ -1,19 +1,29 @@
 import Gameboard from '../scripts/gameboard';
 
-const gameboard = new Gameboard();
+let gameboard;
 
-test('Check if board is initialized correctly', () => {
-  const isValidBoard = (board) => {
-    if (board.length !== 10) return false;
-    return board.every(
-      (row) => row.length === 10 && row.every((tile) => tile === null),
-    );
-  };
+describe('Board initialization', () => {
+  beforeEach(() => {
+    gameboard = new Gameboard();
+  });
 
-  expect(isValidBoard(gameboard.board)).toBe(true);
+  test('Check if board is initialized correctly', () => {
+    const isValidBoard = (board) => {
+      if (board.length !== 10) return false;
+      return board.every(
+        (row) => row.length === 10 && row.every((tile) => tile === null),
+      );
+    };
+
+    expect(isValidBoard(gameboard.board)).toBe(true);
+  });
 });
 
 describe('Verify ship placements', () => {
+  beforeEach(() => {
+    gameboard = new Gameboard();
+  });
+
   test('Check if properly placed horizontally', () => {
     gameboard.placeShip(gameboard.ships.carrier, [9, 5], 'horizontal');
 
@@ -42,12 +52,17 @@ describe('Verify ship placements', () => {
 });
 
 describe('Gameboard attack handling', () => {
+  beforeEach(() => {
+    gameboard = new Gameboard();
+  });
+
   test('Marks a missed shot on the board', () => {
     gameboard.receiveAttack([5, 2]);
     expect(gameboard.board[5][2]).toBe('miss');
   });
 
   test('Stores coordinates of successful hits', () => {
+    gameboard.placeShip(gameboard.ships.submarine, [9, 5], 'horizontal');
     gameboard.receiveAttack([9, 5]);
     expect(gameboard.hit.has(`${9},${5}`)).toBe(true);
   });
