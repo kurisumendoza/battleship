@@ -1,25 +1,36 @@
 import Ship from '../scripts/ship';
 
-const ship = new Ship(3);
-
 describe('Ship class methods', () => {
-  test('add hit count', () => {
+  let ship;
+
+  beforeEach(() => {
+    ship = new Ship(3);
+  });
+
+  test('adds hit count', () => {
     ship.hit();
     expect(ship.hitCount).toBe(1);
   });
 
-  test('should not exceed length of ship', () => {
+  test('prevents exceeding length of ship', () => {
+    ship.hit();
     ship.hit();
     ship.hit();
     ship.hit();
     expect(ship.hitCount).not.toBeGreaterThan(ship.length);
   });
 
-  test('verify if ship is sunk', () => {
+  test('verifies if ship is sunk', () => {
+    ship.hit();
+    ship.hit();
+    ship.hit();
     expect(ship.hasSunk).toBeTruthy();
   });
 
-  test('return Ship object correctly', () => {
+  test('returns Ship object correctly', () => {
+    ship.hit();
+    ship.hit();
+    ship.hit();
     expect(ship.getShip()).toEqual({
       length: 3,
       hitCount: 3,
