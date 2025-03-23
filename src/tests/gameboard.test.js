@@ -81,3 +81,27 @@ describe('Gameboard attack handling', () => {
     );
   });
 });
+
+describe('Sunk ships tracking', () => {
+  beforeEach(() => {
+    gameboard = new Gameboard();
+  });
+
+  test('Returns false when not all ships are sunk', () => {
+    gameboard.placeShip(gameboard.ships.destroyer, [0, 0], 'horizontal');
+    gameboard.receiveAttack([0, 0]);
+    gameboard.receiveAttack([0, 1]);
+
+    expect(gameboard.isAllSunk()).toBe(false);
+  });
+
+  test('Returns true when all ships are sunk', () => {
+    Object.values(gameboard.ships).forEach((ship, row) => {
+      gameboard.placeShip(ship, [row, 0], 'horizontal');
+      for (let i = 0; i < ship.length; i += 1)
+        gameboard.receiveAttack([row, i]);
+    });
+
+    expect(gameboard.isAllSunk()).toBe(true);
+  });
+});
