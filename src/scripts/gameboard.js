@@ -38,6 +38,11 @@ class Gameboard {
       this.board[row][col] = 'miss';
     }
   }
+
+  // Reports if all ships are sunk
+  isAllSunk() {
+    return Object.values(this.ships).every((ship) => ship.hasSunk);
+  }
 }
 
 export default Gameboard;
