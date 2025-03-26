@@ -1,4 +1,6 @@
 import './styles/main.css';
 import renderGameboard from './scripts/ui';
+import { gameboardUI } from './scripts/selectors';
 
-renderGameboard();
+renderGameboard(gameboardUI.board);
+renderGameboard(gameboardUI.enemyBoard);

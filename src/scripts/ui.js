@@ -1,10 +1,8 @@
-import { gameboardUI } from './selectors';
-
-const renderGameboard = () => {
+const renderGameboard = (gameboard) => {
   for (let i = 0; i < 100; i += 1) {
     const cell = document.createElement('div');
     cell.classList.add('cell');
-    gameboardUI.board.appendChild(cell);
+    gameboard.appendChild(cell);
   }
 };
 
