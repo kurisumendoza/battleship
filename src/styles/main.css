@@ -1,1 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --main-font: 'Black Ops One', system-ui;
+
+  --background-color: cadetblue;
+  --cell-color: antiquewhite;
+}
+
+body {
+  background-color: var(--background-color);
+  padding: 1rem 2.5rem;
+}
+
+.main-container {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-rows: auto 1fr;
+}
+
+.header {
+  grid-column: span 3;
+  justify-items: center;
+}
+
+.header h1 {
+  font-family: var(--main-font);
+  font-weight: 400;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  width: 60%;
+  padding-top: 1.5rem;
+  margin-left: auto;
+  margin-right: 2rem;
+}
+
+.players-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* placeholder, to be replaced */
+.placeholder-stats {
+  height: 100px;
+  background-color: lightcoral;
+}
+
+.enemy-preview {
+  padding-top: 20px;
+  text-align: center;
+}
+
+/* placeholder, to be replaced */
+.placeholder-enemy-board {
+  margin: auto;
+  margin-top: 10px;
+  aspect-ratio: 1/1;
+  background-color: lightgoldenrodyellow;
+}
+
+.gameplay-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  justify-items: center;
+  padding: 0 20px;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 5px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-items: center;
+}
+
+.cell {
+  background-color: var(--cell-color);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.game-stats-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 60%;
+  padding-top: 1.5rem;
+  margin-right: auto;
+  margin-left: 2rem;
+}
+
+.turn-display {
+  text-align: center;
+}
+
+.end-turn-btn button,
+.play-again-btn button {
+  margin: 2rem 0;
+  height: 3rem;
+  width: 100%;
+}
+
+.winner-display h3 {
+  text-align: center;
+  font-family: var(--main-font);
+  font-size: 3rem;
+  font-weight: 400;
+  margin-bottom: 2rem;
+}
