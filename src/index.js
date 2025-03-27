@@ -1,6 +1,6 @@
 import './styles/main.css';
-import renderGameboard from './scripts/ui';
-import { startScreen, gameboardUI } from './scripts/selectors';
+import { renderGameboard, renderGameModeOptions } from './scripts/ui';
+import { startScreen, gameboardUI, controlsUI } from './scripts/selectors';
 
 const initializeGame = () => {
   if (startScreen) startScreen.showModal();
@@ -8,6 +8,5 @@ const initializeGame = () => {
   renderGameboard(gameboardUI.enemyBoard);
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-  initializeGame();
-});
+window.addEventListener('DOMContentLoaded', initializeGame);
+controlsUI.startGame.addEventListener('click', renderGameModeOptions);
