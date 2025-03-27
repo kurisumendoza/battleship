@@ -30,7 +30,8 @@ body {
   justify-items: center;
 }
 
-.header h1 {
+.header h1,
+dialog h1 {
   font-family: var(--main-font);
   font-weight: 400;
   font-size: 4rem;

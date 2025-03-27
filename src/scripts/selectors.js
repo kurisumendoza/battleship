@@ -1,3 +1,5 @@
+const startScreen = document.querySelector('.start-screen');
+
 const header = document.querySelector('.header');
 
 const gameboardUI = {
@@ -27,4 +29,11 @@ const gameSummary = {
   hitStreak: document.querySelector('.hit-streak'),
 };
 
-export { header, gameboardUI, controlsUI, playerStatsUI, gameSummary };
+export {
+  startScreen,
+  header,
+  gameboardUI,
+  controlsUI,
+  playerStatsUI,
+  gameSummary,
+};
