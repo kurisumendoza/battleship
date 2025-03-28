@@ -1,12 +1,12 @@
 import './styles/main.css';
 import { renderGameboard, renderGameModeOptions } from './scripts/ui';
-import { startScreen, gameboardUI, controlsUI } from './scripts/selectors';
+import { startScreen, gameboardUI } from './scripts/selectors';
 
 const initializeGame = () => {
-  if (startScreen) startScreen.showModal();
+  if (startScreen.dialog) startScreen.dialog.showModal();
   renderGameboard(gameboardUI.board);
   renderGameboard(gameboardUI.enemyBoard);
 };
 
 window.addEventListener('DOMContentLoaded', initializeGame);
-controlsUI.startGame.addEventListener('click', renderGameModeOptions);
+startScreen.startBtn.addEventListener('click', renderGameModeOptions);

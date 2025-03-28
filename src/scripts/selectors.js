@@ -1,8 +1,11 @@
-const startScreen = document.querySelector('.start-screen');
-
-const gameSetup = document.querySelector('.game-setup');
-
 const header = document.querySelector('.header');
+
+const startScreen = {
+  dialog: document.querySelector('.start-screen'),
+  title: document.querySelector('.start-screen h1'),
+  startBtn: document.querySelector('.start-game'),
+  setupContainer: document.querySelector('.game-setup-container'),
+};
 
 const gameboardUI = {
   board: document.querySelector('.gameboard'),
@@ -15,7 +18,6 @@ const playerStatsUI = {
 };
 
 const controlsUI = {
-  startGame: document.querySelector('.start-game'),
   endTurn: document.querySelector('.end-turn-btn button'),
   playAgain: document.querySelector('.play-again-btn button'),
 };
@@ -34,7 +36,6 @@ const gameSummary = {
 
 export {
   startScreen,
-  gameSetup,
   header,
   gameboardUI,
   controlsUI,
