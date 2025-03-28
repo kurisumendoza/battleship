@@ -1,7 +1,9 @@
+import Gameboard from './gameboard';
+
 class Player {
-  constructor(gameboard, isComputer = false) {
-    this.gameboard = gameboard;
+  constructor(isComputer = false) {
     this.isComputer = isComputer;
+    this.gameboard = new Gameboard();
   }
 }
 
