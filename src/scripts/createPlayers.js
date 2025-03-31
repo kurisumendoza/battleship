@@ -1,15 +1,15 @@
 import Player from './player';
 
-let player1;
-let player2;
+const players = {
+  player1: null,
+  player2: null,
+};
 
 const initializePlayers = (mode) => {
-  if (!player1 || !player2) {
-    player1 = new Player();
-    player2 = mode === 'vsComputer' ? new Player(true) : new Player();
+  if (!players.player1 || !players.player2) {
+    players.player1 = new Player();
+    players.player2 = mode === 'vsComputer' ? new Player(true) : new Player();
   }
 };
 
-const getPlayers = () => ({ player1, player2 });
-
-export { initializePlayers, getPlayers };
+export { initializePlayers, players };
