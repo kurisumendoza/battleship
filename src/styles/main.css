@@ -14,6 +14,13 @@
 
   --background-color: cadetblue;
   --cell-color: antiquewhite;
+
+  --ship-background: darkgrey;
+  --carrier-color: darkred;
+  --battleship-color: darkblue;
+  --cruiser-color: darkcyan;
+  --submarine-color: darkgreen;
+  --destroyer-color: darkmagenta;
 }
 
 body {
@@ -183,8 +190,48 @@ dialog[open] {
   width: 80%;
 }
 
-.ship-placement-container {
-  grid-column-start: 2; /* Delete when left of '.game-setup-container' has content */
+.ship-setup-container {
+  justify-self: end;
+  padding: 0 10%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+}
+
+.ship-setup-container p {
+  font-family: var(--secondary-font);
+  margin-top: 1rem;
+  font-size: 2rem;
+}
+
+.ships-container {
+  display: grid;
+  height: 30vw;
+  gap: 0.5rem;
+}
+
+.ship {
+  justify-self: end;
+  display: grid;
+  width: 100%;
+  padding: 3% 5%;
+  background-color: var(--ship-background);
+}
+
+.ship p {
+  margin-top: 0;
+  font-size: 1.6rem;
+  line-height: 1.6rem;
+}
+
+.ship span {
+  margin-left: 2rem;
+  font-size: 1.25rem;
+}
+
+.ship-model {
+  height: 2.5rem;
 }
 
 .ship-placement-board {
