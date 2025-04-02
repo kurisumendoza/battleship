@@ -165,7 +165,7 @@ dialog[open] {
   width: 100%;
 }
 
-.start-game {
+.start-new-game {
   grid-column-start: 2;
   margin: 0 auto;
   margin-top: 5rem;
@@ -199,7 +199,8 @@ dialog[open] {
   gap: 1rem;
 }
 
-.ship-setup-container p {
+.ship-setup-container p,
+.name-start-container p {
   font-family: var(--secondary-font);
   margin-top: 1rem;
   font-size: 2rem;
@@ -240,4 +241,30 @@ dialog[open] {
   gap: 5px;
   width: 90%;
   margin: 1rem auto 0 auto;
+}
+
+.name-start-container {
+  justify-self: end;
+  padding: 0 10%;
+  width: 100%;
+}
+
+.name-start-container input {
+  height: 2.5rem;
+  width: 100%;
+  font-family: var(--secondary-font);
+  font-size: 1.75rem;
+  padding: 1.5rem 2% 1.25rem 2%;
+  margin-top: 1rem;
+}
+
+.start-game-container {
+  margin-top: 5rem;
+}
+
+.start-game-btn {
+  height: 3.5rem;
+  width: 100%;
+  font-family: var(--secondary-font);
+  font-size: 2rem;
 }

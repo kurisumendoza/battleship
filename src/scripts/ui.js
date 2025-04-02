@@ -63,7 +63,7 @@ const renderShipSelection = (ships) => {
   return shipsContainer;
 };
 
-// Renders the ship setup/selection section
+// Renders section for ship setup/selection
 const renderShipSetup = (ships) => {
   const shipSetupContainer = document.createElement('div');
   const shipSetupLabel = document.createElement('p');
@@ -79,11 +79,55 @@ const renderShipSetup = (ships) => {
   shipSetupContainer.append(shipSetupLabel, renderShipSelection(ships));
 };
 
+// Renders an input where players can enter their desired name
+const renderPlayerNameInput = () => {
+  const inputNameLabel = document.createElement('p');
+  const inputName = document.createElement('input');
+
+  inputName.classList.add('input-name');
+
+  inputNameLabel.innerText = 'Enter your name';
+
+  return { inputNameLabel, inputName };
+};
+
+// Renders button to start game or pass setup to another player
+const renderStartGameBtn = () => {
+  const startContainer = document.createElement('div');
+  const startBtn = document.createElement('button');
+
+  startContainer.classList.add('start-game-container');
+  startBtn.classList.add('start-game-btn');
+
+  startBtn.innerText = 'Start Game';
+
+  startContainer.appendChild(startBtn);
+
+  startBtn.addEventListener('click', () => startScreen.dialog.close());
+
+  return startContainer;
+};
+
+// Renders section for player name input and game start button
+const renderNameAndStart = () => {
+  const nameAndStartContainer = document.createElement('div');
+  const { inputNameLabel, inputName } = renderPlayerNameInput();
+
+  nameAndStartContainer.classList.add('name-start-container');
+
+  startScreen.setupContainer.insertAdjacentElement(
+    'beforeend',
+    nameAndStartContainer,
+  );
+  nameAndStartContainer.append(inputNameLabel, inputName, renderStartGameBtn());
+};
+
 // Triggers multiple functions after game mode selection
 const startShipPlacement = () => {
   initializePlayers('vsComputer');
   renderShipSetup(players.player1.gameboard.ships);
   renderShipPlacementBoard();
+  renderNameAndStart();
 };
 
 // Renders options to play against another player or computer

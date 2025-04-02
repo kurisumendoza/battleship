@@ -3,7 +3,7 @@ const header = document.querySelector('.header');
 const startScreen = {
   dialog: document.querySelector('.start-screen'),
   title: document.querySelector('.start-screen h1'),
-  startBtn: document.querySelector('.start-game'),
+  startBtn: document.querySelector('.start-new-game'),
   setupContainer: document.querySelector('.game-setup-container'),
 };
 
