@@ -1,5 +1,4 @@
 import renderGameboard from './gameplayUI';
-import { players, initializePlayers } from './createPlayers';
 import { startScreen } from './selectors';
 import { createElement } from './helpers';
 
@@ -79,26 +78,19 @@ const renderStartGameBtn = () => {
 
   startContainer.appendChild(startBtn);
 
-  startBtn.addEventListener('click', () => startScreen.dialog.close());
-
-  return startContainer;
+  return { startContainer, startBtn };
 };
 
 // Renders section for player name input and game start button
 const renderNameInputAndStartBtn = () => {
   const nameAndStartContainer = createElement('div', ['name-start-container']);
   const { inputNameLabel, inputName } = renderPlayerNameInput();
+  const { startContainer, startBtn } = renderStartGameBtn();
 
   startScreen.setupContainer.appendChild(nameAndStartContainer);
-  nameAndStartContainer.append(inputNameLabel, inputName, renderStartGameBtn());
-};
+  nameAndStartContainer.append(inputNameLabel, inputName, startContainer);
 
-// Triggers multiple functions after game mode selection
-const startShipPlacement = () => {
-  initializePlayers('vsComputer');
-  renderShipSetup(players.player1.gameboard.ships);
-  renderShipPlacementBoard();
-  renderNameInputAndStartBtn();
+  return { inputName, startBtn };
 };
 
 // Renders options to play against another player or computer
@@ -106,17 +98,21 @@ const renderGameModeOptions = () => {
   startScreen.startBtn.remove();
 
   const gameModesContainer = createElement('div', ['game-modes-container']);
-  const vsPlayer = createElement('button', ['vs-player']);
-  const vsComputer = createElement('button', ['vs-computer']);
+  const vsPlayerBtn = createElement('button', ['vs-player']);
+  const vsComputerBtn = createElement('button', ['vs-computer']);
 
-  vsPlayer.textContent = 'VS Player';
-  vsComputer.textContent = 'VS Computer';
+  vsPlayerBtn.textContent = 'VS Player';
+  vsComputerBtn.textContent = 'VS Computer';
 
-  gameModesContainer.append(vsPlayer, vsComputer);
+  gameModesContainer.append(vsPlayerBtn, vsComputerBtn);
   startScreen.setupContainer.appendChild(gameModesContainer);
 
-  vsPlayer.addEventListener('click', () => {});
-  vsComputer.addEventListener('click', startShipPlacement);
+  return { vsPlayerBtn, vsComputerBtn };
 };
 
-export { renderGameModeOptions, renderShipPlacementBoard };
+export {
+  renderGameModeOptions,
+  renderShipSetup,
+  renderShipPlacementBoard,
+  renderNameInputAndStartBtn,
+};
