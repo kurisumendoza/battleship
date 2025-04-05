@@ -33,18 +33,18 @@ button,
   cursor: pointer;
 }
 
-.main-container {
+main {
   display: grid;
   grid-template-columns: 1fr 1.5fr 1fr;
   grid-template-rows: auto 1fr;
 }
 
-.header {
+header {
   grid-column: span 3;
   justify-self: center;
 }
 
-.header h1 {
+header h1 {
   font-family: var(--main-font);
   font-weight: 400;
   font-size: 4rem;
