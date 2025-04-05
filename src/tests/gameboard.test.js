@@ -47,7 +47,14 @@ describe('Verify ship placements', () => {
   test('Will not work when out of bounds', () => {
     expect(() =>
       gameboard.placeShip(gameboard.ships.battleship, [0, 9], 'horizontal'),
-    ).toThrow(new Error('Out of bounds'));
+    ).toThrow(new Error('Invalid placement: Out of bounds'));
+  });
+
+  test('Will not work when new ship overlaps another ship', () => {
+    gameboard.placeShip(gameboard.ships.submarine, [0, 1], 'vertical');
+    expect(() => {
+      gameboard.placeShip(gameboard.ships.destroyer, [0, 0], 'horizontal');
+    }).toThrow(new Error('Invalid placement: Overlaps existing ship'));
   });
 });
 
