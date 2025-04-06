@@ -199,8 +199,8 @@ dialog[open] {
   gap: 1rem;
 }
 
-.ship-setup-container p,
-.name-start-container p {
+.ship-setup-label,
+.input-name-label {
   font-family: var(--secondary-font);
   margin-top: 1rem;
   font-size: 2rem;
@@ -209,29 +209,48 @@ dialog[open] {
 .ships-container {
   display: grid;
   height: 30vw;
+  width: 100%;
   gap: 0.5rem;
 }
 
 .ship {
   justify-self: end;
   display: grid;
+  grid-template-columns: 0.75fr 0.75fr 1fr;
   width: 100%;
   padding: 3% 5%;
+  white-space: nowrap;
   background-color: var(--ship-background);
 }
 
-.ship p {
+.ship-name {
+  font-family: var(--secondary-font);
   margin-top: 0;
   font-size: 1.6rem;
   line-height: 1.6rem;
 }
 
-.ship span {
-  margin-left: 2rem;
+.ship-health {
+  font-family: var(--secondary-font);
+  margin-left: 1rem;
   font-size: 1.25rem;
 }
 
+.ship-btns {
+  justify-self: end;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.change-orientation-btn,
+.undo-btn {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: none;
+}
+
 .ship-model {
+  grid-column: span 3;
   height: 2.5rem;
 }
 
@@ -272,4 +291,5 @@ dialog[open] {
 /* Board state during ship placement and gameplay */
 .hasShip {
   background-color: var(--carrier-color);
+  transform: scale(1.15);
 }

@@ -31,19 +31,24 @@ const renderShipSelection = (ships) => {
 
   Object.entries(ships).forEach(([ship, { length }]) => {
     const shipEntry = createElement('div', ['ship']);
-    const shipName = createElement('p');
-    const shipHealth = createElement('span');
+    const shipName = createElement('p', ['ship-name']);
+    const shipHealth = createElement('p', ['ship-health']);
+    const shipBtns = createElement('div', ['ship-btns']);
+    const orientationBtn = createElement('button', ['change-orientation-btn']);
+    const undoBtn = createElement('button', ['undo-btn']);
     const shipModel = createElement('div', [`${ship}`, 'ship-model']);
 
     shipName.textContent =
       `${ship}`.charAt(0).toUpperCase() + `${ship}`.slice(1);
     shipHealth.textContent = `HP: ${length}`;
+    orientationBtn.textContent = '↕';
+    undoBtn.textContent = '↺';
 
     shipModel.style.width = `${length * 20}%`;
     shipModel.style.backgroundColor = `var(--${ship}-color)`;
 
-    shipName.appendChild(shipHealth);
-    shipEntry.append(shipName, shipModel);
+    shipBtns.append(orientationBtn, undoBtn);
+    shipEntry.append(shipName, shipHealth, shipBtns, shipModel);
     shipsContainer.appendChild(shipEntry);
   });
 
@@ -53,7 +58,7 @@ const renderShipSelection = (ships) => {
 // Renders section for ship setup/selection
 const renderShipSetup = (ships) => {
   const shipSetupContainer = createElement('div', ['ship-setup-container']);
-  const shipSetupLabel = createElement('p');
+  const shipSetupLabel = createElement('p', ['ship-setup-label']);
 
   shipSetupLabel.textContent = 'Position your ships for battle!';
 
@@ -63,10 +68,10 @@ const renderShipSetup = (ships) => {
 
 // Renders an input where players can enter their desired name
 const renderPlayerNameInput = () => {
-  const inputNameLabel = createElement('p');
+  const inputNameLabel = createElement('p', ['input-name-label']);
   const inputName = createElement('input', ['input-name']);
 
-  inputNameLabel.textContent = 'Enter your name';
+  inputNameLabel.textContent = 'Enter your name:';
 
   return { inputNameLabel, inputName };
 };
