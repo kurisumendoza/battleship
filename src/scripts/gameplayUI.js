@@ -13,4 +13,10 @@ const renderGameboard = (boardContainer, playerBoard) => {
   });
 };
 
-export default renderGameboard;
+// Updates gameboard when an action is done
+const updateGameboard = (row, col, state) => {
+  const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+  cell.classList.add(state);
+};
+
+export { renderGameboard, updateGameboard };
