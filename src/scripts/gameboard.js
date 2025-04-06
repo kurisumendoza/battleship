@@ -4,6 +4,7 @@ class Gameboard {
   constructor() {
     this.board = new Array(10).fill(null).map(() => new Array(10).fill(null));
     this.ships = initializeShips();
+    this.occupied = new Set();
     this.hit = new Set();
   }
 
@@ -15,12 +16,22 @@ class Gameboard {
       (orientation === 'vertical' && row + ship.length > this.board.length) ||
       (orientation === 'horizontal' && col + ship.length > this.board[0].length)
     )
-      throw new Error('Out of bounds');
+      throw new Error('Invalid placement: Out of bounds');
 
     for (let i = 0; i < ship.length; i += 1) {
-      this.board[row + (orientation === 'vertical' ? i : 0)][
-        col + (orientation === 'horizontal' ? i : 0)
-      ] = ship;
+      const currentRow = row + (orientation === 'vertical' ? i : 0);
+      const currentCol = col + (orientation === 'horizontal' ? i : 0);
+      const cell = `${currentRow}, ${currentCol}`;
+
+      if (this.occupied.has(cell))
+        throw new Error('Invalid placement: Overlaps existing ship');
+    }
+
+    for (let i = 0; i < ship.length; i += 1) {
+      const currentRow = row + (orientation === 'vertical' ? i : 0);
+      const currentCol = col + (orientation === 'horizontal' ? i : 0);
+      this.occupied.add(`${currentRow}, ${currentCol}`);
+      this.board[currentRow][currentCol] = ship;
     }
   }
 
@@ -33,7 +44,7 @@ class Gameboard {
 
     if (this.board[row][col] && this.board[row][col] !== 'miss') {
       this.hit.add(`${row},${col}`);
-      this.board[row][col].hit();
+      this.board[row][col].hit(); // if ship is present, this will be an instance of Ship
     } else {
       this.board[row][col] = 'miss';
     }
