@@ -44,7 +44,7 @@ const renderShipSelection = (ships) => {
     orientationBtn.textContent = '↕';
     undoBtn.textContent = '↺';
 
-    shipModel.dataset.ship = ship;
+    shipEntry.dataset.ship = ship;
 
     shipModel.style.width = `${length * 20}%`;
     shipModel.style.backgroundColor = `var(--${ship}-color)`;
