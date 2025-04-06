@@ -44,6 +44,8 @@ const renderShipSelection = (ships) => {
     orientationBtn.textContent = '↕';
     undoBtn.textContent = '↺';
 
+    shipModel.dataset.ship = ship;
+
     shipModel.style.width = `${length * 20}%`;
     shipModel.style.backgroundColor = `var(--${ship}-color)`;
 
@@ -59,11 +61,14 @@ const renderShipSelection = (ships) => {
 const renderShipSetup = (ships) => {
   const shipSetupContainer = createElement('div', ['ship-setup-container']);
   const shipSetupLabel = createElement('p', ['ship-setup-label']);
+  const shipsContainer = renderShipSelection(ships);
 
   shipSetupLabel.textContent = 'Position your ships for battle!';
 
   startScreen.setupContainer.appendChild(shipSetupContainer);
-  shipSetupContainer.append(shipSetupLabel, renderShipSelection(ships));
+  shipSetupContainer.append(shipSetupLabel, shipsContainer);
+
+  return shipsContainer;
 };
 
 // Renders an input where players can enter their desired name
