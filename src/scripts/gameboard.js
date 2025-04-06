@@ -31,6 +31,7 @@ class Gameboard {
       const currentRow = row + (orientation === 'vertical' ? i : 0);
       const currentCol = col + (orientation === 'horizontal' ? i : 0);
       this.occupied.add(`${currentRow}, ${currentCol}`);
+      ship.position.push([currentRow, currentCol]);
       this.board[currentRow][currentCol] = ship;
     }
   }

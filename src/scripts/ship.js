@@ -3,6 +3,7 @@ class Ship {
     this.length = length;
     this.hitCount = 0;
     this.hasSunk = false;
+    this.position = [];
   }
 
   // Calculates whether the ship should be considered sunk
