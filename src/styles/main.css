@@ -268,3 +268,8 @@ dialog[open] {
   font-family: var(--secondary-font);
   font-size: 2rem;
 }
+
+/* Board state during ship placement and gameplay */
+.hasShip {
+  background-color: var(--carrier-color);
+}

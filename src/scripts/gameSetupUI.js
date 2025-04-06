@@ -1,4 +1,4 @@
-import renderGameboard from './gameplayUI';
+import { renderGameboard } from './gameplayUI';
 import { startScreen } from './selectors';
 import { createElement } from './helpers';
 
@@ -9,7 +9,7 @@ const adjustBoardSetupDialog = () => {
 };
 
 // Renders board for ship placement
-const renderShipPlacementBoard = () => {
+const renderShipPlacementBoard = (playerBoard) => {
   adjustBoardSetupDialog();
 
   const shipPlacementContainer = createElement('div', [
@@ -20,7 +20,9 @@ const renderShipPlacementBoard = () => {
   startScreen.setupContainer.appendChild(shipPlacementContainer);
   shipPlacementContainer.appendChild(shipPlacementBoard);
 
-  renderGameboard(shipPlacementBoard);
+  renderGameboard(shipPlacementBoard, playerBoard);
+
+  return shipPlacementBoard;
 };
 
 // Renders ships and ship information for setup
