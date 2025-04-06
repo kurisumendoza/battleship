@@ -40,7 +40,7 @@ class Gameboard {
     const [row, col] = coords;
 
     if (this.hit.has(`${row},${col}`) || this.board[row][col] === 'miss')
-      throw new Error('Tile has already been hit');
+      throw new Error('Cell has already been hit');
 
     if (this.board[row][col] && this.board[row][col] !== 'miss') {
       this.hit.add(`${row},${col}`);

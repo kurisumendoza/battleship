@@ -11,7 +11,7 @@ describe('Board initialization', () => {
     const isValidBoard = (board) => {
       if (board.length !== 10) return false;
       return board.every(
-        (row) => row.length === 10 && row.every((tile) => tile === null),
+        (row) => row.length === 10 && row.every((cell) => cell === null),
       );
     };
 
@@ -27,21 +27,21 @@ describe('Verify ship placements', () => {
   test('Check if properly placed horizontally', () => {
     gameboard.placeShip(gameboard.ships.carrier, [9, 5], 'horizontal');
 
-    const tilesFilled = [5, 6, 7, 8, 9].every(
-      (tile) => gameboard.board[9][tile] === gameboard.ships.carrier,
+    const cellsFilled = [5, 6, 7, 8, 9].every(
+      (cell) => gameboard.board[9][cell] === gameboard.ships.carrier,
     );
 
-    expect(tilesFilled).toBe(true);
+    expect(cellsFilled).toBe(true);
   });
 
   test('Check if properly placed vertically', () => {
     gameboard.placeShip(gameboard.ships.cruiser, [0, 1], 'vertical');
 
-    const tilesFilled = [0, 1, 2].every(
-      (tile) => gameboard.board[tile][1] === gameboard.ships.cruiser,
+    const cellsFilled = [0, 1, 2].every(
+      (cell) => gameboard.board[cell][1] === gameboard.ships.cruiser,
     );
 
-    expect(tilesFilled).toBe(true);
+    expect(cellsFilled).toBe(true);
   });
 
   test('Will not work when out of bounds', () => {
@@ -74,17 +74,17 @@ describe('Gameboard attack handling', () => {
     expect(gameboard.hit.has(`${9},${5}`)).toBe(true);
   });
 
-  test('Marks ship as sunk when all its tiles are hit', () => {
+  test('Marks ship as sunk when all its cells are hit', () => {
     gameboard.placeShip(gameboard.ships.destroyer, [0, 8], 'horizontal');
     gameboard.receiveAttack([0, 8]);
     gameboard.receiveAttack([0, 9]);
     expect(gameboard.ships.destroyer.hasSunk).toBe(true);
   });
 
-  test('Prevents hitting a tile that has already been hit', () => {
+  test('Prevents hitting a cell that has already been hit', () => {
     gameboard.receiveAttack([5, 5]);
     expect(() => gameboard.receiveAttack([5, 5])).toThrow(
-      new Error('Tile has already been hit'),
+      new Error('Cell has already been hit'),
     );
   });
 });
