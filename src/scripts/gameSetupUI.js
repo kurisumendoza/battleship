@@ -1,4 +1,4 @@
-import { renderGameboard } from './gameplayUI';
+import { renderGameboard, updateGameboard } from './gameplayUI';
 import { startScreen } from './selectors';
 import { createElement } from './helpers';
 
@@ -122,9 +122,18 @@ const renderGameModeOptions = () => {
   return { vsPlayerBtn, vsComputerBtn };
 };
 
+// Updates the state of a cell where a ship is placed
+const renderPlacedShipCells = (ship) => {
+  ship.position.forEach((cell) => {
+    const [row, col] = cell;
+    updateGameboard(row, col, 'hasShip');
+  });
+};
+
 export {
   renderGameModeOptions,
   renderShipSetup,
   renderShipPlacementBoard,
   renderNameInputAndStartBtn,
+  renderPlacedShipCells,
 };

@@ -1,23 +1,15 @@
 import { startScreen } from './selectors';
-import { updateGameboard } from './gameplayUI';
 import { players, initializePlayers } from './createPlayers';
 import {
   renderGameModeOptions,
   renderShipSetup,
   renderShipPlacementBoard,
   renderNameInputAndStartBtn,
+  renderPlacedShipCells,
 } from './gameSetupUI';
 
 const initializeGame = () => {
   if (startScreen.dialog) startScreen.dialog.showModal();
-};
-
-// Updates the state of a cell where a ship is placed
-const updatePlacedShipCells = (ship) => {
-  ship.position.forEach((cell) => {
-    const [row, col] = cell;
-    updateGameboard(row, col, 'hasShip');
-  });
 };
 
 // Temporary function for parameters, to be deleted later
@@ -38,7 +30,7 @@ const placeShipOnBoard = (e, player, ship, orientation) => {
 
   player.placeShip(ship, [row, col], orientation);
 
-  updatePlacedShipCells(ship);
+  renderPlacedShipCells(ship);
 };
 
 // Adds event listener to received ship placement board
