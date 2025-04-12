@@ -33,6 +33,17 @@ const pickShipToPlace = (e, player) => {
   e.target.classList.add('is-placed');
 };
 
+// Toggles ship orientation by clicking a button
+const changeOrientation = (e) => {
+  if (e.target.dataset.orientation === 'horizontal') {
+    e.target.textContent = '↕';
+    e.target.dataset.orientation = 'vertical';
+  } else {
+    e.target.textContent = '↔';
+    e.target.dataset.orientation = 'horizontal';
+  }
+};
+
 // Adds event listeners to shipsContainer elements
 const initializeShipSetup = (ships) => {
   const shipsContainer = renderShipSetup(ships);
@@ -42,9 +53,8 @@ const initializeShipSetup = (ships) => {
 
     if (e.target.classList.contains('ship-model'))
       pickShipToPlace(e, players.player1.gameboard);
-    if (e.target.classList.contains('change-orientation-btn')) {
-      /* Logic to be added later */
-    }
+    if (e.target.classList.contains('change-orientation-btn'))
+      changeOrientation(e);
     if (e.target.classList.contains('undo-btn')) {
       /* Logic to be added later */
     }
