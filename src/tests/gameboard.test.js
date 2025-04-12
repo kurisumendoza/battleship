@@ -58,6 +58,24 @@ describe('Verify ship placements', () => {
   });
 });
 
+describe('Verify ship removal from board', () => {
+  beforeEach(() => {
+    gameboard = new Gameboard();
+  });
+
+  test('Check if ship is successfully removed from the board', () => {
+    gameboard.placeShip(gameboard.ships.destroyer, [3, 0], 'horizontal');
+
+    gameboard.removeShip(gameboard.ships.destroyer);
+
+    const cellsCleared = [0, 1].every(
+      (cell) => gameboard.board[3][cell] === null,
+    );
+
+    expect(cellsCleared).toBe(true);
+  });
+});
+
 describe('Gameboard attack handling', () => {
   beforeEach(() => {
     gameboard = new Gameboard();
