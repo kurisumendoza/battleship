@@ -41,13 +41,13 @@ const renderShipSelection = (ships) => {
     shipName.textContent =
       `${ship}`.charAt(0).toUpperCase() + `${ship}`.slice(1);
     shipHealth.textContent = `HP: ${length}`;
-    orientationBtn.textContent = '↕';
+    orientationBtn.textContent = '↔';
     undoBtn.textContent = '↺';
 
     shipEntry.dataset.ship = ship;
+    orientationBtn.dataset.orientation = 'horizontal';
 
     shipModel.style.width = `${length * 20}%`;
-    shipModel.style.backgroundColor = `var(--${ship}-color)`;
 
     shipBtns.append(orientationBtn, undoBtn);
     shipEntry.append(shipName, shipHealth, shipBtns, shipModel);
@@ -123,10 +123,11 @@ const renderGameModeOptions = () => {
 };
 
 // Updates the state of a cell where a ship is placed
-const renderPlacedShipCells = (ship) => {
+const renderPlacedShipCells = (ship, name) => {
   ship.position.forEach((cell) => {
     const [row, col] = cell;
-    updateGameboard(row, col, 'hasShip');
+
+    updateGameboard(row, col, 'hasShip', name);
   });
 };
 

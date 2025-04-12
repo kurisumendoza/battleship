@@ -14,9 +14,9 @@ const renderGameboard = (boardContainer, playerBoard) => {
 };
 
 // Updates gameboard when an action is done
-const updateGameboard = (row, col, state) => {
+const updateGameboard = (row, col, state, ship) => {
   const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-  cell.classList.add(state);
+  cell.classList.add(state, ship || '');
 };
 
 export { renderGameboard, updateGameboard };

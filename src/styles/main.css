@@ -16,6 +16,7 @@
   --cell-color: antiquewhite;
 
   --ship-background: darkgrey;
+  --is-placed-color: slategrey;
   --carrier-color: darkred;
   --battleship-color: darkblue;
   --cruiser-color: darkcyan;
@@ -290,6 +291,29 @@ dialog[open] {
 
 /* Board state during ship placement and gameplay */
 .hasShip {
-  background-color: var(--carrier-color);
   transform: scale(1.15);
+}
+
+.carrier {
+  background-color: var(--carrier-color);
+}
+
+.battleship {
+  background-color: var(--battleship-color);
+}
+
+.cruiser {
+  background-color: var(--cruiser-color);
+}
+
+.submarine {
+  background-color: var(--submarine-color);
+}
+
+.destroyer {
+  background-color: var(--destroyer-color);
+}
+
+.is-placed {
+  background-color: var(--is-placed-color);
 }
