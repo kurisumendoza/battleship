@@ -61,6 +61,11 @@ class Gameboard {
     }
   }
 
+  // Checks if all available ships are placed on board
+  isAllPlaced() {
+    return Object.values(this.ships).every((ship) => ship.position.length > 0);
+  }
+
   // Reports if all ships are sunk
   isAllSunk() {
     return Object.values(this.ships).every((ship) => ship.hasSunk);
