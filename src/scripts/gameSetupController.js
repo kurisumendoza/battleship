@@ -8,6 +8,21 @@ import {
   renderPlacedShipCells,
 } from './gameSetupUI';
 
+// Assigns and stores active player and ability to switch to another player
+const activePlayer = {
+  player: null,
+  gameboard: null,
+  assign() {
+    this.player = players.player1;
+    this.gameboard = this.player.gameboard;
+  },
+  switch() {
+    this.player =
+      this.player === players.player1 ? players.player2 : players.player1;
+    this.gameboard = this.player.gameboard;
+  },
+};
+
 // Stores recently picked ship information
 const pickedShip = {
   ship: null,
@@ -20,11 +35,11 @@ const initializeGame = () => {
 };
 
 // Picks a ship to place on board
-const pickShipToPlace = (e, player) => {
+const pickShipToPlace = (e) => {
   if (e.target.classList.contains('is-placed')) return;
 
   const shipName = e.target.closest('[data-ship]')?.dataset.ship;
-  pickedShip.ship = player.ships[shipName];
+  pickedShip.ship = activePlayer.gameboard.ships[shipName];
   pickedShip.name = shipName;
   pickedShip.orientation = e.target
     .closest('[data-ship]')
@@ -51,25 +66,22 @@ const initializeShipSetup = (ships) => {
   shipsContainer.addEventListener('click', (e) => {
     if (!e.target.closest('[data-ship]')) return;
 
-    if (e.target.classList.contains('ship-model'))
-      pickShipToPlace(e, players.player1.gameboard);
+    if (e.target.classList.contains('ship-model')) pickShipToPlace(e);
     if (e.target.classList.contains('change-orientation-btn'))
       changeOrientation(e);
-    if (e.target.classList.contains('undo-btn')) {
-      /* Logic to be added later */
-    }
+    if (e.target.classList.contains('undo-btn')) resetShipPlacement(e);
   });
 };
 
 // Calls placeShip method with extracted row and col from a clicked cell
-const placeShipOnBoard = (e, player, ship, orientation) => {
+const placeShipOnBoard = (e, ship, orientation) => {
   if (!e.target.closest('.cell')) return;
   if (!pickedShip.ship) return;
 
   const row = Number(e.target.dataset.row);
   const col = Number(e.target.dataset.col);
 
-  player.placeShip(ship, [row, col], orientation);
+  activePlayer.gameboard.placeShip(ship, [row, col], orientation);
 
   renderPlacedShipCells(ship, pickedShip.name);
 
@@ -83,12 +95,7 @@ const initializeShipPlacementBoard = (playerBoard) => {
   const board = renderShipPlacementBoard(playerBoard);
 
   board.addEventListener('click', (e) =>
-    placeShipOnBoard(
-      e,
-      players.player1.gameboard,
-      pickedShip.ship,
-      pickedShip.orientation,
-    ),
+    placeShipOnBoard(e, pickedShip.ship, pickedShip.orientation),
   );
 };
 
@@ -108,8 +115,9 @@ const initializeNameInputAndStartBtn = () => {
 // Calls functions to render UI of ship placement phase
 const startShipPlacementPhase = (mode) => {
   initializePlayers(mode);
-  initializeShipSetup(players.player1.gameboard.ships);
-  initializeShipPlacementBoard(players.player1.gameboard.board);
+  activePlayer.assign();
+  initializeShipSetup(activePlayer.gameboard.ships);
+  initializeShipPlacementBoard(activePlayer.gameboard.board);
   initializeNameInputAndStartBtn();
 };
 
