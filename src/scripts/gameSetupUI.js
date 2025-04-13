@@ -1,4 +1,4 @@
-import { renderGameboard, updateGameboard } from './gameplayUI';
+import { renderGameboard } from './gameplayUI';
 import { startScreen } from './selectors';
 import { createElement } from './helpers';
 
@@ -122,12 +122,16 @@ const renderGameModeOptions = () => {
   return { vsPlayerBtn, vsComputerBtn };
 };
 
-// Updates the state of a cell where a ship is placed
-const renderPlacedShipCells = (ship, name) => {
+// Updates the display of a cell where a ship is placed or removed
+const updateShipCellsUI = (ship, name, isPlaced) => {
   ship.position.forEach((cell) => {
     const [row, col] = cell;
+    const targetCell = document.querySelector(
+      `[data-row="${row}"][data-col="${col}"]`,
+    );
 
-    updateGameboard(row, col, 'hasShip', name);
+    if (!isPlaced) targetCell.classList.remove('hasShip', name);
+    else targetCell.classList.add('hasShip', name);
   });
 };
 
@@ -136,5 +140,5 @@ export {
   renderShipSetup,
   renderShipPlacementBoard,
   renderNameInputAndStartBtn,
-  renderPlacedShipCells,
+  updateShipCellsUI,
 };
