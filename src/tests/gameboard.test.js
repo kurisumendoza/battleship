@@ -107,6 +107,29 @@ describe('Gameboard attack handling', () => {
   });
 });
 
+describe('Check ship placement completion', () => {
+  beforeEach(() => {
+    gameboard = new Gameboard();
+  });
+
+  test('Returns true if all ships are placed', () => {
+    gameboard.placeShip(gameboard.ships.carrier, [0, 0], 'horizontal');
+    gameboard.placeShip(gameboard.ships.battleship, [1, 0], 'horizontal');
+    gameboard.placeShip(gameboard.ships.cruiser, [2, 0], 'horizontal');
+    gameboard.placeShip(gameboard.ships.submarine, [3, 0], 'horizontal');
+    gameboard.placeShip(gameboard.ships.destroyer, [4, 0], 'horizontal');
+
+    expect(gameboard.isAllPlaced()).toBe(true);
+  });
+
+  test('Returns false if not all ships are placed', () => {
+    gameboard.placeShip(gameboard.ships.carrier, [0, 0], 'horizontal');
+    gameboard.placeShip(gameboard.ships.battleship, [1, 0], 'horizontal');
+
+    expect(gameboard.isAllPlaced()).toBe(false);
+  });
+});
+
 describe('Sunk ships tracking', () => {
   beforeEach(() => {
     gameboard = new Gameboard();
