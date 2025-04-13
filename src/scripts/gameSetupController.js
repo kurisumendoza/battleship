@@ -5,7 +5,7 @@ import {
   renderShipSetup,
   renderShipPlacementBoard,
   renderNameInputAndStartBtn,
-  renderPlacedShipCells,
+  updateShipCellsUI,
 } from './gameSetupUI';
 
 // Assigns and stores active player and ability to switch to another player
@@ -50,6 +50,8 @@ const pickShipToPlace = (e) => {
 
 // Toggles ship orientation by clicking a button
 const changeOrientation = (e) => {
+  if (pickedShip.orientation) return;
+
   if (e.target.dataset.orientation === 'horizontal') {
     e.target.textContent = '↕';
     e.target.dataset.orientation = 'vertical';
@@ -57,6 +59,19 @@ const changeOrientation = (e) => {
     e.target.textContent = '↔';
     e.target.dataset.orientation = 'horizontal';
   }
+};
+
+// Removes ship from board so it can be placed again
+const resetShipPlacement = (e) => {
+  const shipName = e.target.closest('[data-ship]').dataset.ship;
+  const ship = activePlayer.gameboard.ships[shipName];
+  const shipModel = e.target
+    .closest('[data-ship]')
+    .querySelector('.ship-model');
+
+  updateShipCellsUI(ship, shipName, false);
+  activePlayer.gameboard.removeShip(ship);
+  shipModel.classList.remove('is-placed');
 };
 
 // Adds event listeners to shipsContainer elements
@@ -83,7 +98,7 @@ const placeShipOnBoard = (e, ship, orientation) => {
 
   activePlayer.gameboard.placeShip(ship, [row, col], orientation);
 
-  renderPlacedShipCells(ship, pickedShip.name);
+  updateShipCellsUI(ship, pickedShip.name, true);
 
   pickedShip.ship = null;
   pickedShip.name = null;

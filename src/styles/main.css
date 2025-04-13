@@ -30,7 +30,8 @@ body {
 }
 
 button,
-.cell {
+.cell,
+.ship-model {
   cursor: pointer;
 }
 
