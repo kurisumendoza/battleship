@@ -36,6 +36,16 @@ class Gameboard {
     }
   }
 
+  // Removes a ship from the board and can be placed again
+  removeShip(ship) {
+    ship.position.forEach((coord) => {
+      this.occupied.delete(coord.join(', '));
+      this.board[coord[0]][coord[1]] = null;
+    });
+
+    ship.position.splice(0, ship.position.length);
+  }
+
   // Updates board on successful and missed shots
   receiveAttack(coords) {
     const [row, col] = coords;
