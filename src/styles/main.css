@@ -76,12 +76,12 @@ header h1 {
   background-color: lightcoral;
 }
 
-.enemy-preview {
+.your-board-preview {
   padding-top: 20px;
   text-align: center;
 }
 
-.enemy-board {
+.your-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   gap: 1px;
