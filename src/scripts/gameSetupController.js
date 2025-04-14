@@ -39,6 +39,7 @@ const initializeGame = () => {
 // Picks a ship to place on board
 const pickShipToPlace = (e) => {
   if (e.target.classList.contains('is-placed')) return;
+  if (pickedShip.ship) return;
 
   const shipName = e.target.closest('[data-ship]')?.dataset.ship;
   pickedShip.ship = activePlayer.gameboard.ships[shipName];
