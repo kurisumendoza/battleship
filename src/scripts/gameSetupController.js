@@ -1,5 +1,6 @@
 import { startScreen } from './selectors';
 import { players, initializePlayers } from './createPlayers';
+import launchGame from './gameplayController';
 import {
   renderGameModeOptions,
   renderShipSetup,
@@ -7,6 +8,7 @@ import {
   renderNameInputAndStartBtn,
   updateShipCellsUI,
 } from './gameSetupUI';
+import { renderErrorMsg } from './gameplayUI';
 
 // Assigns and stores active player and ability to switch to another player
 const activePlayer = {
@@ -114,17 +116,27 @@ const initializeShipPlacementBoard = (playerBoard) => {
   );
 };
 
+// Ends setup phase and starts the game
+const startGame = (name, errContainer) => {
+  if (!activePlayer.gameboard.isAllPlaced())
+    return renderErrorMsg(errContainer, 'Place all ships on board!');
+
+  if (!name) return renderErrorMsg(errContainer, 'Please enter a name!');
+
+  startScreen.dialog.close();
+
+  launchGame();
+
+  return undefined;
+};
+
 // Adds event listeners to received name input and start button
 const initializeNameInputAndStartBtn = () => {
-  const { inputName, startBtn } = renderNameInputAndStartBtn();
+  const { inputName, startBtn, errorContainer } = renderNameInputAndStartBtn();
 
-  inputName.addEventListener('click', () => {
-    // Logic to be added later
-  });
-  startBtn.addEventListener('click', () => {
-    startScreen.dialog.close();
-    // Additional logic to be added later
-  });
+  startBtn.addEventListener('click', () =>
+    startGame(inputName.value, errorContainer),
+  );
 };
 
 // Calls functions to render UI of ship placement phase
