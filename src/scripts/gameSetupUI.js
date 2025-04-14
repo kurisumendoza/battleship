@@ -96,13 +96,19 @@ const renderStartGameBtn = () => {
 // Renders section for player name input and game start button
 const renderNameInputAndStartBtn = () => {
   const nameAndStartContainer = createElement('div', ['name-start-container']);
+  const errorContainer = createElement('div', ['error-container']);
   const { inputNameLabel, inputName } = renderPlayerNameInput();
   const { startContainer, startBtn } = renderStartGameBtn();
 
   startScreen.setupContainer.appendChild(nameAndStartContainer);
-  nameAndStartContainer.append(inputNameLabel, inputName, startContainer);
+  nameAndStartContainer.append(
+    inputNameLabel,
+    inputName,
+    startContainer,
+    errorContainer,
+  );
 
-  return { inputName, startBtn };
+  return { inputName, startBtn, errorContainer };
 };
 
 // Renders options to play against another player or computer
