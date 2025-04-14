@@ -52,7 +52,7 @@ describe('Verify ship placements', () => {
     );
     expect(result).toEqual({
       success: false,
-      message: 'Invalid placement: Out of bounds',
+      message: 'Out of bounds',
     });
   });
 
@@ -65,7 +65,7 @@ describe('Verify ship placements', () => {
     );
     expect(result).toEqual({
       success: false,
-      message: 'Invalid placement: Overlaps existing ship',
+      message: 'Overlaps existing ship',
     });
   });
 });

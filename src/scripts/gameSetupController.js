@@ -99,7 +99,13 @@ const placeShipOnBoard = (e, ship, orientation) => {
   const row = Number(e.target.dataset.row);
   const col = Number(e.target.dataset.col);
 
-  activePlayer.gameboard.placeShip(ship, [row, col], orientation);
+  const placeShip = activePlayer.gameboard.placeShip(
+    ship,
+    [row, col],
+    orientation,
+  );
+  // Change behavior later to reflect on UI
+  if (!placeShip.success) return;
 
   updateShipCellsUI(ship, pickedShip.name, true);
 

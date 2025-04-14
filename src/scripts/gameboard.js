@@ -16,7 +16,7 @@ class Gameboard {
       (orientation === 'vertical' && row + ship.length > this.board.length) ||
       (orientation === 'horizontal' && col + ship.length > this.board[0].length)
     )
-      return { success: false, message: 'Invalid placement: Out of bounds' };
+      return { success: false, message: 'Out of bounds' };
 
     for (let i = 0; i < ship.length; i += 1) {
       const currentRow = row + (orientation === 'vertical' ? i : 0);
@@ -26,7 +26,7 @@ class Gameboard {
       if (this.occupied.has(cell))
         return {
           success: false,
-          message: 'Invalid placement: Overlaps existing ship',
+          message: 'Overlaps existing ship',
         };
     }
 
