@@ -16,7 +16,7 @@ class Gameboard {
       (orientation === 'vertical' && row + ship.length > this.board.length) ||
       (orientation === 'horizontal' && col + ship.length > this.board[0].length)
     )
-      throw new Error('Invalid placement: Out of bounds');
+      return { success: false, message: 'Invalid placement: Out of bounds' };
 
     for (let i = 0; i < ship.length; i += 1) {
       const currentRow = row + (orientation === 'vertical' ? i : 0);
@@ -24,7 +24,10 @@ class Gameboard {
       const cell = `${currentRow}, ${currentCol}`;
 
       if (this.occupied.has(cell))
-        throw new Error('Invalid placement: Overlaps existing ship');
+        return {
+          success: false,
+          message: 'Invalid placement: Overlaps existing ship',
+        };
     }
 
     for (let i = 0; i < ship.length; i += 1) {
@@ -34,6 +37,8 @@ class Gameboard {
       ship.position.push([currentRow, currentCol]);
       this.board[currentRow][currentCol] = ship;
     }
+
+    return { success: true };
   }
 
   // Removes a ship from the board and can be placed again
@@ -51,7 +56,7 @@ class Gameboard {
     const [row, col] = coords;
 
     if (this.hit.has(`${row},${col}`) || this.board[row][col] === 'miss')
-      throw new Error('Cell has already been hit');
+      return { success: false, message: 'Cell has already been hit' };
 
     if (this.board[row][col] && this.board[row][col] !== 'miss') {
       this.hit.add(`${row},${col}`);
@@ -59,6 +64,8 @@ class Gameboard {
     } else {
       this.board[row][col] = 'miss';
     }
+
+    return { success: true };
   }
 
   // Checks if all available ships are placed on board

@@ -45,16 +45,28 @@ describe('Verify ship placements', () => {
   });
 
   test('Will not work when out of bounds', () => {
-    expect(() =>
-      gameboard.placeShip(gameboard.ships.battleship, [0, 9], 'horizontal'),
-    ).toThrow(new Error('Invalid placement: Out of bounds'));
+    const result = gameboard.placeShip(
+      gameboard.ships.battleship,
+      [0, 9],
+      'horizontal',
+    );
+    expect(result).toEqual({
+      success: false,
+      message: 'Invalid placement: Out of bounds',
+    });
   });
 
   test('Will not work when new ship overlaps another ship', () => {
     gameboard.placeShip(gameboard.ships.submarine, [0, 1], 'vertical');
-    expect(() => {
-      gameboard.placeShip(gameboard.ships.destroyer, [0, 0], 'horizontal');
-    }).toThrow(new Error('Invalid placement: Overlaps existing ship'));
+    const result = gameboard.placeShip(
+      gameboard.ships.destroyer,
+      [0, 0],
+      'horizontal',
+    );
+    expect(result).toEqual({
+      success: false,
+      message: 'Invalid placement: Overlaps existing ship',
+    });
   });
 });
 
@@ -101,9 +113,11 @@ describe('Gameboard attack handling', () => {
 
   test('Prevents hitting a cell that has already been hit', () => {
     gameboard.receiveAttack([5, 5]);
-    expect(() => gameboard.receiveAttack([5, 5])).toThrow(
-      new Error('Cell has already been hit'),
-    );
+    const result = gameboard.receiveAttack([5, 5]);
+    expect(result).toEqual({
+      success: false,
+      message: 'Cell has already been hit',
+    });
   });
 });
 
