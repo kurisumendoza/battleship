@@ -9,7 +9,7 @@ const startScreen = {
 
 const gameboardUI = {
   board: document.querySelector('.gameboard'),
-  enemyBoard: document.querySelector('.enemy-board'),
+  yourBoard: document.querySelector('.your-board'),
 };
 
 const playerStatsUI = {

@@ -1,3 +1,4 @@
+import activePlayer from './activePlayer';
 import { createElement } from './helpers';
 
 // Renders 10 x 10 gameboard
@@ -10,6 +11,9 @@ const renderGameboard = (boardContainer, playerBoard) => {
       cell.dataset.col = colIndex;
 
       boardContainer.appendChild(cell);
+
+      if (playerBoard === activePlayer.gameboard.board)
+        if (col) cell.classList.add('hasShip', `${col.name}`);
     });
   });
 };

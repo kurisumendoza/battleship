@@ -281,11 +281,11 @@ dialog[open] {
   margin-top: 1rem;
 }
 
-.start-game-container {
+.action-btn-container {
   margin-top: 5rem;
 }
 
-.start-game-btn {
+.action-btn {
   height: 3.5rem;
   width: 100%;
   font-family: var(--secondary-font);
