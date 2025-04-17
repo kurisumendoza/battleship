@@ -4,7 +4,7 @@ describe('Ship class methods', () => {
   let ship;
 
   beforeEach(() => {
-    ship = new Ship(3);
+    ship = new Ship('test ship', 3);
   });
 
   test('adds hit count', () => {
