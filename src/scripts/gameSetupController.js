@@ -126,19 +126,28 @@ const playerSetup = {
 
     if (!name) return renderErrorMsg(errContainer, 'Please enter a name!');
 
-    if (mode === 'vsComputer' || mode === 'nextPlayer') return this.startGame();
+    if (mode === 'vsComputer' || mode === 'nextPlayer')
+      return this.startGame(name, mode);
 
-    return this.nextPlayer(mode);
+    return this.nextPlayer(name);
+  },
+
+  // Saves the player's name to the Player class
+  saveName(name) {
+    activePlayer.player.name = name;
   },
 
   // Ends setup phase and starts the game
-  startGame() {
+  startGame(name, mode) {
+    this.saveName(name);
+    if (mode !== 'vsComputer') activePlayer.switch();
     startScreen.dialog.close();
     launchGame();
   },
 
   // Ends active player's setup phase and passes it to the next player
-  nextPlayer() {
+  nextPlayer(name) {
+    this.saveName(name);
     activePlayer.switch();
     initializeShipSetup(activePlayer.gameboard.ships);
     initializeShipPlacementBoard(activePlayer.gameboard.board);
