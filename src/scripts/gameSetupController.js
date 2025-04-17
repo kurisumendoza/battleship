@@ -6,7 +6,7 @@ import {
   renderGameModeOptions,
   renderShipSetup,
   renderShipPlacementBoard,
-  renderNameInputAndStartBtn,
+  renderPlayerSetup,
   updateShipCellsUI,
 } from './gameSetupUI';
 import { renderErrorMsg } from './gameplayUI';
@@ -109,27 +109,41 @@ const initializeShipPlacementBoard = (playerBoard) => {
   );
 };
 
-// Ends setup phase and starts the game
-const startGame = (name, errContainer) => {
-  if (!activePlayer.gameboard.isAllPlaced())
-    return renderErrorMsg(errContainer, 'Place all ships on board!');
+const playerSetup = {
+  // Adds event listener to received action button
+  initialize(mode) {
+    const { inputName, actionBtn, errorContainer } = renderPlayerSetup(mode);
 
-  if (!name) return renderErrorMsg(errContainer, 'Please enter a name!');
+    actionBtn.addEventListener('click', () =>
+      this.validate(mode, inputName.value, errorContainer),
+    );
+  },
 
-  startScreen.dialog.close();
+  // Validates setup before passing to next player or starting game
+  validate(mode, name, errContainer) {
+    if (!activePlayer.gameboard.isAllPlaced())
+      return renderErrorMsg(errContainer, 'Place all ships on board!');
 
-  launchGame();
+    if (!name) return renderErrorMsg(errContainer, 'Please enter a name!');
 
-  return undefined;
-};
+    if (mode === 'vsComputer' || mode === 'nextPlayer') return this.startGame();
 
-// Adds event listeners to received name input and start button
-const initializeNameInputAndStartBtn = () => {
-  const { inputName, startBtn, errorContainer } = renderNameInputAndStartBtn();
+    return this.nextPlayer(mode);
+  },
 
-  startBtn.addEventListener('click', () =>
-    startGame(inputName.value, errorContainer),
-  );
+  // Ends setup phase and starts the game
+  startGame() {
+    startScreen.dialog.close();
+    launchGame();
+  },
+
+  // Ends active player's setup phase and passes it to the next player
+  nextPlayer() {
+    activePlayer.switch();
+    initializeShipSetup(activePlayer.gameboard.ships);
+    initializeShipPlacementBoard(activePlayer.gameboard.board);
+    this.initialize('nextPlayer');
+  },
 };
 
 // Calls functions to render UI of ship placement phase
@@ -138,16 +152,16 @@ const startShipPlacementPhase = (mode) => {
   activePlayer.assign();
   initializeShipSetup(activePlayer.gameboard.ships);
   initializeShipPlacementBoard(activePlayer.gameboard.board);
-  initializeNameInputAndStartBtn();
+  playerSetup.initialize(mode);
 };
 
 // Adds event listeners to received vsPlayer and vsComputer buttons
 const initializeGameModeOptions = () => {
   const { vsPlayerBtn, vsComputerBtn } = renderGameModeOptions();
 
-  vsPlayerBtn.addEventListener('click', () => {
-    // Logic to be added later
-  });
+  vsPlayerBtn.addEventListener('click', () =>
+    startShipPlacementPhase('vsPlayer'),
+  );
   vsComputerBtn.addEventListener('click', () =>
     startShipPlacementPhase('vsComputer'),
   );

@@ -5,28 +5,13 @@ import { createElement } from './helpers';
 // Helper function for adjusting dialog's UI for ship placement
 const adjustBoardSetupDialog = () => {
   startScreen.title.style.fontSize = 'var(--header-font-size)';
-  document.querySelector('.game-modes-container').remove();
-};
-
-// Renders board for ship placement
-const renderShipPlacementBoard = (playerBoard) => {
-  adjustBoardSetupDialog();
-
-  const shipPlacementContainer = createElement('div', [
-    'ship-placement-container',
-  ]);
-  const shipPlacementBoard = createElement('div', ['ship-placement-board']);
-
-  startScreen.setupContainer.appendChild(shipPlacementContainer);
-  shipPlacementContainer.appendChild(shipPlacementBoard);
-
-  renderGameboard(shipPlacementBoard, playerBoard);
-
-  return shipPlacementBoard;
+  startScreen.setupContainer.innerHTML = '';
 };
 
 // Renders ships and ship information for setup
 const renderShipSelection = (ships) => {
+  adjustBoardSetupDialog();
+
   const shipsContainer = createElement('div', ['ships-container']);
 
   Object.entries(ships).forEach(([ship, { length }]) => {
@@ -71,6 +56,21 @@ const renderShipSetup = (ships) => {
   return shipsContainer;
 };
 
+// Renders board for ship placement
+const renderShipPlacementBoard = (playerBoard) => {
+  const shipPlacementContainer = createElement('div', [
+    'ship-placement-container',
+  ]);
+  const shipPlacementBoard = createElement('div', ['ship-placement-board']);
+
+  startScreen.setupContainer.appendChild(shipPlacementContainer);
+  shipPlacementContainer.appendChild(shipPlacementBoard);
+
+  renderGameboard(shipPlacementBoard, playerBoard);
+
+  return shipPlacementBoard;
+};
+
 // Renders an input where players can enter their desired name
 const renderPlayerNameInput = () => {
   const inputNameLabel = createElement('p', ['input-name-label']);
@@ -82,33 +82,36 @@ const renderPlayerNameInput = () => {
 };
 
 // Renders button to start game or pass setup to another player
-const renderStartGameBtn = () => {
-  const startContainer = createElement('div', ['start-game-container']);
-  const startBtn = createElement('button', ['start-game-btn']);
+const renderActionBtn = (mode) => {
+  const actionBtnContainer = createElement('div', ['action-btn-container']);
+  const actionBtn = createElement('button', ['action-btn']);
 
-  startBtn.textContent = 'Start Game';
+  actionBtn.textContent = mode === 'vsPlayer' ? 'Next Player' : 'Start Game';
 
-  startContainer.appendChild(startBtn);
+  actionBtnContainer.appendChild(actionBtn);
 
-  return { startContainer, startBtn };
+  return { actionBtnContainer, actionBtn };
 };
 
-// Renders section for player name input and game start button
-const renderNameInputAndStartBtn = () => {
-  const nameAndStartContainer = createElement('div', ['name-start-container']);
+// Renders section for player name input and game start button or next player button
+const renderPlayerSetup = (mode) => {
+  const nameAndActionBtnContainer = createElement('div', [
+    'name-start-container',
+  ]);
   const errorContainer = createElement('div', ['error-container']);
   const { inputNameLabel, inputName } = renderPlayerNameInput();
-  const { startContainer, startBtn } = renderStartGameBtn();
 
-  startScreen.setupContainer.appendChild(nameAndStartContainer);
-  nameAndStartContainer.append(
+  const { actionBtnContainer, actionBtn } = renderActionBtn(mode);
+
+  startScreen.setupContainer.appendChild(nameAndActionBtnContainer);
+  nameAndActionBtnContainer.append(
     inputNameLabel,
     inputName,
-    startContainer,
+    actionBtnContainer,
     errorContainer,
   );
 
-  return { inputName, startBtn, errorContainer };
+  return { inputName, actionBtn, errorContainer };
 };
 
 // Renders options to play against another player or computer
@@ -145,6 +148,6 @@ export {
   renderGameModeOptions,
   renderShipSetup,
   renderShipPlacementBoard,
-  renderNameInputAndStartBtn,
+  renderPlayerSetup,
   updateShipCellsUI,
 };
