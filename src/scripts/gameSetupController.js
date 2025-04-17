@@ -1,5 +1,6 @@
 import { startScreen } from './selectors';
-import { players, initializePlayers } from './createPlayers';
+import { initializePlayers } from './createPlayers';
+import activePlayer from './activePlayer';
 import launchGame from './gameplayController';
 import {
   renderGameModeOptions,
@@ -9,21 +10,6 @@ import {
   updateShipCellsUI,
 } from './gameSetupUI';
 import { renderErrorMsg } from './gameplayUI';
-
-// Assigns and stores active player and ability to switch to another player
-const activePlayer = {
-  player: null,
-  gameboard: null,
-  assign() {
-    this.player = players.player1;
-    this.gameboard = this.player.gameboard;
-  },
-  switch() {
-    this.player =
-      this.player === players.player1 ? players.player2 : players.player1;
-    this.gameboard = this.player.gameboard;
-  },
-};
 
 // Stores recently picked ship information
 const pickedShip = {
