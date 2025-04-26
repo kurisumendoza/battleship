@@ -18,6 +18,12 @@ const pickedShip = {
   orientation: null,
 };
 
+const resetPickedShip = () => {
+  pickedShip.ship = null;
+  pickedShip.name = null;
+  pickedShip.orientation = null;
+};
+
 const initializeGame = () => {
   if (startScreen.dialog) startScreen.dialog.showModal();
 };
@@ -61,6 +67,7 @@ const resetShipPlacement = (e) => {
   updateShipCellsUI(ship, shipName, false);
   activePlayer.gameboard.removeShip(ship);
   shipModel.classList.remove('is-placed');
+  resetPickedShip();
 };
 
 // Adds event listeners to shipsContainer elements
@@ -95,9 +102,7 @@ const placeShipOnBoard = (e, ship, orientation) => {
 
   updateShipCellsUI(ship, pickedShip.name, true);
 
-  pickedShip.ship = null;
-  pickedShip.name = null;
-  pickedShip.orientation = null;
+  resetPickedShip();
 };
 
 // Adds event listener to received ship placement board
