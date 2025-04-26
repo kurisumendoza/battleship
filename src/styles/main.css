@@ -17,6 +17,9 @@
 
   --error-color: maroon;
 
+  --miss-color: lightslategrey;
+  --hit-color: lightcoral;
+
   --ship-background: darkgrey;
   --is-placed-color: slategrey;
   --carrier-color: darkred;
@@ -81,6 +84,7 @@ header h1 {
 .your-board-preview {
   padding-top: 20px;
   text-align: center;
+  pointer-events: none;
 }
 
 .your-board {
@@ -327,4 +331,12 @@ dialog[open] {
 
 .is-placed {
   background-color: var(--is-placed-color);
+}
+
+.miss {
+  background-color: var(--miss-color);
+}
+
+.hit {
+  background-color: var(--hit-color);
 }
