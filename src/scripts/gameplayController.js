@@ -9,6 +9,9 @@ let hasAttacked = false;
 const attack = (e) => {
   if (!e.target.closest('.cell')) return;
 
+  if (e.target.classList.contains('hit') || e.target.classList.contains('miss'))
+    return;
+
   const row = Number(e.target.dataset.row);
   const col = Number(e.target.dataset.col);
 
