@@ -343,3 +343,7 @@ dialog[open] {
   align-items: center;
   font-size: 2vw;
 }
+
+.sunk {
+  filter: brightness(0.75);
+}

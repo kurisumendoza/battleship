@@ -1,4 +1,4 @@
-import { renderGameboard, updateGameboard } from './gameplayUI';
+import { renderGameboard, renderSunkShip, updateGameboard } from './gameplayUI';
 import activePlayer from './activePlayer';
 import { gameboardUI, controlsUI } from './selectors';
 
@@ -19,7 +19,14 @@ const attack = (e) => {
 
   const attackResult =
     activePlayer.oppGameboard.board[row][col] !== 'miss' ? 'hit' : 'miss';
+
   updateGameboard(gameboardUI.board, row, col, attackResult);
+
+  if (activePlayer.oppGameboard.board[row][col].hasSunk)
+    renderSunkShip(
+      gameboardUI.board,
+      activePlayer.oppGameboard.board[row][col],
+    );
 
   hasAttacked = true;
 

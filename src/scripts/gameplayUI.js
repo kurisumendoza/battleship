@@ -14,6 +14,8 @@ const renderGameboard = (boardContainer, playerBoard) => {
 
       if (col === 'miss') cell.classList.add('miss');
 
+      if (col?.hasSunk) cell.classList.add('sunk', col.name);
+
       if (playerBoard.hit.has(`${rowIndex},${colIndex}`)) {
         cell.textContent = '💥';
         cell.classList.add('hit');
@@ -28,11 +30,20 @@ const renderGameboard = (boardContainer, playerBoard) => {
 };
 
 // Updates gameboard when an action is done
-const updateGameboard = (boardUI, row, col, state) => {
+const updateGameboard = (boardUI, row, col, state, ship = null) => {
   const cell = boardUI.querySelector(`[data-row="${row}"][data-col="${col}"]`);
   cell.classList.add(state);
 
   if (state === 'hit') cell.textContent = '💥';
+  if (state === 'sunk') cell.classList.add(ship);
+};
+
+// Reveals sunk ship in the gameboard
+const renderSunkShip = (boardUI, ship) => {
+  ship.position.forEach((pos) => {
+    const [row, col] = pos;
+    updateGameboard(boardUI, row, col, 'sunk', ship.name);
+  });
 };
 
 // Shows error message on UI
@@ -45,4 +56,4 @@ const renderErrorMsg = (container, message) => {
   container.appendChild(errorMsg);
 };
 
-export { renderGameboard, updateGameboard, renderErrorMsg };
+export { renderGameboard, updateGameboard, renderSunkShip, renderErrorMsg };
