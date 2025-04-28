@@ -17,6 +17,11 @@ const playerStatsUI = {
   p2Stats: document.querySelector('.player2-stats'),
 };
 
+const gameStatusUI = {
+  turnDisplay: document.querySelector('.turn-display h3'),
+  errorDisplay: document.querySelector('.error-display'),
+};
+
 const controlsUI = {
   endTurn: document.querySelector('.end-turn-btn button'),
   playAgain: document.querySelector('.play-again-btn button'),
@@ -35,10 +40,11 @@ const gameSummary = {
 };
 
 export {
-  startScreen,
   header,
+  startScreen,
   gameboardUI,
-  controlsUI,
   playerStatsUI,
+  gameStatusUI,
+  controlsUI,
   gameSummary,
 };

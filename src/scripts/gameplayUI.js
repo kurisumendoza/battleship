@@ -14,7 +14,7 @@ const renderGameboard = (boardContainer, playerBoard) => {
 
       if (col === 'miss') cell.classList.add('miss');
 
-      if (col?.hasSunk) cell.classList.add('sunk', col.name);
+      if (col?.hasSunk) cell.classList.add('sunk', 'hasShip', col.name);
 
       if (playerBoard.hit.has(`${rowIndex},${colIndex}`)) {
         cell.textContent = '💥';
@@ -35,7 +35,7 @@ const updateGameboard = (boardUI, row, col, state, ship = null) => {
   cell.classList.add(state);
 
   if (state === 'hit') cell.textContent = '💥';
-  if (state === 'sunk') cell.classList.add(ship);
+  if (state === 'sunk') cell.classList.add('hasShip', ship);
 };
 
 // Reveals sunk ship in the gameboard

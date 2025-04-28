@@ -1,6 +1,7 @@
 import { renderGameboard, renderSunkShip, updateGameboard } from './gameplayUI';
 import activePlayer from './activePlayer';
 import { gameboardUI, controlsUI } from './selectors';
+import { initializeGameStatusUI } from './gameStatusUI';
 
 // Stores Gameboard state
 let hasAttacked = false;
@@ -47,6 +48,7 @@ const launchGame = () => {
   renderGameboard(gameboardUI.board, activePlayer.oppGameboard);
 
   initializeActiveGameboard();
+  initializeGameStatusUI(activePlayer.player.name);
 };
 
 // Ends the turn and switches the board and activePlayer
