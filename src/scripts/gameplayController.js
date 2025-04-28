@@ -1,34 +1,53 @@
 import { renderGameboard, updateGameboard } from './gameplayUI';
 import activePlayer from './activePlayer';
-import { gameboardUI } from './selectors';
+import { gameboardUI, controlsUI } from './selectors';
+
+// Stores Gameboard state
+let hasAttacked = false;
 
 // Calls receiveAttack on the opponent's board
-const attack = (opponent, boardUI, e) => {
+const attack = (e) => {
   if (!e.target.closest('.cell')) return;
 
   const row = Number(e.target.dataset.row);
   const col = Number(e.target.dataset.col);
 
-  opponent.receiveAttack([row, col]);
+  activePlayer.oppGameboard.receiveAttack([row, col]);
 
-  const attackResult = opponent.board[row][col] !== 'miss' ? 'hit' : 'miss';
-  updateGameboard(boardUI, row, col, attackResult);
+  const attackResult =
+    activePlayer.oppGameboard.board[row][col] !== 'miss' ? 'hit' : 'miss';
+  updateGameboard(gameboardUI.board, row, col, attackResult);
+
+  hasAttacked = true;
+
+  gameboardUI.board.removeEventListener('click', attack);
 };
 
 // Adds event listener to opponent's gameboard for attacking
-// opponent param accepts opponent's Gameboard instance instead of Player
-const initializeActiveGameboard = (opponent, boardUI) => {
-  boardUI.addEventListener('click', (e) => attack(opponent, boardUI, e), {
-    once: true,
-  });
+const initializeActiveGameboard = () => {
+  gameboardUI.board.addEventListener('click', attack);
 };
 
 // Removes the setup dialog and renders the actual gameboard
 const launchGame = () => {
-  renderGameboard(gameboardUI.yourBoard, activePlayer.gameboard.board);
-  renderGameboard(gameboardUI.board, activePlayer.oppGameboard.board);
+  gameboardUI.yourBoard.innerHTML = '';
+  gameboardUI.board.innerHTML = '';
 
-  initializeActiveGameboard(activePlayer.oppGameboard, gameboardUI.board);
+  renderGameboard(gameboardUI.yourBoard, activePlayer.gameboard);
+  renderGameboard(gameboardUI.board, activePlayer.oppGameboard);
+
+  initializeActiveGameboard();
 };
+
+// Ends the turn and switches the board and activePlayer
+const endTurn = () => {
+  if (!hasAttacked) return;
+
+  activePlayer.switch();
+  hasAttacked = false;
+  launchGame();
+};
+
+controlsUI.endTurn.addEventListener('click', endTurn);
 
 export default launchGame;

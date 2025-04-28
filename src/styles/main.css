@@ -338,5 +338,8 @@ dialog[open] {
 }
 
 .hit {
-  background-color: var(--hit-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vw;
 }

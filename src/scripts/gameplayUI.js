@@ -3,7 +3,7 @@ import { createElement } from './helpers';
 
 // Renders 10 x 10 gameboard
 const renderGameboard = (boardContainer, playerBoard) => {
-  playerBoard.forEach((row, rowIndex) => {
+  playerBoard.board.forEach((row, rowIndex) => {
     row.forEach((col, colIndex) => {
       const cell = createElement('div', ['cell']);
 
@@ -12,7 +12,16 @@ const renderGameboard = (boardContainer, playerBoard) => {
 
       boardContainer.appendChild(cell);
 
-      if (playerBoard === activePlayer.gameboard.board)
+      if (col === 'miss') cell.classList.add('miss');
+
+      if (playerBoard.hit.has(`${rowIndex},${colIndex}`)) {
+        cell.textContent = '💥';
+        cell.classList.add('hit');
+        if (playerBoard.board === activePlayer.gameboard.board)
+          cell.style.fontSize = '0.75vw';
+      }
+
+      if (playerBoard.board === activePlayer.gameboard.board)
         if (col) cell.classList.add('hasShip', `${col.name}`);
     });
   });
@@ -22,6 +31,8 @@ const renderGameboard = (boardContainer, playerBoard) => {
 const updateGameboard = (boardUI, row, col, state) => {
   const cell = boardUI.querySelector(`[data-row="${row}"][data-col="${col}"]`);
   cell.classList.add(state);
+
+  if (state === 'hit') cell.textContent = '💥';
 };
 
 // Shows error message on UI

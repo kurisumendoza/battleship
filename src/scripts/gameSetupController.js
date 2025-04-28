@@ -155,7 +155,7 @@ const playerSetup = {
     this.saveName(name);
     activePlayer.switch();
     initializeShipSetup(activePlayer.gameboard.ships);
-    initializeShipPlacementBoard(activePlayer.gameboard.board);
+    initializeShipPlacementBoard(activePlayer.gameboard);
     this.initialize('nextPlayer');
   },
 };
@@ -165,7 +165,7 @@ const startShipPlacementPhase = (mode) => {
   initializePlayers(mode);
   activePlayer.assign();
   initializeShipSetup(activePlayer.gameboard.ships);
-  initializeShipPlacementBoard(activePlayer.gameboard.board);
+  initializeShipPlacementBoard(activePlayer.gameboard);
   playerSetup.initialize(mode);
 };
 
