@@ -24,19 +24,14 @@ const gameStatusUI = {
 
 const controlsUI = {
   endTurn: document.querySelector('.end-turn-btn button'),
+  playAgainContainer: document.querySelector('.play-again-btn'),
   playAgain: document.querySelector('.play-again-btn button'),
 };
 
 const gameSummary = {
+  container: document.querySelector('.winner-display'),
   winner: document.querySelector('.winner-display h3'),
-  winningPlayer: document.querySelector('.winner'),
   summary: document.querySelector('.game-summary'),
-  enemySunk: document.querySelector('.enemy-sunk'),
-  turnsTaken: document.querySelector('.turns-taken'),
-  ownSunk: document.querySelector('.own-sunk'),
-  accuracy: document.querySelector('.accuracy'),
-  misses: document.querySelector('.misses'),
-  hitStreak: document.querySelector('.hit-streak'),
 };
 
 export {

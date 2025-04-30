@@ -1,5 +1,5 @@
 import activePlayer from './activePlayer';
-import { gameStatusUI } from './selectors';
+import { gameStatusUI, gameSummary } from './selectors';
 
 // Shows which player is currently active
 const turnIndicator = (player) => {
@@ -24,4 +24,28 @@ const initializeGameStatusUI = (player) => {
   turnIndicator(player);
 };
 
-export { turnIndicator, renderGameMessage, initializeGameStatusUI };
+// Displays the winner and some gameplay stats
+const displayWinner = (summary) => {
+  const { shipsSunk, turnsTaken, shipsLost, misses, accuracy } = summary;
+
+  gameSummary.container.style.visibility = 'visible';
+
+  gameSummary.winner.textContent = `${activePlayer.player.name} Wins!`;
+
+  gameSummary.summary.innerHTML = ` 
+    <ul>
+      <li>Enemy Ships Sunk: <span>${shipsSunk}</span></li>
+      <li>Ships Lost: <span>${shipsLost}</span></li>
+      <li>Total Turns Taken: <span>${turnsTaken}</span></li>
+      <li>Misses: <span>${misses}</span></li>
+      <li>Accuracy: <span>${accuracy}%</span></li>
+    </ul>
+  `;
+};
+
+export {
+  turnIndicator,
+  renderGameMessage,
+  initializeGameStatusUI,
+  displayWinner,
+};

@@ -5,6 +5,7 @@ class Player {
     this.isComputer = isComputer;
     this.gameboard = new Gameboard();
     this.name = isComputer ? 'Computer' : '';
+    this.hitStreak = 0;
   }
 }
 

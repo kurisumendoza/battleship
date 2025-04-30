@@ -27,6 +27,8 @@
   --cruiser-color: darkcyan;
   --submarine-color: darkgreen;
   --destroyer-color: darkmagenta;
+
+  --summary-values-font-color: orangered;
 }
 
 body {
@@ -147,12 +149,24 @@ header h1 {
   margin-bottom: 1rem;
 }
 
+.winner-display {
+  visibility: hidden;
+}
+
 .winner-display h3 {
   text-align: center;
   font-family: var(--main-font);
   font-size: 3rem;
   font-weight: 400;
   margin-bottom: 2rem;
+}
+
+.game-summary span {
+  color: var(--summary-values-font-color);
+}
+
+.play-again-btn {
+  visibility: hidden;
 }
 
 dialog[open] {
