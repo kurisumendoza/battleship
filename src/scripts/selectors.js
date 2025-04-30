@@ -19,7 +19,7 @@ const playerStatsUI = {
 
 const gameStatusUI = {
   turnDisplay: document.querySelector('.turn-display h3'),
-  errorDisplay: document.querySelector('.error-display'),
+  messageDisplay: document.querySelector('.game-message-display'),
 };
 
 const controlsUI = {

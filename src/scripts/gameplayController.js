@@ -1,7 +1,7 @@
 import { renderGameboard, renderSunkShip, updateGameboard } from './gameplayUI';
 import activePlayer from './activePlayer';
 import { gameboardUI, controlsUI } from './selectors';
-import { initializeGameStatusUI } from './gameStatusUI';
+import { initializeGameStatusUI, renderGameMessage } from './gameStatusUI';
 
 // Stores Gameboard state
 let hasAttacked = false;
@@ -23,11 +23,13 @@ const attack = (e) => {
 
   updateGameboard(gameboardUI.board, row, col, attackResult);
 
-  if (activePlayer.oppGameboard.board[row][col].hasSunk)
+  if (activePlayer.oppGameboard.board[row][col].hasSunk) {
     renderSunkShip(
       gameboardUI.board,
       activePlayer.oppGameboard.board[row][col],
     );
+    renderGameMessage('sunk');
+  } else renderGameMessage(attackResult);
 
   hasAttacked = true;
 
@@ -57,6 +59,7 @@ const endTurn = () => {
 
   activePlayer.switch();
   hasAttacked = false;
+  renderGameMessage('clear');
   launchGame();
 };
 
