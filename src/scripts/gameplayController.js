@@ -1,4 +1,9 @@
-import { renderGameboard, renderSunkShip, updateGameboard } from './gameplayUI';
+import {
+  displayPlayAgainBtn,
+  renderGameboard,
+  renderSunkShip,
+  updateGameboard,
+} from './gameplayUI';
 import activePlayer from './activePlayer';
 import { gameboardUI, controlsUI } from './selectors';
 import {
@@ -44,6 +49,7 @@ const declareWinner = () => {
 
   gameState.hasWinner = true;
   displayWinner(createSummary());
+  displayPlayAgainBtn();
 };
 
 // Calls receiveAttack on the opponent's board and updates the gameboard
@@ -114,6 +120,9 @@ const endTurn = () => {
   launchGame();
 };
 
+const handlePlayAgain = () => {};
+
 controlsUI.endTurn.addEventListener('click', endTurn);
+controlsUI.playAgain.addEventListener('click', handlePlayAgain);
 
 export default launchGame;

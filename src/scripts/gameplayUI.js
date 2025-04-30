@@ -1,5 +1,6 @@
 import activePlayer from './activePlayer';
 import { createElement } from './helpers';
+import { controlsUI } from './selectors';
 
 // Renders 10 x 10 gameboard
 const renderGameboard = (boardContainer, playerBoard) => {
@@ -56,4 +57,18 @@ const renderErrorMsg = (container, message) => {
   container.appendChild(errorMsg);
 };
 
-export { renderGameboard, updateGameboard, renderSunkShip, renderErrorMsg };
+// Toggles 'Play Again' button for resetting the game
+const togglePlayAgainBtn = () => {
+  controlsUI.playAgainContainer.style.visibility =
+    controlsUI.playAgainContainer.style.visibility === 'visible'
+      ? 'hidden'
+      : 'visible';
+};
+
+export {
+  renderGameboard,
+  updateGameboard,
+  renderSunkShip,
+  renderErrorMsg,
+  togglePlayAgainBtn,
+};
