@@ -77,8 +77,8 @@ header h1 {
   gap: 10px;
 }
 
-/* placeholder, to be replaced */
-.placeholder-stats {
+.player1-stats,
+.player2-stats {
   height: 100px;
   background-color: lightcoral;
 }
