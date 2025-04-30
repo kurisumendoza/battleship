@@ -50,8 +50,13 @@ const declareWinner = () => {
 const attack = (e) => {
   if (!e.target.closest('.cell')) return;
 
-  if (e.target.classList.contains('hit') || e.target.classList.contains('miss'))
+  if (
+    e.target.classList.contains('hit') ||
+    e.target.classList.contains('miss')
+  ) {
+    renderGameMessage('invalid');
     return;
+  }
 
   const row = Number(e.target.dataset.row);
   const col = Number(e.target.dataset.col);
@@ -96,7 +101,12 @@ const launchGame = () => {
 
 // Ends the turn and switches the board and activePlayer
 const endTurn = () => {
-  if (!gameState.hasAttacked || gameState.hasWinner) return;
+  if (gameState.hasWinner) return;
+
+  if (!gameState.hasAttacked) {
+    renderGameMessage('blocked');
+    return;
+  }
 
   activePlayer.switch();
   gameState.hasAttacked = false;

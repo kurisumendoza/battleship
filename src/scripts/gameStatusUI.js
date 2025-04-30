@@ -11,8 +11,9 @@ const renderGameMessage = (type) => {
   const gameMessage = {
     miss: () => 'You missed!',
     hit: () => `${activePlayer.opponent?.name}'s ship got hit.`,
-    sunk: () => `You sank ${activePlayer.opponent?.name}'s ship!`,
-    error: () => 'Cell has already been targeted!',
+    sunk: () => `${activePlayer.opponent?.name}'s ship has been sunk!`,
+    invalid: () => 'Cell has already been targeted!',
+    blocked: () => "You haven't made a move yet",
     clear: () => '',
   };
 
