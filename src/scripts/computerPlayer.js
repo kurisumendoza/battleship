@@ -5,6 +5,8 @@ class ComputerPlayer extends Player {
     super();
     this.name = 'Computer';
   }
+
+  autoPlaceShips() {}
 }
 
 export default ComputerPlayer;
