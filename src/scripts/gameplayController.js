@@ -1,5 +1,6 @@
 import activePlayer from './activePlayer';
 import { gameboardUI, controlsUI } from './selectors';
+import renderLoadingScreen from './loadingScreen';
 import {
   togglePlayAgainBtn,
   renderGameboard,
@@ -113,6 +114,12 @@ const endTurn = () => {
     renderGameMessage('blocked');
     return;
   }
+
+  if (
+    activePlayer.player.name !== 'Computer' &&
+    activePlayer.opponent.name !== 'Computer'
+  )
+    renderLoadingScreen();
 
   activePlayer.switch();
   gameState.hasAttacked = false;

@@ -10,6 +10,7 @@ import {
   updateShipCellsUI,
 } from './gameSetupUI';
 import { renderErrorMsg } from './gameplayUI';
+import renderLoadingScreen from './loadingScreen';
 
 // Stores recently picked ship information
 const pickedShip = {
@@ -141,13 +142,17 @@ const playerSetup = {
   // Ends setup phase and starts the game
   startGame(name, mode) {
     this.saveName(name);
-    if (mode !== 'vsComputer') activePlayer.switch();
+    if (mode !== 'vsComputer') {
+      activePlayer.switch();
+      renderLoadingScreen();
+    }
     startScreen.dialog.close();
     launchGame();
   },
 
   // Ends active player's setup phase and passes it to the next player
   nextPlayer(name) {
+    renderLoadingScreen();
     this.saveName(name);
     activePlayer.switch();
     initializeShipSetup(activePlayer.gameboard.ships);

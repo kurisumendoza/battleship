@@ -7,6 +7,13 @@ const startScreen = {
   setupContainer: document.querySelector('.game-setup-container'),
 };
 
+const loadingScreen = {
+  dialog: document.querySelector('.loading-screen'),
+  message: document.querySelector('.loading-screen p'),
+  loader: document.querySelector('.loader'),
+  readyBtn: document.querySelector('.loading-screen button'),
+};
+
 const gameboardUI = {
   board: document.querySelector('.gameboard'),
   yourBoard: document.querySelector('.your-board'),
@@ -37,6 +44,7 @@ const gameSummary = {
 export {
   header,
   startScreen,
+  loadingScreen,
   gameboardUI,
   playerStatsUI,
   gameStatusUI,
