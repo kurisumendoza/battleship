@@ -1,7 +1,7 @@
 import { startScreen } from './selectors';
 import { initializePlayers } from './createPlayers';
 import activePlayer from './activePlayer';
-import launchGame from './gameplayController';
+import { launchGame } from './gameplayController';
 import {
   renderGameModeOptions,
   renderShipSetup,
@@ -22,10 +22,6 @@ const resetPickedShip = () => {
   pickedShip.ship = null;
   pickedShip.name = null;
   pickedShip.orientation = null;
-};
-
-const initializeGame = () => {
-  if (startScreen.dialog) startScreen.dialog.showModal();
 };
 
 // Picks a ship to place on board
@@ -181,6 +177,10 @@ const initializeGameModeOptions = () => {
   );
 };
 
-startScreen.startBtn.addEventListener('click', initializeGameModeOptions);
+const initializeGame = () => {
+  if (startScreen.dialog) startScreen.dialog.showModal();
+  startScreen.startBtn = document.querySelector('.start-new-game');
+  startScreen.startBtn.addEventListener('click', initializeGameModeOptions);
+};
 
 export default initializeGame;

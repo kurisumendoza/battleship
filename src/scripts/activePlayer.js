@@ -17,6 +17,12 @@ const activePlayer = {
     this.gameboard = this.player.gameboard;
     this.oppGameboard = this.opponent.gameboard;
   },
+  reset() {
+    this.player = null;
+    this.gameboard = null;
+    this.opponent = null;
+    this.oppGameboard = null;
+  },
 };
 
 export default activePlayer;

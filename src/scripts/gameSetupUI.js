@@ -2,6 +2,9 @@ import { renderGameboard } from './gameplayUI';
 import { startScreen } from './selectors';
 import { createElement } from './helpers';
 
+// Stores initial HTML structure
+const initialHTML = startScreen.setupContainer.innerHTML;
+
 // Helper function for adjusting dialog's UI for ship placement
 const adjustBoardSetupDialog = () => {
   startScreen.title.style.fontSize = 'var(--header-font-size)';
@@ -144,10 +147,19 @@ const updateShipCellsUI = (ship, name, isPlaced) => {
   });
 };
 
+// Renders start screen again when Play Button is clicked
+const rerenderStartScreen = () => {
+  startScreen.title.style.fontSize = '';
+  startScreen.setupContainer.innerHTML = '';
+
+  startScreen.setupContainer.innerHTML = initialHTML;
+};
+
 export {
   renderGameModeOptions,
   renderShipSetup,
   renderShipPlacementBoard,
   renderPlayerSetup,
   updateShipCellsUI,
+  rerenderStartScreen,
 };

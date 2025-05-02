@@ -44,9 +44,15 @@ const displayWinner = (summary) => {
   `;
 };
 
+// Hides game status related UI
+const resetGameStatusUI = () => {
+  gameSummary.container.style.visibility = 'hidden';
+};
+
 export {
   turnIndicator,
   renderGameMessage,
   initializeGameStatusUI,
   displayWinner,
+  resetGameStatusUI,
 };

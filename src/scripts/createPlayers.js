@@ -12,4 +12,9 @@ const initializePlayers = (mode) => {
   }
 };
 
-export { initializePlayers, players };
+const resetPlayers = () => {
+  players.player1 = null;
+  players.player2 = null;
+};
+
+export { players, initializePlayers, resetPlayers };
