@@ -4,6 +4,7 @@ class ComputerPlayer extends Player {
   constructor() {
     super();
     this.name = 'Computer';
+    this.restrictedCells = new Set();
   }
 
   // Automatically place all ships in the computer player's gameboard
@@ -15,6 +16,7 @@ class ComputerPlayer extends Player {
         this.#autoPlacementCoord(ship.length, orientation),
         orientation,
       );
+      this.#blockPlacementZone(ship.position);
     });
   }
 
@@ -28,7 +30,7 @@ class ComputerPlayer extends Player {
 
     for (let i = 0; i < length; i += 1) {
       if (
-        this.gameboard.occupied.has(
+        this.restrictedCells.has(
           `${row + (orientation === 'vertical' ? i : 0)}, ${col + (orientation === 'horizontal' ? i : 0)}`,
         )
       )
@@ -37,6 +39,36 @@ class ComputerPlayer extends Player {
 
     return [row, col];
   }
+
+  // Marks ship and surrounding cells as invalid for auto-placement
+  #blockPlacementZone(position) {
+    const offsets = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+      [-1, -1],
+      [-1, 1],
+      [1, -1],
+      [1, 1],
+    ];
+
+    position.forEach(([row, col]) => {
+      this.restrictedCells.add(`${row}, ${col}`);
+
+      for (let i = 0; i < offsets.length; i += 1) {
+        const newRow = row + offsets[i][0];
+        const newCol = col + offsets[i][1];
+
+        if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
+          this.restrictedCells.add(`${newRow}, ${newCol}`);
+        }
+      }
+    });
+  }
 }
+
+const comp = new ComputerPlayer();
+comp.autoPlaceShips();
 
 export default ComputerPlayer;
