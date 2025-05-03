@@ -326,7 +326,7 @@ header h1 {
 }
 
 /* Board state during ship placement and gameplay */
-.hasShip {
+.has-ship {
   transform: scale(1.15);
 }
 

@@ -1,6 +1,7 @@
 import activePlayer from './activePlayer';
 import { gameboardUI, controlsUI } from './selectors';
 import renderLoadingScreen from './loadingScreen';
+import { CELL_STATES, COMPUTER_PLAYER } from './constants';
 import {
   togglePlayAgainBtn,
   renderGameboard,
@@ -31,7 +32,9 @@ const createSummary = () => {
     (ship) => ship.hasSunk,
   ).length;
 
-  const misses = flatGameboard.filter((cell) => cell === 'miss').length;
+  const misses = flatGameboard.filter(
+    (cell) => cell === CELL_STATES.MISS,
+  ).length;
 
   const accuracy = (((turnsTaken - misses) / turnsTaken) * 100).toFixed(2);
 
@@ -58,8 +61,8 @@ const attack = (e) => {
   if (!e.target.closest('.cell')) return;
 
   if (
-    e.target.classList.contains('hit') ||
-    e.target.classList.contains('miss')
+    e.target.classList.contains(CELL_STATES.HIT) ||
+    e.target.classList.contains(CELL_STATES.MISS)
   ) {
     renderGameMessage('invalid');
     return;
@@ -71,7 +74,9 @@ const attack = (e) => {
   activePlayer.oppGameboard.receiveAttack([row, col]);
 
   const attackResult =
-    activePlayer.oppGameboard.board[row][col] !== 'miss' ? 'hit' : 'miss';
+    activePlayer.oppGameboard.board[row][col] !== CELL_STATES.MISS
+      ? CELL_STATES.HIT
+      : CELL_STATES.MISS;
 
   updateGameboard(gameboardUI.board, row, col, attackResult);
 
@@ -80,7 +85,7 @@ const attack = (e) => {
       gameboardUI.board,
       activePlayer.oppGameboard.board[row][col],
     );
-    renderGameMessage('sunk');
+    renderGameMessage(CELL_STATES.SUNK);
     declareWinner();
   } else renderGameMessage(attackResult);
 
@@ -116,8 +121,8 @@ const endTurn = () => {
   }
 
   if (
-    activePlayer.player.name !== 'Computer' &&
-    activePlayer.opponent.name !== 'Computer'
+    activePlayer.player.name !== COMPUTER_PLAYER &&
+    activePlayer.opponent.name !== COMPUTER_PLAYER
   )
     renderLoadingScreen();
 

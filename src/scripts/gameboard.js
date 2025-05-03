@@ -1,4 +1,5 @@
 import initializeShips from './shipsConfig';
+import { CELL_STATES, ORIENTATIONS } from './constants';
 
 class Gameboard {
   constructor() {
@@ -13,14 +14,17 @@ class Gameboard {
     const [row, col] = start;
 
     if (
-      (orientation === 'vertical' && row + ship.length > this.board.length) ||
-      (orientation === 'horizontal' && col + ship.length > this.board[0].length)
+      (orientation === ORIENTATIONS.VERTICAL &&
+        row + ship.length > this.board.length) ||
+      (orientation === ORIENTATIONS.HORIZONTAL &&
+        col + ship.length > this.board[0].length)
     )
       return { success: false, message: 'Out of bounds' };
 
     for (let i = 0; i < ship.length; i += 1) {
-      const currentRow = row + (orientation === 'vertical' ? i : 0);
-      const currentCol = col + (orientation === 'horizontal' ? i : 0);
+      const currentRow = row + (orientation === ORIENTATIONS.VERTICAL ? i : 0);
+      const currentCol =
+        col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0);
       const cell = `${currentRow}, ${currentCol}`;
 
       if (this.occupied.has(cell))
@@ -31,8 +35,9 @@ class Gameboard {
     }
 
     for (let i = 0; i < ship.length; i += 1) {
-      const currentRow = row + (orientation === 'vertical' ? i : 0);
-      const currentCol = col + (orientation === 'horizontal' ? i : 0);
+      const currentRow = row + (orientation === ORIENTATIONS.VERTICAL ? i : 0);
+      const currentCol =
+        col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0);
       this.occupied.add(`${currentRow}, ${currentCol}`);
       ship.position.push([currentRow, currentCol]);
       this.board[currentRow][currentCol] = ship;
@@ -55,14 +60,17 @@ class Gameboard {
   receiveAttack(coords) {
     const [row, col] = coords;
 
-    if (this.hit.has(`${row},${col}`) || this.board[row][col] === 'miss')
+    if (
+      this.hit.has(`${row},${col}`) ||
+      this.board[row][col] === CELL_STATES.MISS
+    )
       return { success: false, message: 'Cell has already been hit' };
 
-    if (this.board[row][col] && this.board[row][col] !== 'miss') {
+    if (this.board[row][col] && this.board[row][col] !== CELL_STATES.MISS) {
       this.hit.add(`${row},${col}`);
       this.board[row][col].hit(); // if ship is present, this will be an instance of Ship
     } else {
-      this.board[row][col] = 'miss';
+      this.board[row][col] = CELL_STATES.MISS;
     }
 
     return { success: true };

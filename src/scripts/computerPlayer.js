@@ -1,16 +1,18 @@
 import Player from './player';
+import { COMPUTER_PLAYER, ORIENTATIONS, SHIP_OFFSETS } from './constants';
 
 class ComputerPlayer extends Player {
   constructor() {
     super();
-    this.name = 'Computer';
+    this.name = COMPUTER_PLAYER;
     this.restrictedCells = new Set();
   }
 
   // Automatically place all ships in the computer player's gameboard
   autoPlaceShips() {
     Object.values(this.gameboard.ships).forEach((ship) => {
-      const orientation = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+      const orientation =
+        Math.random() < 0.5 ? ORIENTATIONS.HORIZONTAL : ORIENTATIONS.VERTICAL;
       this.gameboard.placeShip(
         ship,
         this.#autoPlacementCoord(ship.length, orientation),
@@ -22,8 +24,8 @@ class ComputerPlayer extends Player {
 
   // Creates random coordinates to be used for placing ships
   #autoPlacementCoord(length, orientation) {
-    const rowSize = 10 - (orientation === 'vertical' ? length : 0);
-    const colSize = 10 - (orientation === 'horizontal' ? length : 0);
+    const rowSize = 10 - (orientation === ORIENTATIONS.VERTICAL ? length : 0);
+    const colSize = 10 - (orientation === ORIENTATIONS.HORIZONTAL ? length : 0);
 
     const row = Math.floor(Math.random() * rowSize);
     const col = Math.floor(Math.random() * colSize);
@@ -31,7 +33,7 @@ class ComputerPlayer extends Player {
     for (let i = 0; i < length; i += 1) {
       if (
         this.restrictedCells.has(
-          `${row + (orientation === 'vertical' ? i : 0)}, ${col + (orientation === 'horizontal' ? i : 0)}`,
+          `${row + (orientation === ORIENTATIONS.VERTICAL ? i : 0)}, ${col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0)}`,
         )
       )
         return this.#autoPlacementCoord(length, orientation);
@@ -42,23 +44,12 @@ class ComputerPlayer extends Player {
 
   // Marks ship and surrounding cells as invalid for auto-placement
   #blockPlacementZone(position) {
-    const offsets = [
-      [-1, 0],
-      [1, 0],
-      [0, -1],
-      [0, 1],
-      [-1, -1],
-      [-1, 1],
-      [1, -1],
-      [1, 1],
-    ];
-
     position.forEach(([row, col]) => {
       this.restrictedCells.add(`${row}, ${col}`);
 
-      for (let i = 0; i < offsets.length; i += 1) {
-        const newRow = row + offsets[i][0];
-        const newCol = col + offsets[i][1];
+      for (let i = 0; i < SHIP_OFFSETS.length; i += 1) {
+        const newRow = row + SHIP_OFFSETS[i][0];
+        const newCol = col + SHIP_OFFSETS[i][1];
 
         if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
           this.restrictedCells.add(`${newRow}, ${newCol}`);

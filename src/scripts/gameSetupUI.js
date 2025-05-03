@@ -1,6 +1,7 @@
 import { renderGameboard } from './gameplayUI';
 import { startScreen } from './selectors';
 import { createElement } from './helpers';
+import { CELL_STATES, GAME_MODES, ORIENTATIONS } from './constants';
 
 // Stores initial HTML structure
 const initialHTML = startScreen.setupContainer.innerHTML;
@@ -33,7 +34,7 @@ const renderShipSelection = (ships) => {
     undoBtn.textContent = '↺';
 
     shipEntry.dataset.ship = ship;
-    orientationBtn.dataset.orientation = 'horizontal';
+    orientationBtn.dataset.orientation = ORIENTATIONS.HORIZONTAL;
 
     shipModel.style.width = `${length * 20}%`;
 
@@ -89,7 +90,8 @@ const renderActionBtn = (mode) => {
   const actionBtnContainer = createElement('div', ['action-btn-container']);
   const actionBtn = createElement('button', ['action-btn']);
 
-  actionBtn.textContent = mode === 'vsPlayer' ? 'Next Player' : 'Start Game';
+  actionBtn.textContent =
+    mode === GAME_MODES.VS_PLAYER ? 'Next Player' : 'Start Game';
 
   actionBtnContainer.appendChild(actionBtn);
 
@@ -142,8 +144,8 @@ const updateShipCellsUI = (ship, name, isPlaced) => {
       `[data-row="${row}"][data-col="${col}"]`,
     );
 
-    if (!isPlaced) targetCell.classList.remove('hasShip', name);
-    else targetCell.classList.add('hasShip', name);
+    if (!isPlaced) targetCell.classList.remove(CELL_STATES.HAS_SHIP, name);
+    else targetCell.classList.add(CELL_STATES.HAS_SHIP, name);
   });
 };
 

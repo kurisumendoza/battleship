@@ -2,6 +2,9 @@ import { startScreen } from './selectors';
 import { initializePlayers } from './createPlayers';
 import activePlayer from './activePlayer';
 import { launchGame } from './gameplayController';
+import { renderErrorMsg } from './gameplayUI';
+import renderLoadingScreen from './loadingScreen';
+import { GAME_MODES, NEXT_PLAYER, ORIENTATIONS } from './constants';
 import {
   renderGameModeOptions,
   renderShipSetup,
@@ -9,8 +12,6 @@ import {
   renderPlayerSetup,
   updateShipCellsUI,
 } from './gameSetupUI';
-import { renderErrorMsg } from './gameplayUI';
-import renderLoadingScreen from './loadingScreen';
 
 // Stores recently picked ship information
 const pickedShip = {
@@ -44,12 +45,12 @@ const pickShipToPlace = (e) => {
 const changeOrientation = (e) => {
   if (pickedShip.orientation) return;
 
-  if (e.target.dataset.orientation === 'horizontal') {
+  if (e.target.dataset.orientation === ORIENTATIONS.HORIZONTAL) {
     e.target.textContent = '↕';
-    e.target.dataset.orientation = 'vertical';
+    e.target.dataset.orientation = ORIENTATIONS.VERTICAL;
   } else {
     e.target.textContent = '↔';
-    e.target.dataset.orientation = 'horizontal';
+    e.target.dataset.orientation = ORIENTATIONS.HORIZONTAL;
   }
 };
 
@@ -128,7 +129,7 @@ const playerSetup = {
 
     if (!name) return renderErrorMsg(errContainer, 'Please enter a name!');
 
-    if (mode === 'vsComputer' || mode === 'nextPlayer')
+    if (mode === GAME_MODES.VS_COMPUTER || mode === NEXT_PLAYER)
       return this.startGame(name, mode);
 
     return this.nextPlayer(name);
@@ -142,7 +143,7 @@ const playerSetup = {
   // Ends setup phase and starts the game
   startGame(name, mode) {
     this.saveName(name);
-    if (mode !== 'vsComputer') {
+    if (mode !== GAME_MODES.VS_COMPUTER) {
       activePlayer.switch();
       renderLoadingScreen();
     }
@@ -157,7 +158,7 @@ const playerSetup = {
     activePlayer.switch();
     initializeShipSetup(activePlayer.gameboard.ships);
     initializeShipPlacementBoard(activePlayer.gameboard);
-    this.initialize('nextPlayer');
+    this.initialize(NEXT_PLAYER);
   },
 };
 
@@ -175,10 +176,10 @@ const initializeGameModeOptions = () => {
   const { vsPlayerBtn, vsComputerBtn } = renderGameModeOptions();
 
   vsPlayerBtn.addEventListener('click', () =>
-    startShipPlacementPhase('vsPlayer'),
+    startShipPlacementPhase(GAME_MODES.VS_PLAYER),
   );
   vsComputerBtn.addEventListener('click', () =>
-    startShipPlacementPhase('vsComputer'),
+    startShipPlacementPhase(GAME_MODES.VS_COMPUTER),
   );
 };
 
