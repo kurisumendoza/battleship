@@ -147,6 +147,11 @@ const playerSetup = {
       activePlayer.switch();
       renderLoadingScreen();
     }
+
+    if (mode === GAME_MODES.VS_COMPUTER) {
+      activePlayer.opponent.autoPlaceShips();
+    }
+
     startScreen.dialog.close();
     launchGame();
   },
