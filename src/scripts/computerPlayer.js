@@ -23,7 +23,9 @@ class ComputerPlayer extends Player {
   }
 
   // Automatically attack opponent's gameboard
-  autoAttack() {}
+  autoAttack(opponent) {
+    opponent.receiveAttack(this.#autoAttackCoord());
+  }
 
   // Creates random coordinates to be used for placing ships
   #autoPlacementCoord(length, orientation) {
@@ -59,6 +61,14 @@ class ComputerPlayer extends Player {
         }
       }
     });
+  }
+
+  // Generates a random coord for auto-attack
+  #autoAttackCoord() {
+    const row = Math.floor(Math.random() * 10);
+    const col = Math.floor(Math.random() * 10);
+
+    return [row, col];
   }
 }
 
