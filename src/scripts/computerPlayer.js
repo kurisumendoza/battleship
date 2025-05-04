@@ -22,6 +22,9 @@ class ComputerPlayer extends Player {
     });
   }
 
+  // Automatically attack opponent's gameboard
+  autoAttack() {}
+
   // Creates random coordinates to be used for placing ships
   #autoPlacementCoord(length, orientation) {
     const rowSize = 10 - (orientation === ORIENTATIONS.VERTICAL ? length : 0);
@@ -58,8 +61,5 @@ class ComputerPlayer extends Player {
     });
   }
 }
-
-const comp = new ComputerPlayer();
-comp.autoPlaceShips();
 
 export default ComputerPlayer;

@@ -1,7 +1,9 @@
 import ComputerPlayer from '../scripts/computerPlayer';
+import Player from '../scripts/player';
 import { SHIP_OFFSETS } from '../scripts/constants';
 
 let computer;
+let opponent;
 
 describe('Automatic Ship Placement', () => {
   beforeEach(() => {
@@ -39,5 +41,22 @@ describe('Automatic Ship Placement', () => {
     );
 
     expect(validPlacement).toBe(true);
+  });
+});
+
+describe('Automatically Launch Attack', () => {
+  beforeEach(() => {
+    computer = new ComputerPlayer();
+    opponent = new Player();
+  });
+
+  test('Verifies successful attack launch', () => {
+    computer.autoAttack(opponent.gameboard);
+
+    const attackLanded = opponent.gameboard.board.some((row) =>
+      row.some((col) => col !== null),
+    );
+
+    expect(attackLanded).toBe(true);
   });
 });
