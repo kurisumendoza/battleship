@@ -100,7 +100,7 @@ const initializeActiveGameboard = () => {
 };
 
 // Removes the setup dialog and renders the actual gameboard
-const launchGame = () => {
+const startTurn = () => {
   gameboardUI.yourBoard.innerHTML = '';
   gameboardUI.board.innerHTML = '';
 
@@ -129,9 +129,9 @@ const endTurn = () => {
   activePlayer.switch();
   gameState.hasAttacked = false;
   renderGameMessage('clear');
-  launchGame();
+  startTurn();
 };
 
 controlsUI.endTurn.addEventListener('click', endTurn);
 
-export { launchGame, gameState };
+export { startTurn, gameState };

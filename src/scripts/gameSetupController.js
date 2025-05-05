@@ -1,7 +1,7 @@
 import { startScreen } from './selectors';
 import { initializePlayers } from './createPlayers';
 import activePlayer from './activePlayer';
-import { launchGame } from './gameplayController';
+import { startTurn } from './gameplayController';
 import { renderErrorMsg } from './gameplayUI';
 import renderLoadingScreen from './loadingScreen';
 import { GAME_MODES, NEXT_PLAYER, ORIENTATIONS } from './constants';
@@ -153,7 +153,7 @@ const playerSetup = {
     }
 
     startScreen.dialog.close();
-    launchGame();
+    startTurn();
   },
 
   // Ends active player's setup phase and passes it to the next player
