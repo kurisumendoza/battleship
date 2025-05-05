@@ -7,6 +7,7 @@ class Gameboard {
     this.ships = initializeShips();
     this.occupied = new Set();
     this.hit = new Set();
+    this.miss = new Set();
   }
 
   // Places specified ships on the board
@@ -60,16 +61,14 @@ class Gameboard {
   receiveAttack(coords) {
     const [row, col] = coords;
 
-    if (
-      this.hit.has(`${row},${col}`) ||
-      this.board[row][col] === CELL_STATES.MISS
-    )
+    if (this.hit.has(`${row},${col}`) || this.miss.has(`${row},${col}`))
       return { success: false, message: 'Cell has already been hit' };
 
     if (this.board[row][col] && this.board[row][col] !== CELL_STATES.MISS) {
       this.hit.add(`${row},${col}`);
       this.board[row][col].hit(); // if ship is present, this will be an instance of Ship
     } else {
+      this.miss.add(`${row},${col}`);
       this.board[row][col] = CELL_STATES.MISS;
     }
 
