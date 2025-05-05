@@ -24,7 +24,11 @@ class ComputerPlayer extends Player {
 
   // Automatically attack opponent's gameboard
   autoAttack(opponent) {
-    opponent.receiveAttack(this.#autoAttackCoord());
+    const [row, col] = this.#autoAttackCoord();
+
+    opponent.receiveAttack([row, col]);
+
+    return [row, col];
   }
 
   // Creates random coordinates to be used for placing ships

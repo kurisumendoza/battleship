@@ -56,6 +56,25 @@ const declareWinner = () => {
   togglePlayAgainBtn();
 };
 
+// Evaluates attack result for updating the gameboard state
+const evaluateAttackResult = (row, col) => {
+  const attackResult =
+    activePlayer.oppGameboard.board[row][col] !== CELL_STATES.MISS
+      ? CELL_STATES.HIT
+      : CELL_STATES.MISS;
+
+  updateGameboard(gameboardUI.board, row, col, attackResult);
+
+  if (activePlayer.oppGameboard.board[row][col].hasSunk) {
+    renderSunkShip(
+      gameboardUI.board,
+      activePlayer.oppGameboard.board[row][col],
+    );
+    renderGameMessage(CELL_STATES.SUNK);
+    declareWinner();
+  } else renderGameMessage(attackResult);
+};
+
 // Calls receiveAttack on the opponent's board and updates the gameboard
 const attack = (e) => {
   if (!e.target.closest('.cell')) return;
@@ -73,25 +92,23 @@ const attack = (e) => {
 
   activePlayer.oppGameboard.receiveAttack([row, col]);
 
-  const attackResult =
-    activePlayer.oppGameboard.board[row][col] !== CELL_STATES.MISS
-      ? CELL_STATES.HIT
-      : CELL_STATES.MISS;
-
-  updateGameboard(gameboardUI.board, row, col, attackResult);
-
-  if (activePlayer.oppGameboard.board[row][col].hasSunk) {
-    renderSunkShip(
-      gameboardUI.board,
-      activePlayer.oppGameboard.board[row][col],
-    );
-    renderGameMessage(CELL_STATES.SUNK);
-    declareWinner();
-  } else renderGameMessage(attackResult);
+  evaluateAttackResult(row, col);
 
   gameState.hasAttacked = true;
 
   gameboardUI.board.removeEventListener('click', attack);
+};
+
+// Handles the computer player's turn
+const handleComputerTurn = () => {
+  setTimeout(() => {
+    const [row, col] = activePlayer.player.autoAttack(
+      activePlayer.oppGameboard,
+    );
+    evaluateAttackResult(row, col);
+
+    gameState.hasAttacked = true;
+  }, 1000);
 };
 
 // Adds event listener to opponent's gameboard for attacking
@@ -107,7 +124,9 @@ const startTurn = () => {
   renderGameboard(gameboardUI.yourBoard, activePlayer.gameboard);
   renderGameboard(gameboardUI.board, activePlayer.oppGameboard);
 
-  initializeActiveGameboard();
+  if (activePlayer.player.name !== COMPUTER_PLAYER) initializeActiveGameboard();
+  else handleComputerTurn();
+
   initializeGameStatusUI(activePlayer.player.name);
 };
 
