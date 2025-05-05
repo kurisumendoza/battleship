@@ -1,6 +1,6 @@
 import ComputerPlayer from '../scripts/computerPlayer';
 import Player from '../scripts/player';
-import { SHIP_OFFSETS } from '../scripts/constants';
+import { ORIENTATIONS, SHIP_OFFSETS } from '../scripts/constants';
 
 let computer;
 let opponent;
@@ -58,5 +58,23 @@ describe('Automatically Launch Attack', () => {
     );
 
     expect(attackLanded).toBe(true);
+  });
+
+  test('Targets adjacent cell when last attack result is a hit', () => {
+    computer.lastHit = [1, 1]; // Property that stores last successful hit
+
+    const nextAttack = computer.autoAttack(opponent.gameboard);
+
+    const isAdjacent = (attack1, attack2) => {
+      const [x1, y1] = attack1;
+      const [x2, y2] = attack2;
+
+      return (
+        (x1 === x2 && Math.abs(y1 - y2) === 1) ||
+        (y1 === y2 && Math.abs(x1 - x2) === 1)
+      );
+    };
+
+    expect(isAdjacent(computer.lastHit, nextAttack)).toBe(true);
   });
 });
