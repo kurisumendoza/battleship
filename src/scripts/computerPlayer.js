@@ -26,7 +26,7 @@ class ComputerPlayer extends Player {
   // Automatically attack opponent's gameboard
   autoAttack(opponent) {
     const [row, col] =
-      this.#autoAttackAdjacent(opponent) || this.#autoAttackCoord();
+      this.#autoAttackAdjacent(opponent) || this.#autoAttackCoord(opponent);
 
     opponent.receiveAttack([row, col]);
 
@@ -72,9 +72,12 @@ class ComputerPlayer extends Player {
   }
 
   // Generates a random coord for auto-attack
-  #autoAttackCoord() {
+  #autoAttackCoord(opponent) {
     const row = Math.floor(Math.random() * 10);
     const col = Math.floor(Math.random() * 10);
+
+    if (opponent.hit.has(`${row},${col}`) || opponent.miss.has(`${row},${col}`))
+      this.#autoAttackCoord(opponent);
 
     return [row, col];
   }
@@ -84,6 +87,18 @@ class ComputerPlayer extends Player {
     if (!this.lastHit) return null;
 
     const [row, col] = this.lastHit;
+
+    if (
+      (opponent.hit.has(`${row + 1},${col}`) ||
+        opponent.miss.has(`${row + 1},${col}`)) &&
+      (opponent.hit.has(`${row - 1},${col}`) ||
+        opponent.miss.has(`${row - 1},${col}`)) &&
+      (opponent.hit.has(`${row},${col + 1}`) ||
+        opponent.miss.has(`${row},${col + 1}`)) &&
+      (opponent.hit.has(`${row},${col - 1}`) ||
+        opponent.miss.has(`${row},${col - 1}`))
+    )
+      return null;
 
     const direction = Math.random() < 0.5 ? 'row' : 'col';
     const value = Math.random() < 0.5 ? +1 : -1;

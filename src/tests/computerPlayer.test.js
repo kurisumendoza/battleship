@@ -77,4 +77,6 @@ describe('Automatically Launch Attack', () => {
 
     expect(isAdjacent(computer.lastHit, nextAttack)).toBe(true);
   });
+
+  test('Continues attacking in the same direction after successful hit', () => {});
 });
