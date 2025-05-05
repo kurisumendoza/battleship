@@ -6,6 +6,7 @@ class ComputerPlayer extends Player {
     super();
     this.name = COMPUTER_PLAYER;
     this.restrictedCells = new Set();
+    this.lastHit = null;
   }
 
   // Automatically place all ships in the computer player's gameboard
@@ -24,9 +25,12 @@ class ComputerPlayer extends Player {
 
   // Automatically attack opponent's gameboard
   autoAttack(opponent) {
-    const [row, col] = this.#autoAttackCoord();
+    const [row, col] =
+      this.#autoAttackAdjacent(opponent) || this.#autoAttackCoord();
 
     opponent.receiveAttack([row, col]);
+
+    if (opponent.hit.has(`${row},${col}`)) this.lastHit = [row, col];
 
     return [row, col];
   }
@@ -73,6 +77,30 @@ class ComputerPlayer extends Player {
     const col = Math.floor(Math.random() * 10);
 
     return [row, col];
+  }
+
+  // Generates adjacent cell coord when last attack is a hit
+  #autoAttackAdjacent(opponent) {
+    if (!this.lastHit) return null;
+
+    const [row, col] = this.lastHit;
+
+    const direction = Math.random() < 0.5 ? 'row' : 'col';
+    const value = Math.random() < 0.5 ? +1 : -1;
+    const newRow = direction === 'row' ? row + value : row;
+    const newCol = direction === 'col' ? col + value : col;
+
+    if (
+      newRow > 10 ||
+      newRow < 0 ||
+      newCol > 10 ||
+      newCol < 0 ||
+      opponent.hit.has(`${newRow},${newCol}`) ||
+      opponent.miss.has(`${newRow},${newCol}`)
+    )
+      return this.#autoAttackAdjacent(opponent);
+
+    return [newRow, newCol];
   }
 }
 
