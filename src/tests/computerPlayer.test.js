@@ -61,7 +61,7 @@ describe('Automatically Launch Attack', () => {
   });
 
   test('Targets adjacent cell when last attack result is a hit', () => {
-    computer.lastHit = [1, 1]; // Property that stores last successful hit
+    computer.lastHit = [1, 1]; // Simulate a previous successful hit at [1, 1]
 
     const nextAttack = computer.autoAttack(opponent.gameboard);
 
@@ -78,5 +78,14 @@ describe('Automatically Launch Attack', () => {
     expect(isAdjacent(computer.lastHit, nextAttack)).toBe(true);
   });
 
-  test('Continues attacking in the same direction after successful hit', () => {});
+  test('Continues attacking in the same direction after successful hit', () => {
+    computer.lastHit = [1, 1];
+    computer.nextHit = [1, 2];
+
+    const thirdAttack = computer.autoAttack(opponent.gameboard);
+
+    expect(thirdAttack).toEqual([1, 3]);
+  });
+
+  // test('Attacks on the other direction when the next one is a miss', () => {})
 });

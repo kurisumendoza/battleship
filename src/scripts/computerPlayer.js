@@ -6,7 +6,8 @@ class ComputerPlayer extends Player {
     super();
     this.name = COMPUTER_PLAYER;
     this.restrictedCells = new Set();
-    this.lastHit = null;
+    this.lastHit = null; // stores last successful hit
+    this.nextHit = null; // stores successful hit adjacent to lastHit
   }
 
   // Automatically place all ships in the computer player's gameboard
