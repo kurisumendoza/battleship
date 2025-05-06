@@ -51,7 +51,7 @@ class ComputerPlayer extends Player {
     for (let i = 0; i < length; i += 1) {
       if (
         this.restrictedCells.has(
-          `${row + (orientation === ORIENTATIONS.VERTICAL ? i : 0)}, ${col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0)}`,
+          `${row + (orientation === ORIENTATIONS.VERTICAL ? i : 0)},${col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0)}`,
         )
       )
         return this.#autoPlacementCoord(length, orientation);
@@ -63,14 +63,14 @@ class ComputerPlayer extends Player {
   // Marks ship and surrounding cells as invalid for auto-placement
   #blockPlacementZone(position) {
     position.forEach(([row, col]) => {
-      this.restrictedCells.add(`${row}, ${col}`);
+      this.restrictedCells.add(`${row},${col}`);
 
       for (let i = 0; i < SHIP_OFFSETS.length; i += 1) {
         const newRow = row + SHIP_OFFSETS[i][0];
         const newCol = col + SHIP_OFFSETS[i][1];
 
         if (newRow >= 0 && newRow < 10 && newCol >= 0 && newCol < 10) {
-          this.restrictedCells.add(`${newRow}, ${newCol}`);
+          this.restrictedCells.add(`${newRow},${newCol}`);
         }
       }
     });

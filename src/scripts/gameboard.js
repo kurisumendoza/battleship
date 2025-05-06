@@ -26,7 +26,7 @@ class Gameboard {
       const currentRow = row + (orientation === ORIENTATIONS.VERTICAL ? i : 0);
       const currentCol =
         col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0);
-      const cell = `${currentRow}, ${currentCol}`;
+      const cell = `${currentRow},${currentCol}`;
 
       if (this.occupied.has(cell))
         return {
@@ -39,7 +39,7 @@ class Gameboard {
       const currentRow = row + (orientation === ORIENTATIONS.VERTICAL ? i : 0);
       const currentCol =
         col + (orientation === ORIENTATIONS.HORIZONTAL ? i : 0);
-      this.occupied.add(`${currentRow}, ${currentCol}`);
+      this.occupied.add(`${currentRow},${currentCol}`);
       ship.position.push([currentRow, currentCol]);
       this.board[currentRow][currentCol] = ship;
     }
@@ -50,7 +50,7 @@ class Gameboard {
   // Removes a ship from the board and can be placed again
   removeShip(ship) {
     ship.position.forEach((coord) => {
-      this.occupied.delete(coord.join(', '));
+      this.occupied.delete(coord.join(','));
       this.board[coord[0]][coord[1]] = null;
     });
 
