@@ -97,6 +97,7 @@ describe('Automatically Launch Attack', () => {
     expect(fourthAttack).toEqual([2, 1]);
   });
 
+  // Very small chance to still fail, [1, 4] can still be the randomly generated coord
   test('Stops continuing in the same direction after sinking a ship', () => {
     opponent.gameboard.placeShip(
       opponent.gameboard.ships.cruiser,
@@ -117,5 +118,38 @@ describe('Automatically Launch Attack', () => {
     expect(nextAttack).not.toEqual([1, 4]);
   });
 
-  // test('Treats hits as separate ships after failing to confirm direction')
+  test('Treats hits as separate ships after failing to confirm direction', () => {
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.cruiser,
+      [1, 1],
+      ORIENTATIONS.HORIZONTAL,
+    );
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.submarine,
+      [2, 1],
+      ORIENTATIONS.HORIZONTAL,
+    );
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.battleship,
+      [3, 1],
+      ORIENTATIONS.HORIZONTAL,
+    );
+
+    opponent.gameboard.receiveAttack([1, 2]);
+    opponent.gameboard.receiveAttack([2, 2]);
+
+    computer.lastHit = [1, 2];
+    computer.nextHit = [2, 2];
+
+    computer.autoAttack(opponent.gameboard);
+    computer.autoAttack(opponent.gameboard);
+    computer.autoAttack(opponent.gameboard);
+
+    const newAttack = computer.autoAttack(opponent.gameboard);
+
+    const isCorrectTarget =
+      newAttack[0] === 1 && (newAttack[1] === 1 || newAttack[1] === 3);
+
+    expect(isCorrectTarget).toBe(true);
+  });
 });
