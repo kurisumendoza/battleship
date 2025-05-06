@@ -87,7 +87,15 @@ describe('Automatically Launch Attack', () => {
     expect(thirdAttack).toEqual([0, 1]);
   });
 
-  // test('Attacks on the other direction when the next one is a miss', () => {})
+  test('Attacks on the other direction when the next one has already been hit', () => {
+    computer.lastHit = [2, 2];
+    computer.nextHit = [2, 3];
+    opponent.gameboard.miss.add('2,4');
+
+    const fourthAttack = computer.autoAttack(opponent.gameboard);
+
+    expect(fourthAttack).toEqual([2, 1]);
+  });
 
   // test('Treats hits as separate ships after failing to confirm direction')
 });
