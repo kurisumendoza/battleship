@@ -1,6 +1,6 @@
 import ComputerPlayer from '../scripts/computerPlayer';
 import Player from '../scripts/player';
-import { SHIP_OFFSETS } from '../scripts/constants';
+import { ORIENTATIONS, SHIP_OFFSETS } from '../scripts/constants';
 
 let computer;
 let opponent;
@@ -97,7 +97,25 @@ describe('Automatically Launch Attack', () => {
     expect(fourthAttack).toEqual([2, 1]);
   });
 
-  // test('Stops continuing in the same direction after sinking a ship')
+  test('Stops continuing in the same direction after sinking a ship', () => {
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.cruiser,
+      [1, 1],
+      ORIENTATIONS.HORIZONTAL,
+    );
+
+    opponent.gameboard.receiveAttack([1, 1]);
+    opponent.gameboard.receiveAttack([1, 2]);
+
+    computer.lastHit = [1, 1];
+    computer.nextHit = [1, 2];
+
+    computer.autoAttack(opponent.gameboard);
+
+    const nextAttack = computer.autoAttack(opponent.gameboard);
+
+    expect(nextAttack).not.toEqual([1, 4]);
+  });
 
   // test('Treats hits as separate ships after failing to confirm direction')
 });
