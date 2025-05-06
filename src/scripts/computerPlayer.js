@@ -27,11 +27,15 @@ class ComputerPlayer extends Player {
   // Automatically attack opponent's gameboard
   autoAttack(opponent) {
     const [row, col] =
-      this.#autoAttackAdjacent(opponent) || this.#autoAttackCoord(opponent);
+      this.#autoAttackDirection(opponent) ||
+      this.#autoAttackAdjacent(opponent) ||
+      this.#autoAttackCoord(opponent);
 
     opponent.receiveAttack([row, col]);
 
-    if (opponent.hit.has(`${row},${col}`)) this.lastHit = [row, col];
+    if (this.lastHit && opponent.hit.has(`${row},${col}`)) {
+      this.nextHit = [row, col];
+    } else if (opponent.hit.has(`${row},${col}`)) this.lastHit = [row, col];
 
     return [row, col];
   }
@@ -90,13 +94,17 @@ class ComputerPlayer extends Player {
     const [row, col] = this.lastHit;
 
     if (
-      (opponent.hit.has(`${row + 1},${col}`) ||
+      (row + 1 === opponent.board.length ||
+        opponent.hit.has(`${row + 1},${col}`) ||
         opponent.miss.has(`${row + 1},${col}`)) &&
-      (opponent.hit.has(`${row - 1},${col}`) ||
+      (row - 1 < 0 ||
+        opponent.hit.has(`${row - 1},${col}`) ||
         opponent.miss.has(`${row - 1},${col}`)) &&
-      (opponent.hit.has(`${row},${col + 1}`) ||
+      (col + 1 === opponent.board.length ||
+        opponent.hit.has(`${row},${col + 1}`) ||
         opponent.miss.has(`${row},${col + 1}`)) &&
-      (opponent.hit.has(`${row},${col - 1}`) ||
+      (col - 1 < 0 ||
+        opponent.hit.has(`${row},${col - 1}`) ||
         opponent.miss.has(`${row},${col - 1}`))
     )
       return null;
@@ -107,9 +115,9 @@ class ComputerPlayer extends Player {
     const newCol = direction === 'col' ? col + value : col;
 
     if (
-      newRow > 10 ||
+      newRow === opponent.board.length ||
       newRow < 0 ||
-      newCol > 10 ||
+      newCol === opponent.board.length ||
       newCol < 0 ||
       opponent.hit.has(`${newRow},${newCol}`) ||
       opponent.miss.has(`${newRow},${newCol}`)
@@ -117,6 +125,23 @@ class ComputerPlayer extends Player {
       return this.#autoAttackAdjacent(opponent);
 
     return [newRow, newCol];
+  }
+
+  // Continues directionality of consecutive successful hits
+  #autoAttackDirection(opponent) {
+    if (!this.nextHit) return null;
+
+    const [row, col] = this.lastHit;
+    const [nextRow, nextCol] = this.nextHit;
+
+    const direction = row === nextRow ? 'row' : 'col';
+
+    const nextTarget =
+      direction === 'row'
+        ? [row, nextCol > col ? nextCol + 1 : nextCol - 1]
+        : [nextRow > row ? nextRow + 1 : nextRow - 1, col];
+
+    return nextTarget;
   }
 }
 
