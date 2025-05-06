@@ -141,6 +141,15 @@ class ComputerPlayer extends Player {
         ? [row, nextCol > col ? nextCol + 1 : nextCol - 1]
         : [nextRow > row ? nextRow + 1 : nextRow - 1, col];
 
+    if (
+      opponent.miss.has(`${nextTarget[0]},${nextTarget[1]}`) ||
+      opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`)
+    ) {
+      [this.lastHit, this.nextHit] = [this.nextHit, this.lastHit];
+
+      return this.#autoAttackDirection(opponent);
+    }
+
     return nextTarget;
   }
 }

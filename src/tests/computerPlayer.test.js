@@ -87,7 +87,7 @@ describe('Automatically Launch Attack', () => {
     expect(thirdAttack).toEqual([0, 1]);
   });
 
-  test('Attacks on the other direction when the next one has already been hit', () => {
+  test('Attacks on the other direction when the next cell has already been hit', () => {
     computer.lastHit = [2, 2];
     computer.nextHit = [2, 3];
     opponent.gameboard.miss.add('2,4');
@@ -96,6 +96,8 @@ describe('Automatically Launch Attack', () => {
 
     expect(fourthAttack).toEqual([2, 1]);
   });
+
+  // test('Stops continuing in the same direction after sinking a ship')
 
   // test('Treats hits as separate ships after failing to confirm direction')
 });
