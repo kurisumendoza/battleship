@@ -37,6 +37,9 @@ class ComputerPlayer extends Player {
       this.nextHit = [row, col];
     } else if (opponent.hit.has(`${row},${col}`)) this.lastHit = [row, col];
 
+    if (opponent.board[row][col]?.hasSunk)
+      this.#resetTargeting(opponent, row, col);
+
     return [row, col];
   }
 
@@ -82,7 +85,7 @@ class ComputerPlayer extends Player {
     const col = Math.floor(Math.random() * 10);
 
     if (opponent.hit.has(`${row},${col}`) || opponent.miss.has(`${row},${col}`))
-      this.#autoAttackCoord(opponent);
+      return this.#autoAttackCoord(opponent);
 
     return [row, col];
   }
@@ -142,6 +145,10 @@ class ComputerPlayer extends Player {
         : [nextRow > row ? nextRow + 1 : nextRow - 1, col];
 
     if (
+      nextTarget[0] < 0 ||
+      nextTarget[0] === opponent.board.length ||
+      nextTarget[1] < 0 ||
+      nextTarget === opponent.board.length ||
       opponent.miss.has(`${nextTarget[0]},${nextTarget[1]}`) ||
       opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`)
     ) {
@@ -151,6 +158,11 @@ class ComputerPlayer extends Player {
     }
 
     return nextTarget;
+  }
+
+  #resetTargeting() {
+    this.lastHit = null;
+    this.nextHit = null;
   }
 }
 
