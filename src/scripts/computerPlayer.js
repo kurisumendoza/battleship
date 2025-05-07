@@ -46,8 +46,12 @@ class ComputerPlayer extends Player {
     }
 
     if (opponent.board[row][col]?.hasSunk) {
+      this.#queueDeferredHits(opponent);
       this.#resetTargeting();
-      if (this.targetQueue.length) this.lastHit = this.targetQueue.shift();
+      if (this.targetQueue.length) {
+        this.#cleanTargetQueue(opponent);
+        this.lastHit = this.targetQueue.shift();
+      }
     }
 
     return [row, col];
@@ -165,12 +169,21 @@ class ComputerPlayer extends Player {
           ];
 
     if (
+      opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`) &&
+      !opponent.board[nextTarget[0]][nextTarget[1]]?.hasSunk
+    ) {
+      this.directionHitCount += 1;
+      return this.#autoAttackDirection(opponent);
+    }
+
+    if (
       nextTarget[0] < 0 ||
       nextTarget[0] === opponent.board.length ||
       nextTarget[1] < 0 ||
       nextTarget[1] === opponent.board.length ||
       opponent.miss.has(`${nextTarget[0]},${nextTarget[1]}`) ||
-      opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`)
+      (opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`) &&
+        opponent.board[nextTarget[0]][nextTarget[1]]?.hasSunk)
     ) {
       this.directionHitCount = 0;
       if (this.isSwitched) {
@@ -186,6 +199,7 @@ class ComputerPlayer extends Player {
     return nextTarget;
   }
 
+  // Add hit cells that are part of different ships to be targeted next
   #queueAdjacentShips() {
     this.isSwitched = false;
     this.targetQueue.push(this.lastHit);
@@ -194,6 +208,24 @@ class ComputerPlayer extends Player {
     this.lastHit = this.nextHit;
     this.nextHit = null;
     this.followingHits = [];
+  }
+
+  // When 2 adjacent ships are hit while trying to sink one, queue the other one
+  #queueDeferredHits(opponent) {
+    const deferredHits = [];
+
+    deferredHits.push(this.lastHit, this.nextHit, ...this.followingHits);
+
+    deferredHits.forEach(([row, col]) => {
+      if (!opponent.board[row][col]?.hasSunk) this.targetQueue.push([row, col]);
+    });
+  }
+
+  // Removes targetQueue entries that are part of sunken ships
+  #cleanTargetQueue(opponent) {
+    this.targetQueue = this.targetQueue.filter(
+      ([row, col]) => !opponent.board[row][col]?.hasSunk,
+    );
   }
 
   #resetTargeting() {
