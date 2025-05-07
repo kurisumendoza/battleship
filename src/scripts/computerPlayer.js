@@ -8,6 +8,10 @@ class ComputerPlayer extends Player {
     this.restrictedCells = new Set();
     this.lastHit = null; // stores last successful hit
     this.nextHit = null; // stores successful hit adjacent to lastHit
+    this.followingHits = []; // stores cells hit (after 1st and 2nd) until ship sinks
+    this.directionHitCount = 0; // stores count until ship sinks or direction switches
+    this.isSwitched = false; // true if lastHit and nextHit has already been switched
+    this.targetQueue = []; // stores next target when ships detected are adjacent
   }
 
   // Automatically place all ships in the computer player's gameboard
@@ -33,12 +37,18 @@ class ComputerPlayer extends Player {
 
     opponent.receiveAttack([row, col]);
 
-    if (this.lastHit && opponent.hit.has(`${row},${col}`)) {
-      this.nextHit = [row, col];
-    } else if (opponent.hit.has(`${row},${col}`)) this.lastHit = [row, col];
+    if (opponent.hit.has(`${row},${col}`)) {
+      if (this.lastHit && this.nextHit) {
+        this.followingHits.push([row, col]);
+        this.directionHitCount += 1;
+      } else if (this.lastHit && !this.nextHit) this.nextHit = [row, col];
+      else this.lastHit = [row, col];
+    }
 
-    if (opponent.board[row][col]?.hasSunk)
-      this.#resetTargeting(opponent, row, col);
+    if (opponent.board[row][col]?.hasSunk) {
+      this.#resetTargeting();
+      if (this.targetQueue.length) this.lastHit = this.targetQueue.shift();
+    }
 
     return [row, col];
   }
@@ -141,28 +151,57 @@ class ComputerPlayer extends Player {
 
     const nextTarget =
       direction === 'row'
-        ? [row, nextCol > col ? nextCol + 1 : nextCol - 1]
-        : [nextRow > row ? nextRow + 1 : nextRow - 1, col];
+        ? [
+            row,
+            nextCol > col
+              ? nextCol + (1 + this.directionHitCount)
+              : nextCol - (1 + this.directionHitCount),
+          ]
+        : [
+            nextRow > row
+              ? nextRow + (1 + this.directionHitCount)
+              : nextRow - (1 + this.directionHitCount),
+            col,
+          ];
 
     if (
       nextTarget[0] < 0 ||
       nextTarget[0] === opponent.board.length ||
       nextTarget[1] < 0 ||
-      nextTarget === opponent.board.length ||
+      nextTarget[1] === opponent.board.length ||
       opponent.miss.has(`${nextTarget[0]},${nextTarget[1]}`) ||
       opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`)
     ) {
-      [this.lastHit, this.nextHit] = [this.nextHit, this.lastHit];
+      this.directionHitCount = 0;
+      if (this.isSwitched) {
+        this.#queueAdjacentShips();
+        return null;
+      }
 
+      [this.lastHit, this.nextHit] = [this.nextHit, this.lastHit];
+      this.isSwitched = true;
       return this.#autoAttackDirection(opponent);
     }
 
     return nextTarget;
   }
 
+  #queueAdjacentShips() {
+    this.isSwitched = false;
+    this.targetQueue.push(this.lastHit);
+    this.followingHits.forEach((cell) => this.targetQueue.push(cell));
+
+    this.lastHit = this.nextHit;
+    this.nextHit = null;
+    this.followingHits = [];
+  }
+
   #resetTargeting() {
     this.lastHit = null;
     this.nextHit = null;
+    this.followingHits = [];
+    this.isSwitched = false;
+    this.directionHitCount = 0;
   }
 }
 
