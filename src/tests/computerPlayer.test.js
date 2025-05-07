@@ -152,4 +152,36 @@ describe('Automatically Launch Attack', () => {
 
     expect(isCorrectTarget).toBe(true);
   });
+
+  test('Queues a newly discovered/hit ship while sinking another ship', () => {
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.battleship,
+      [0, 1],
+      ORIENTATIONS.HORIZONTAL,
+    );
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.submarine,
+      [0, 5],
+      ORIENTATIONS.VERTICAL,
+    );
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.destroyer,
+      [0, 6],
+      ORIENTATIONS.HORIZONTAL,
+    );
+
+    opponent.gameboard.receiveAttack([0, 6]);
+    opponent.gameboard.receiveAttack([0, 5]);
+
+    computer.lastHit = [0, 6];
+    computer.nextHit = [0, 5];
+
+    computer.autoAttack(opponent.gameboard);
+    computer.autoAttack(opponent.gameboard);
+    computer.autoAttack(opponent.gameboard);
+    computer.autoAttack(opponent.gameboard);
+
+    expect(computer.lastHit).toEqual([0, 6]);
+    expect(computer.targetQueue.at(-1)).toEqual([0, 5]);
+  });
 });
