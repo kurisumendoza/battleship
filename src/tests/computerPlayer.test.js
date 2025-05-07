@@ -184,4 +184,33 @@ describe('Automatically Launch Attack', () => {
     expect(computer.lastHit).toEqual([0, 6]);
     expect(computer.targetQueue.at(-1)).toEqual([0, 5]);
   });
+
+  // Very small chance to still pass when incorrectly implemented due to randomness
+  test('Skips attacking cells that is impossible to contain a ship', () => {
+    // [0, 0] can't contain any ship and should not be attacked
+    opponent.gameboard.receiveAttack([0, 1]);
+    opponent.gameboard.receiveAttack([1, 0]);
+
+    // Destroyer sunk, so only 3 or more empty cells in one direction is valid
+    opponent.gameboard.placeShip(
+      opponent.gameboard.ships.destroyer,
+      [9, 0],
+      ORIENTATIONS.HORIZONTAL,
+    );
+    opponent.gameboard.receiveAttack([9, 0]);
+    opponent.gameboard.receiveAttack([9, 1]);
+
+    // [0, 9], [1, 9] should not be attacked as the shortest ship is 3 cells long
+    opponent.gameboard.receiveAttack([0, 8]);
+    opponent.gameboard.receiveAttack([1, 8]);
+    opponent.gameboard.receiveAttack([2, 9]);
+
+    for (let i = 0; i < 90; i += 1) {
+      computer.autoAttack(opponent.gameboard);
+    }
+
+    expect(opponent.gameboard.board[0][0]).toBeNull();
+    expect(opponent.gameboard.board[0][9]).toBeNull();
+    expect(opponent.gameboard.board[1][9]).toBeNull();
+  });
 });
