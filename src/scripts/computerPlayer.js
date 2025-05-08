@@ -95,17 +95,18 @@ class ComputerPlayer extends Player {
 
   // Generates a random coord for auto-attack
   #autoAttackCoord(opponent) {
-    const row = Math.floor(Math.random() * 10);
-    const col = Math.floor(Math.random() * 10);
+    for (let attempts = 0; attempts <= 100; attempts += 1) {
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
 
-    if (
-      opponent.hit.has(`${row},${col}`) ||
-      opponent.miss.has(`${row},${col}`) ||
-      this.#isUnlikelyShipCell(row, col, opponent)
-    )
-      return this.#autoAttackCoord(opponent);
+      const coord = `${row},${col}`;
+      const invalid = opponent.hit.has(coord) || opponent.miss.has(coord);
+      const unlikely = this.#isUnlikelyShipCell(row, col, opponent);
 
-    return [row, col];
+      if (!invalid && !unlikely) return [row, col];
+    }
+
+    return this.#generateFallbackCoord(opponent);
   }
 
   // Generates adjacent cell coord when last attack is a hit
@@ -202,6 +203,29 @@ class ComputerPlayer extends Player {
     }
 
     return nextTarget;
+  }
+
+  // Fallback when random coord generation fails to provide a valid coord
+  #generateFallbackCoord(opponent) {
+    let validCoord; // stores last valid cell found even if it's unlikely
+
+    for (let row = 0; row < opponent.board.length; row += 1) {
+      for (let col = 0; col < opponent.board[0].length; col += 1) {
+        if (
+          !opponent.board[row][col]?.hasSunk &&
+          !opponent.miss.has(`${row},${col}`) &&
+          !this.#isUnlikelyShipCell(row, col, opponent)
+        )
+          return [row, col];
+        if (
+          !opponent.board[row][col]?.hasSunk &&
+          !opponent.miss.has(`${row},${col}`)
+        )
+          validCoord = [row, col];
+      }
+    }
+
+    return validCoord;
   }
 
   // Add hit cells that are part of different ships to be targeted next
