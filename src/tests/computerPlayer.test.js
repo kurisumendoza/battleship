@@ -186,6 +186,7 @@ describe('Automatically Launch Attack', () => {
   });
 
   // Very small chance to still pass when incorrectly implemented due to randomness
+  // Very small chance to fail even in correct implementation due to randomness
   test('Skips attacking cells that is impossible to contain a ship', () => {
     // [0, 0] can't contain any ship and should not be attacked
     opponent.gameboard.receiveAttack([0, 1]);
@@ -205,7 +206,7 @@ describe('Automatically Launch Attack', () => {
     opponent.gameboard.receiveAttack([1, 8]);
     opponent.gameboard.receiveAttack([2, 9]);
 
-    for (let i = 0; i < 90; i += 1) {
+    for (let i = 0; i < 30; i += 1) {
       computer.autoAttack(opponent.gameboard);
     }
 

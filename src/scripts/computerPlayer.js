@@ -98,7 +98,11 @@ class ComputerPlayer extends Player {
     const row = Math.floor(Math.random() * 10);
     const col = Math.floor(Math.random() * 10);
 
-    if (opponent.hit.has(`${row},${col}`) || opponent.miss.has(`${row},${col}`))
+    if (
+      opponent.hit.has(`${row},${col}`) ||
+      opponent.miss.has(`${row},${col}`) ||
+      this.#isUnlikelyShipCell(row, col, opponent)
+    )
       return this.#autoAttackCoord(opponent);
 
     return [row, col];
@@ -117,7 +121,7 @@ class ComputerPlayer extends Player {
       (row - 1 < 0 ||
         opponent.hit.has(`${row - 1},${col}`) ||
         opponent.miss.has(`${row - 1},${col}`)) &&
-      (col + 1 === opponent.board.length ||
+      (col + 1 === opponent.board[0].length ||
         opponent.hit.has(`${row},${col + 1}`) ||
         opponent.miss.has(`${row},${col + 1}`)) &&
       (col - 1 < 0 ||
@@ -134,10 +138,11 @@ class ComputerPlayer extends Player {
     if (
       newRow === opponent.board.length ||
       newRow < 0 ||
-      newCol === opponent.board.length ||
+      newCol === opponent.board[0].length ||
       newCol < 0 ||
       opponent.hit.has(`${newRow},${newCol}`) ||
-      opponent.miss.has(`${newRow},${newCol}`)
+      opponent.miss.has(`${newRow},${newCol}`) ||
+      this.#isUnlikelyShipCell(row, col, opponent, true)
     )
       return this.#autoAttackAdjacent(opponent);
 
@@ -180,7 +185,7 @@ class ComputerPlayer extends Player {
       nextTarget[0] < 0 ||
       nextTarget[0] === opponent.board.length ||
       nextTarget[1] < 0 ||
-      nextTarget[1] === opponent.board.length ||
+      nextTarget[1] === opponent.board[0].length ||
       opponent.miss.has(`${nextTarget[0]},${nextTarget[1]}`) ||
       (opponent.hit.has(`${nextTarget[0]},${nextTarget[1]}`) &&
         opponent.board[nextTarget[0]][nextTarget[1]]?.hasSunk)
@@ -219,6 +224,79 @@ class ComputerPlayer extends Player {
     deferredHits.forEach(([row, col]) => {
       if (!opponent.board[row][col]?.hasSunk) this.targetQueue.push([row, col]);
     });
+  }
+
+  // Checks if a target cell can still contain the shortest remaining ship
+  // eslint-disable-next-line class-methods-use-this
+  #isUnlikelyShipCell(row, col, opponent, isAdjacent = false) {
+    const shortestLength = Math.min(
+      ...Object.values(opponent.ships)
+        .filter((ship) => !ship.hasSunk)
+        .map((ship) => ship.length),
+    );
+
+    const isEarlyGame = isAdjacent
+      ? false
+      : opponent.board.flat().filter((cell) => !cell).length > 30;
+
+    let availableRow = isEarlyGame ? 0 : 1;
+    let availableCol = isEarlyGame ? 0 : 1;
+
+    let isLeftBlocked = false;
+    let isRightBlocked = false;
+    let isUpBlocked = false;
+    let isDownBlocked = false;
+
+    for (let i = 1; i !== shortestLength; i += 1) {
+      if (!isRightBlocked) {
+        if (
+          col + i < opponent.board[0].length &&
+          !opponent.miss.has(`${row},${col + i}`) &&
+          !opponent.board[row][col + i]?.hasSunk
+        )
+          availableRow += 1;
+        else isRightBlocked = true;
+      }
+
+      if (!isLeftBlocked) {
+        if (
+          col - i >= 0 &&
+          !opponent.miss.has(`${row},${col - i}`) &&
+          !opponent.board[row][col - i]?.hasSunk
+        )
+          availableRow += 1;
+        else isLeftBlocked = true;
+      }
+
+      if (!isUpBlocked) {
+        if (
+          row + i < opponent.board.length &&
+          !opponent.miss.has(`${row + i},${col}`) &&
+          !opponent.board[row + i][col]?.hasSunk
+        )
+          availableCol += 1;
+        else isUpBlocked = true;
+      }
+
+      if (!isDownBlocked) {
+        if (
+          row - i >= 0 &&
+          !opponent.miss.has(`${row - i},${col}`) &&
+          !opponent.board[row - i][col]?.hasSunk
+        )
+          availableCol += 1;
+        else isDownBlocked = true;
+      }
+
+      if (
+        (isLeftBlocked && isRightBlocked && isUpBlocked && isDownBlocked) ||
+        availableRow >= shortestLength ||
+        availableCol >= shortestLength
+      )
+        break;
+    }
+
+    return availableRow < shortestLength && availableCol < shortestLength;
   }
 
   // Removes targetQueue entries that are part of sunken ships
