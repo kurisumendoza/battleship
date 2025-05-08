@@ -115,39 +115,34 @@ class ComputerPlayer extends Player {
 
     const [row, col] = this.lastHit;
 
-    if (
-      (row + 1 === opponent.board.length ||
-        opponent.hit.has(`${row + 1},${col}`) ||
-        opponent.miss.has(`${row + 1},${col}`)) &&
-      (row - 1 < 0 ||
-        opponent.hit.has(`${row - 1},${col}`) ||
-        opponent.miss.has(`${row - 1},${col}`)) &&
-      (col + 1 === opponent.board[0].length ||
-        opponent.hit.has(`${row},${col + 1}`) ||
-        opponent.miss.has(`${row},${col + 1}`)) &&
-      (col - 1 < 0 ||
-        opponent.hit.has(`${row},${col - 1}`) ||
-        opponent.miss.has(`${row},${col - 1}`))
-    )
-      return null;
+    const directions = [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ];
 
-    const direction = Math.random() < 0.5 ? 'row' : 'col';
-    const value = Math.random() < 0.5 ? +1 : -1;
-    const newRow = direction === 'row' ? row + value : row;
-    const newCol = direction === 'col' ? col + value : col;
+    const validDirections = directions.filter(([dirRow, dirCol]) => {
+      const r = row + dirRow;
+      const c = col + dirCol;
 
-    if (
-      newRow === opponent.board.length ||
-      newRow < 0 ||
-      newCol === opponent.board[0].length ||
-      newCol < 0 ||
-      opponent.hit.has(`${newRow},${newCol}`) ||
-      opponent.miss.has(`${newRow},${newCol}`) ||
-      this.#isUnlikelyShipCell(row, col, opponent, true)
-    )
-      return this.#autoAttackAdjacent(opponent);
+      return (
+        r < opponent.board.length &&
+        r >= 0 &&
+        c < opponent.board[0].length &&
+        c >= 0 &&
+        !opponent.hit.has(`${r},${c}`) &&
+        !opponent.miss.has(`${r},${c}`) &&
+        !this.#isUnlikelyShipCell(row, col, opponent, true)
+      );
+    });
 
-    return [newRow, newCol];
+    if (validDirections.length === 0) return null;
+
+    const [dirRow, dirCol] =
+      validDirections[Math.floor(Math.random() * validDirections.length)];
+
+    return [row + dirRow, col + dirCol];
   }
 
   // Continues directionality of consecutive successful hits
