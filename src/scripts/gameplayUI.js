@@ -27,7 +27,8 @@ const renderGameboard = (boardContainer, playerBoard) => {
       }
 
       if (playerBoard.board === activePlayer.gameboard.board)
-        if (col) cell.classList.add(CELL_STATES.HAS_SHIP, `${col.name}`);
+        if (col && col !== CELL_STATES.MISS)
+          cell.classList.add(CELL_STATES.HAS_SHIP, `${col.name}`);
     });
   });
 };
