@@ -52,7 +52,7 @@ const renderShipSetup = (ships) => {
   const shipSetupLabel = createElement('p', ['ship-setup-label']);
   const shipsContainer = renderShipSelection(ships);
 
-  shipSetupLabel.textContent = 'Position your ships for battle!';
+  shipSetupLabel.textContent = 'Position your ships!';
 
   startScreen.setupContainer.appendChild(shipSetupContainer);
   shipSetupContainer.append(shipSetupLabel, shipsContainer);
@@ -149,6 +149,36 @@ const updateShipCellsUI = (ship, name, isPlaced) => {
   });
 };
 
+// Shows ship preview while hovering on board as placement guide
+const handlePlacementHover = (ship, orientation, cell, isHovering = true) => {
+  const row = Number(cell.dataset.row);
+  const col = Number(cell.dataset.col);
+  const isHorizontal = orientation === ORIENTATIONS.HORIZONTAL;
+
+  let hoveredRow = row;
+  let hoveredCol = col;
+
+  for (let i = 0; i < ship.length; i += 1) {
+    hoveredRow = isHorizontal ? row : row + i;
+    hoveredCol = isHorizontal ? col + i : col;
+
+    if (hoveredRow > 9 || hoveredCol > 9) return;
+
+    const hoveredCell = document.querySelector(
+      `[data-row="${hoveredRow}"][data-col="${hoveredCol}"]`,
+    );
+
+    if (isHovering) {
+      hoveredCell.style.transform = 'scale(1.25)';
+      hoveredCell.style.backgroundColor = 'gray';
+      hoveredCell.style.transition = '0ms';
+    } else {
+      hoveredCell.style.transform = '';
+      hoveredCell.style.backgroundColor = '';
+    }
+  }
+};
+
 // Renders start screen again when Play Button is clicked
 const rerenderStartScreen = () => {
   startScreen.title.style.fontSize = '';
@@ -163,5 +193,6 @@ export {
   renderShipPlacementBoard,
   renderPlayerSetup,
   updateShipCellsUI,
+  handlePlacementHover,
   rerenderStartScreen,
 };

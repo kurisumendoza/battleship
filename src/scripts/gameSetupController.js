@@ -11,6 +11,7 @@ import {
   renderShipPlacementBoard,
   renderPlayerSetup,
   updateShipCellsUI,
+  handlePlacementHover,
 } from './gameSetupUI';
 
 // Stores recently picked ship information
@@ -82,10 +83,20 @@ const initializeShipSetup = (ships) => {
   });
 };
 
+// Shows/Clears ship placement preview on board
+const handleHoverShipOnBoard = (e, ship, orientation, isHovering = true) => {
+  if (!e.target.closest('.cell')) return;
+  if (!pickedShip.ship) return;
+
+  handlePlacementHover(ship, orientation, e.target, isHovering);
+};
+
 // Calls placeShip method with extracted row and col from a clicked cell
 const placeShipOnBoard = (e, ship, orientation) => {
   if (!e.target.closest('.cell')) return;
   if (!pickedShip.ship) return;
+
+  handlePlacementHover(ship, orientation, e.target, false);
 
   const row = Number(e.target.dataset.row);
   const col = Number(e.target.dataset.col);
@@ -109,6 +120,12 @@ const initializeShipPlacementBoard = (playerBoard) => {
 
   board.addEventListener('click', (e) =>
     placeShipOnBoard(e, pickedShip.ship, pickedShip.orientation),
+  );
+  board.addEventListener('mouseover', (e) =>
+    handleHoverShipOnBoard(e, pickedShip.ship, pickedShip.orientation),
+  );
+  board.addEventListener('mouseout', (e) =>
+    handleHoverShipOnBoard(e, pickedShip.ship, pickedShip.orientation, false),
   );
 };
 
