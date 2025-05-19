@@ -1,5 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+@font-face {
+  font-family: 'Fredoka';
+  src: url('../assets/fonts/fredoka-variable-font.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inclusive Sans';
+  src: url('../assets/fonts/inclusive-sans-variable-font.woff2') format('woff2');
+}
 
 * {
   margin: 0;
@@ -8,9 +15,12 @@
 }
 
 :root {
-  --main-font: 'Black Ops One', system-ui;
-  --secondary-font: 'Teko', sans-serif;
+  --main-font: 'Fredoka', system-ui;
+  --secondary-font: 'Inclusive Sans', sans-serif;
   --header-font-size: 4rem;
+
+  --title-font-weight: 600;
+  --header-font-weight: 400;
 
   --background-color: cadetblue;
   --cell-color: antiquewhite;
@@ -33,7 +43,9 @@
 
 body {
   background-color: var(--background-color);
-  padding: 1rem 2.5rem;
+  padding: 2.5% 5%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 button,
@@ -42,9 +54,13 @@ button,
   cursor: pointer;
 }
 
+button:focus {
+  outline: none;
+}
+
 main {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-columns: 0.75fr 1.5fr 0.75fr;
   grid-template-rows: auto 1fr;
 }
 
@@ -55,7 +71,7 @@ header {
 
 header h1 {
   font-family: var(--main-font);
-  font-weight: 400;
+  font-weight: var(--title-font-weight);
   font-size: 4rem;
   margin-bottom: 1rem;
 }
@@ -64,10 +80,11 @@ header h1 {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr;
-  width: 60%;
+  width: 75%;
+  min-width: 300px;
   padding-top: 1.5rem;
   margin-left: auto;
-  margin-right: 2rem;
+  padding-right: 2rem;
   font-family: var(--secondary-font);
 }
 
@@ -92,8 +109,12 @@ header h1 {
 .your-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 1px;
-  width: 100%;
+  gap: 1%;
+  margin-top: 1rem;
+}
+
+.your-board .hit {
+  font-size: clamp(0.25rem, 1vw, 1rem);
 }
 
 .gameplay-container {
@@ -104,11 +125,18 @@ header h1 {
   padding: 0 20px;
 }
 
-.gameboard {
+.gameboard-container,
+.ship-placement-container {
+  padding: 0 1rem;
+  min-width: 500px;
+  max-width: 800px;
+}
+
+.gameboard,
+.ship-placement-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 5px;
-  width: 90%;
+  gap: 1%;
   margin: 0 auto;
   justify-items: center;
 }
@@ -117,15 +145,27 @@ header h1 {
   background-color: var(--cell-color);
   width: 100%;
   aspect-ratio: 1 / 1;
+  transition: transform 200ms;
+}
+
+.gameboard .cell:hover {
+  transform: scale(1.125);
+  filter: brightness(0.95);
+  border-radius: 5%;
+}
+
+.gameboard .cell:active {
+  transform: scale(1);
 }
 
 .game-stats-container {
   display: grid;
   grid-template-columns: 1fr;
-  width: 60%;
+  width: 75%;
+  min-width: 300px;
   padding-top: 1.5rem;
   margin-right: auto;
-  margin-left: 2rem;
+  padding-left: 2rem;
   font-family: var(--secondary-font);
 }
 
@@ -139,7 +179,13 @@ header h1 {
   height: 3rem;
   width: 100%;
   font-family: var(--secondary-font);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
+  transition: transform 200ms;
+}
+
+.end-turn-btn button:hover,
+.play-again-btn button:hover {
+  transform: scale(1.05);
 }
 
 .game-message-display {
@@ -176,21 +222,26 @@ header h1 {
   max-height: none;
   border: none;
   background-color: var(--background-color);
+}
+
+.start-screen-content {
   display: grid;
   grid-template-rows: auto 1fr;
   justify-items: center;
-  padding: 1rem 2.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5% 5%;
 }
 
-.start-screen h1 {
+.start-screen-content h1 {
   font-family: var(--main-font);
-  font-weight: 400;
-  font-size: 12vw;
+  font-weight: var(--title-font-weight);
+  font-size: 10rem;
 }
 
 .game-setup-container {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1fr;
+  grid-template-columns: 0.75fr 1.5fr 0.75fr;
   width: 100%;
 }
 
@@ -201,28 +252,41 @@ header h1 {
   font-family: var(--secondary-font);
   font-size: 2rem;
   height: 5rem;
-  width: 75%;
+  width: 80%;
+  transition: transform 200ms;
+}
+
+.start-new-game:hover {
+  transform: scale(1.05);
 }
 
 .game-modes-container {
   grid-column-start: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .vs-player,
 .vs-computer {
-  margin: 0 4rem;
   margin-top: 5rem;
   font-family: var(--secondary-font);
   font-size: 2rem;
   line-height: 2rem;
   height: 5rem;
   width: 80%;
+  transition: transform 200ms;
+}
+
+.vs-player:hover,
+.vs-computer:hover {
+  transform: scale(1.05);
 }
 
 .ship-setup-container {
-  justify-self: end;
-  padding: 0 10%;
+  padding-right: 2rem;
   width: 100%;
+  min-width: 300px;
   display: grid;
   grid-template-rows: auto 1fr;
   gap: 1rem;
@@ -230,39 +294,39 @@ header h1 {
 
 .ship-setup-label,
 .input-name-label {
+  justify-self: center;
   font-family: var(--secondary-font);
   margin-top: 1rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .ships-container {
   display: grid;
-  height: 30vw;
   width: 100%;
   gap: 0.5rem;
 }
 
 .ship {
-  justify-self: end;
+  justify-self: center;
   display: grid;
   grid-template-columns: 0.75fr 0.75fr 1fr;
   width: 100%;
   padding: 3% 5%;
   white-space: nowrap;
   background-color: var(--ship-background);
+  gap: 0.5rem;
 }
 
 .ship-name {
   font-family: var(--secondary-font);
-  margin-top: 0;
-  font-size: 1.6rem;
-  line-height: 1.6rem;
+  font-size: 1.25rem;
+  line-height: 1.25rem;
 }
 
 .ship-health {
   font-family: var(--secondary-font);
-  margin-left: 1rem;
-  font-size: 1.25rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
 }
 
 .ship-btns {
@@ -276,25 +340,33 @@ header h1 {
   width: 1.5rem;
   height: 1.5rem;
   border: none;
+  transition: transform 100ms;
+}
+
+.change-orientation-btn:hover,
+.undo-btn:hover {
+  transform: scale(1.1);
+  background-color: bisque;
 }
 
 .ship-model {
   grid-column: span 3;
   height: 2.5rem;
+  transition: transform 200ms;
+}
+
+.ship-model:hover {
+  transform: scale(1.05);
 }
 
 .ship-placement-board {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 5px;
-  width: 90%;
-  margin: 1rem auto 0 auto;
+  margin-top: 1rem;
 }
 
 .name-start-container {
-  justify-self: end;
   padding: 0 10%;
   width: 100%;
+  min-width: 300px;
 }
 
 .name-start-container input {
@@ -302,8 +374,16 @@ header h1 {
   width: 100%;
   font-family: var(--secondary-font);
   font-size: 1.75rem;
-  padding: 1.5rem 2% 1.25rem 2%;
+  padding: 1.5rem 5% 1.5rem 5%;
   margin-top: 1rem;
+  border: none;
+}
+
+.name-start-container input:focus {
+  background-color: whitesmoke;
+  outline: none;
+  border: none;
+  transform: scale(1.1);
 }
 
 .action-btn-container {
@@ -315,6 +395,11 @@ header h1 {
   width: 100%;
   font-family: var(--secondary-font);
   font-size: 2rem;
+  transition: transform 100ms;
+}
+
+.action-btn:hover {
+  transform: scale(1.1);
 }
 
 .error-msg {
@@ -327,7 +412,7 @@ header h1 {
 
 /* Board state during ship placement and gameplay */
 .has-ship {
-  transform: scale(1.15);
+  transform: scale(1.125);
 }
 
 .carrier {
@@ -362,7 +447,7 @@ header h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2vw;
+  font-size: clamp(1rem, 2vw, 2rem);
 }
 
 .sunk {
@@ -377,14 +462,20 @@ header h1 {
   max-height: none;
   border: none;
   background-color: var(--background-color);
+}
+
+.loading-screen-content {
+  max-width: 1400px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
+  padding: 2.5% 5%;
 }
 
-.loading-screen h1 {
+.loading-screen-content h1 {
   font-family: var(--main-font);
-  font-weight: 400;
+  font-weight: var(--title-font-weight);
   font-size: var(--header-font-size);
 }
 
@@ -401,6 +492,11 @@ header h1 {
   width: 20%;
   font-family: var(--secondary-font);
   font-size: 1.5rem;
+  transition: transform 100ms;
+}
+
+.loading-screen button:hover {
+  transform: scale(1.1);
 }
 
 .loader-message {

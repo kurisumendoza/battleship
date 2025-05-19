@@ -22,8 +22,6 @@ const renderGameboard = (boardContainer, playerBoard) => {
       if (playerBoard.hit.has(`${rowIndex},${colIndex}`)) {
         cell.textContent = '💥';
         cell.classList.add(CELL_STATES.HIT);
-        if (playerBoard.board === activePlayer.gameboard.board)
-          cell.style.fontSize = '0.75vw';
       }
 
       if (playerBoard.board === activePlayer.gameboard.board)

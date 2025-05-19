@@ -2,16 +2,16 @@ const header = document.querySelector('.header');
 
 const startScreen = {
   dialog: document.querySelector('.start-screen'),
-  title: document.querySelector('.start-screen h1'),
+  title: document.querySelector('.start-screen-content h1'),
   startBtn: document.querySelector('.start-new-game'),
   setupContainer: document.querySelector('.game-setup-container'),
 };
 
 const loadingScreen = {
   dialog: document.querySelector('.loading-screen'),
-  message: document.querySelector('.loading-screen p'),
+  message: document.querySelector('.loading-screen-content p'),
   loader: document.querySelector('.loader'),
-  readyBtn: document.querySelector('.loading-screen button'),
+  readyBtn: document.querySelector('.loading-screen-content button'),
 };
 
 const gameboardUI = {
