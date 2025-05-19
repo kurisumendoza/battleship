@@ -118,14 +118,18 @@ const initializeActiveGameboard = () => {
 
 // Removes the setup dialog and renders the actual gameboard
 const startTurn = () => {
-  gameboardUI.yourBoard.innerHTML = '';
   gameboardUI.board.innerHTML = '';
+  if (activePlayer.player.name !== COMPUTER_PLAYER)
+    gameboardUI.yourBoard.innerHTML = '';
 
-  renderGameboard(gameboardUI.yourBoard, activePlayer.gameboard);
   renderGameboard(gameboardUI.board, activePlayer.oppGameboard);
 
-  if (activePlayer.player.name !== COMPUTER_PLAYER) initializeActiveGameboard();
-  else handleComputerTurn();
+  if (activePlayer.player.name !== COMPUTER_PLAYER) {
+    initializeActiveGameboard();
+    renderGameboard(gameboardUI.yourBoard, activePlayer.gameboard);
+  } else {
+    handleComputerTurn();
+  }
 
   initializeGameStatusUI(activePlayer.player.name);
 };
