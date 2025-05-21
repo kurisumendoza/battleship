@@ -30,6 +30,19 @@ const updateHP = (playerName) => {
   if (newHP < 15) playerHealth.style.backgroundColor = 'red';
 };
 
+// Marks sunk ship from the player status' ships list
+const updateShipsStatus = (playerName, ship) => {
+  const player =
+    playerName === playerStatsUI.p1Name.textContent
+      ? playerStatsUI.p1Ships
+      : playerStatsUI.p2Ships;
+
+  const sunkShip = player.querySelector(`.${ship.name}`);
+
+  sunkShip.textContent = '❌';
+  sunkShip.style.filter = 'brightness(0.5)';
+};
+
 // Shows which player is currently active
 const turnIndicator = (player) => {
   gameStatusUI.turnDisplay.textContent = `${player}'s Turn ...`;
@@ -81,6 +94,7 @@ const resetGameStatusUI = () => {
 export {
   updatePlayerStatusName,
   updateHP,
+  updateShipsStatus,
   turnIndicator,
   renderGameMessage,
   initializeGameStatusUI,

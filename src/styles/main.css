@@ -133,6 +133,9 @@ header h1 {
 .remaining-ships-container div {
   width: 100%;
   aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .your-board-preview {
