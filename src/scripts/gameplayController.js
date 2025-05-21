@@ -12,6 +12,7 @@ import {
   displayWinner,
   initializeGameStatusUI,
   renderGameMessage,
+  updateHP,
 } from './gameStatusUI';
 
 // Stores Gameboard state
@@ -64,6 +65,8 @@ const evaluateAttackResult = (row, col) => {
       : CELL_STATES.MISS;
 
   updateGameboard(gameboardUI.board, row, col, attackResult);
+
+  if (attackResult === CELL_STATES.HIT) updateHP(activePlayer.opponent.name);
 
   if (activePlayer.oppGameboard.board[row][col].hasSunk) {
     renderSunkShip(

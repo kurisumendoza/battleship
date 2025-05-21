@@ -21,7 +21,13 @@ const gameboardUI = {
 
 const playerStatsUI = {
   p1Stats: document.querySelector('.player1-stats'),
+  p1Name: document.querySelector('.player1 span'),
+  p1Health: document.querySelector('.player1 .actual-hp'),
+  p1Ships: document.querySelector('.player1 .ships-remaining'),
   p2Stats: document.querySelector('.player2-stats'),
+  p2Name: document.querySelector('.player2 span'),
+  p2Health: document.querySelector('.player2 .actual-hp'),
+  p2Ships: document.querySelector('.player2 .ships-remaining'),
 };
 
 const gameStatusUI = {

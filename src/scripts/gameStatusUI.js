@@ -1,5 +1,34 @@
 import activePlayer from './activePlayer';
-import { gameStatusUI, gameSummary } from './selectors';
+import { playerStatsUI, gameStatusUI, gameSummary } from './selectors';
+
+// Updates both players' status display name
+const updatePlayerStatusName = (player1Name, player2Name) => {
+  playerStatsUI.p1Name.textContent = player1Name;
+  playerStatsUI.p2Name.textContent = player2Name;
+};
+
+// Updates a player's displayed HP
+const updateHP = (playerName) => {
+  const totalHP = Object.values(activePlayer.gameboard.ships).reduce(
+    (total, ship) => total + ship.length,
+    0,
+  );
+
+  const damage = +(1 / totalHP).toFixed(3) * 100;
+
+  const playerHealth =
+    playerName === playerStatsUI.p1Name.textContent
+      ? playerStatsUI.p1Health
+      : playerStatsUI.p2Health;
+
+  const currentHP = parseFloat(playerHealth.dataset.hp);
+  const newHP = Math.floor(Math.max(0, currentHP - damage));
+
+  playerHealth.dataset.hp = newHP;
+  playerHealth.style.width = `${newHP}%`;
+  if (newHP < 40) playerHealth.style.backgroundColor = 'orange';
+  if (newHP < 15) playerHealth.style.backgroundColor = 'red';
+};
 
 // Shows which player is currently active
 const turnIndicator = (player) => {
@@ -50,6 +79,8 @@ const resetGameStatusUI = () => {
 };
 
 export {
+  updatePlayerStatusName,
+  updateHP,
   turnIndicator,
   renderGameMessage,
   initializeGameStatusUI,

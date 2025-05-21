@@ -1,6 +1,6 @@
 import { renderGameboard } from './gameplayUI';
 import { startScreen } from './selectors';
-import { createElement } from './helpers';
+import createElement from './helpers';
 import { CELL_STATES, GAME_MODES, ORIENTATIONS } from './constants';
 
 // Stores initial HTML structure

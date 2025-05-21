@@ -1,6 +1,6 @@
 import activePlayer from './activePlayer';
 import { CELL_STATES } from './constants';
-import { createElement } from './helpers';
+import createElement from './helpers';
 import { controlsUI } from './selectors';
 
 // Renders 10 x 10 gameboard

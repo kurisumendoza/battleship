@@ -13,6 +13,7 @@ import {
   updateShipCellsUI,
   handlePlacementHover,
 } from './gameSetupUI';
+import { updatePlayerStatusName } from './gameStatusUI';
 
 // Stores recently picked ship information
 const pickedShip = {
@@ -170,6 +171,10 @@ const playerSetup = {
     }
 
     startScreen.dialog.close();
+    updatePlayerStatusName(
+      activePlayer.player.name,
+      activePlayer.opponent.name,
+    );
     startTurn();
   },
 
