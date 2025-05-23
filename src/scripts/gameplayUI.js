@@ -5,6 +5,10 @@ import { controlsUI } from './selectors';
 
 // Renders 10 x 10 gameboard
 const renderGameboard = (boardContainer, playerBoard) => {
+  if (activePlayer.player.name === COMPUTER_PLAYER)
+    boardContainer.classList.add('disable-gameboard');
+  else boardContainer.classList.remove('disable-gameboard');
+
   playerBoard.board.forEach((row, rowIndex) => {
     row.forEach((col, colIndex) => {
       const cell = createElement('div', ['cell']);
