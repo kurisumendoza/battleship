@@ -31,7 +31,7 @@ const playerStatsUI = {
 };
 
 const gameStatusUI = {
-  turnDisplay: document.querySelector('.turn-display h3'),
+  turnDisplay: document.querySelector('.turn-display span'),
   messageDisplay: document.querySelector('.game-message-display'),
 };
 
@@ -43,7 +43,7 @@ const controlsUI = {
 
 const gameSummary = {
   container: document.querySelector('.winner-display'),
-  winner: document.querySelector('.winner-display h3'),
+  winner: document.querySelector('.winner-display p:first-of-type'),
   summary: document.querySelector('.game-summary'),
 };
 

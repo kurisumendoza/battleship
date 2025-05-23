@@ -46,7 +46,7 @@ const updateShipsStatus = (playerName, ship) => {
 
 // Shows which player is currently active
 const turnIndicator = (player) => {
-  gameStatusUI.turnDisplay.textContent = `${player}'s Turn ...`;
+  gameStatusUI.turnDisplay.textContent = `${player}'s`;
 };
 
 // Displays status messages -- errors, hits, misses, etc.
@@ -59,13 +59,16 @@ const renderGameMessage = (type) => {
     hit: () =>
       activePlayer.player?.name === COMPUTER_PLAYER
         ? 'Your ship got hit!'
-        : `${activePlayer.opponent?.name}'s ship got hit.`,
+        : `${activePlayer.opponent?.name}'s ship got hit!`,
     sunk: () =>
       activePlayer.player?.name === COMPUTER_PLAYER
         ? 'Your ship has been sunk!'
         : `${activePlayer.opponent?.name}'s ship has been sunk!`,
     invalid: () => 'Cell has already been targeted!',
-    blocked: () => "You haven't made a move yet",
+    blocked: () =>
+      activePlayer.player?.name === COMPUTER_PLAYER
+        ? "Computer hasn't made a move yet!"
+        : "You haven't made a move yet!",
     clear: () => '',
   };
 
