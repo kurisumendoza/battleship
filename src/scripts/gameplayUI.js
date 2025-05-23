@@ -1,5 +1,5 @@
 import activePlayer from './activePlayer';
-import { CELL_STATES } from './constants';
+import { CELL_STATES, COMPUTER_PLAYER } from './constants';
 import createElement from './helpers';
 import { controlsUI } from './selectors';
 
@@ -59,6 +59,20 @@ const renderErrorMsg = (container, message) => {
   container.appendChild(errorMsg);
 };
 
+// Changes the text of the End Turn btn when it is the Computer's turn
+const toggleEndTurnBtnText = () => {
+  if (
+    activePlayer.player.name !== COMPUTER_PLAYER &&
+    activePlayer.opponent.name !== COMPUTER_PLAYER
+  )
+    return;
+
+  controlsUI.endTurn.textContent =
+    controlsUI.endTurn.textContent === 'End Turn'
+      ? 'End Computer Turn'
+      : 'End Turn';
+};
+
 // Toggles 'Play Again' button for resetting the game
 const togglePlayAgainBtn = () => {
   controlsUI.playAgainContainer.style.visibility =
@@ -72,5 +86,6 @@ export {
   updateGameboard,
   renderSunkShip,
   renderErrorMsg,
+  toggleEndTurnBtnText,
   togglePlayAgainBtn,
 };

@@ -7,6 +7,7 @@ import {
   renderGameboard,
   renderSunkShip,
   updateGameboard,
+  toggleEndTurnBtnText,
 } from './gameplayUI';
 import {
   displayWinner,
@@ -160,6 +161,7 @@ const endTurn = () => {
   activePlayer.switch();
   gameState.hasAttacked = false;
   renderGameMessage('clear');
+  toggleEndTurnBtnText();
   startTurn();
 };
 
