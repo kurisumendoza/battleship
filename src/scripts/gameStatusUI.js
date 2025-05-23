@@ -1,4 +1,5 @@
 import activePlayer from './activePlayer';
+import { COMPUTER_PLAYER } from './constants';
 import { playerStatsUI, gameStatusUI, gameSummary } from './selectors';
 
 // Updates both players' status display name
@@ -51,9 +52,18 @@ const turnIndicator = (player) => {
 // Displays status messages -- errors, hits, misses, etc.
 const renderGameMessage = (type) => {
   const gameMessage = {
-    miss: () => 'You missed!',
-    hit: () => `${activePlayer.opponent?.name}'s ship got hit.`,
-    sunk: () => `${activePlayer.opponent?.name}'s ship has been sunk!`,
+    miss: () =>
+      activePlayer.player?.name === COMPUTER_PLAYER
+        ? 'Computer missed!'
+        : 'You missed!',
+    hit: () =>
+      activePlayer.player?.name === COMPUTER_PLAYER
+        ? 'Your ship got hit!'
+        : `${activePlayer.opponent?.name}'s ship got hit.`,
+    sunk: () =>
+      activePlayer.player?.name === COMPUTER_PLAYER
+        ? 'Your ship has been sunk!'
+        : `${activePlayer.opponent?.name}'s ship has been sunk!`,
     invalid: () => 'Cell has already been targeted!',
     blocked: () => "You haven't made a move yet",
     clear: () => '',
