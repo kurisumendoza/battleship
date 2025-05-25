@@ -4,7 +4,12 @@ import activePlayer from './activePlayer';
 import { startTurn } from './gameplayController';
 import { renderErrorMsg } from './gameplayUI';
 import renderLoadingScreen from './loadingScreen';
-import { GAME_MODES, NEXT_PLAYER, ORIENTATIONS } from './constants';
+import {
+  COMPUTER_PLAYER,
+  GAME_MODES,
+  NEXT_PLAYER,
+  ORIENTATIONS,
+} from './constants';
 import {
   renderGameModeOptions,
   renderShipSetup,
@@ -140,17 +145,46 @@ const playerSetup = {
     );
   },
 
+  // Checks name's validity
+  validateName(name) {
+    if (!name) return { valid: false, message: 'Please enter a name!' };
+
+    if (
+      name === COMPUTER_PLAYER ||
+      name === COMPUTER_PLAYER.toLowerCase() ||
+      name === COMPUTER_PLAYER.toUpperCase()
+    )
+      return { valid: false, message: "Name cannot be 'Computer'!" };
+
+    if (name.trim().replace(/\s+/g, ' ').length < 2)
+      return {
+        valid: false,
+        message: 'Name too short! Name should be at least 2 characters long.',
+      };
+
+    if (name.trim().replace(/\s+/g, ' ').length > 15)
+      return {
+        valid: false,
+        message: 'Name too long! Name should be no longer than 12 characters.',
+      };
+
+    return { valid: true, name: name.trim().replace(/\s+/g, ' ') };
+  },
+
   // Validates setup before passing to next player or starting game
   validate(mode, name, errContainer) {
     if (!activePlayer.gameboard.isAllPlaced())
       return renderErrorMsg(errContainer, 'Place all ships on board!');
 
-    if (!name) return renderErrorMsg(errContainer, 'Please enter a name!');
+    const validatedName = this.validateName(name);
+
+    if (!validatedName.valid)
+      return renderErrorMsg(errContainer, validatedName.message);
 
     if (mode === GAME_MODES.VS_COMPUTER || mode === NEXT_PLAYER)
-      return this.startGame(name, mode);
+      return this.startGame(validatedName.name, mode);
 
-    return this.nextPlayer(name);
+    return this.nextPlayer(validatedName.name);
   },
 
   // Saves the player's name to the Player class

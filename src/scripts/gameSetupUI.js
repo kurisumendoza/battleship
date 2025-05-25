@@ -81,6 +81,8 @@ const renderPlayerNameInput = () => {
   const inputName = createElement('input', ['input-name']);
 
   inputNameLabel.textContent = 'Enter your name:';
+  inputName.placeholder = 'ex: Altria';
+  inputName.style.fontSize = '1.25rem';
 
   return { inputNameLabel, inputName };
 };
