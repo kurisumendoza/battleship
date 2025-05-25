@@ -71,6 +71,7 @@ main {
   grid-template-columns: 0.75fr 1.5fr 0.75fr;
   grid-template-rows: auto 1fr;
   color: var(--main-font-color);
+  position: relative;
 }
 
 header {
@@ -153,7 +154,6 @@ header h1 {
 .your-board-preview {
   padding-top: 1rem;
   text-align: center;
-  pointer-events: none;
 }
 
 .your-board {
@@ -599,5 +599,250 @@ header h1 {
 @keyframes l1 {
   to {
     clip-path: inset(0 -34% 0 0);
+  }
+}
+
+@media (max-width: 767px) {
+  main {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+    gap: 1rem;
+  }
+
+  header {
+    grid-column: auto;
+  }
+
+  .stats-container {
+    grid-row: 4;
+    width: 100%;
+    min-width: none;
+    padding-right: 0;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 1rem;
+  }
+
+  .player1-stats,
+  .player2-stats {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .remaining-ships-container {
+    gap: 0.5rem;
+  }
+
+  .remaining-ships-container div {
+    aspect-ratio: 1 / 0.5;
+    font-size: 0.5rem;
+  }
+
+  .gameboard-container,
+  .ship-placement-container {
+    padding: 0;
+    width: 100%;
+    min-width: 50px;
+  }
+
+  .gameboard-container {
+    grid-row: 3;
+    margin-bottom: 2rem;
+  }
+
+  .your-board-preview {
+    padding-top: 0;
+  }
+
+  .your-board-preview p {
+    display: none;
+  }
+
+  .your-board {
+    margin-top: 0;
+  }
+
+  .game-stats-container {
+    grid-row: 2;
+    grid-template-columns: 1.25fr 0.75fr;
+    grid-template-rows: auto auto 0px;
+    grid-template-areas:
+      'player end-turn'
+      'message message';
+    align-items: center;
+    margin-right: 0;
+    padding-top: 0;
+    padding-left: 0;
+    width: 100%;
+    min-width: none;
+  }
+
+  .turn-display {
+    grid-area: player;
+    text-align: left;
+    font-size: 1.25rem;
+  }
+
+  .turn-display span::after {
+    content: ' ';
+  }
+
+  .turn-display br {
+    display: none;
+  }
+
+  .end-turn-btn {
+    grid-area: end-turn;
+    width: 100%;
+  }
+
+  .end-turn-btn button {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .game-message-display {
+    grid-area: message;
+    justify-self: bottom;
+    margin-bottom: 0;
+    margin-top: 0.5rem;
+    height: 1rem;
+  }
+
+  .winner-display {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    background-color: var(--background-color);
+    width: 80%;
+    padding: 1rem;
+  }
+
+  .play-again-btn {
+    position: absolute;
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+  }
+
+  .start-screen-content h1 {
+    font-size: 4rem;
+  }
+
+  .game-setup-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, auto);
+    justify-items: center;
+    gap: 1rem;
+  }
+
+  .start-new-game,
+  .vs-player,
+  .vs-computer {
+    font-size: 1.75rem;
+  }
+
+  .start-new-game,
+  .game-modes-container {
+    grid-column-start: 1;
+  }
+
+  .game-modes-container {
+    width: 80%;
+  }
+
+  .ship-setup-container {
+    grid-row: 2;
+    padding-right: 0;
+    min-width: none;
+    gap: 0;
+  }
+
+  .ship-setup-label {
+    display: none;
+  }
+
+  .ship-placement-container::before {
+    content: 'Position your ships!';
+    display: block;
+    font-family: var(--main-font);
+    color: var(--main-font-color);
+    font-size: 1.75rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .ship-placement-board {
+    margin-bottom: 2rem;
+  }
+
+  .ships-container {
+    grid-template-columns: auto auto;
+  }
+
+  .ship {
+    padding: 0.5rem;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(3, auto);
+  }
+
+  .ship:first-of-type {
+    grid-column: span 2;
+  }
+
+  .ship-name {
+    line-height: 1rem;
+  }
+
+  .ship-health {
+    line-height: 1rem;
+    grid-row: 2;
+  }
+
+  .ship-btns {
+    flex-direction: column;
+    grid-row: 1;
+    grid-row: span 3;
+  }
+
+  .change-orientation-btn,
+  .undo-btn {
+    width: 3rem;
+    height: 100%;
+  }
+
+  .ship-model {
+    grid-column: auto;
+    width: 100% !important;
+  }
+
+  .name-start-container {
+    min-width: none;
+  }
+
+  .input-name-label {
+    margin-top: 0;
+  }
+
+  .name-start-container input {
+    margin-top: 0.5rem;
+  }
+
+  .action-btn-container {
+    margin-top: 2rem;
+  }
+
+  .error-msg {
+    margin-bottom: 2rem;
+  }
+
+  .loading-screen-message {
+    text-align: center;
+  }
+
+  .loading-screen button {
+    width: 80%;
   }
 }
