@@ -21,23 +21,27 @@
 
   --header-font-weight: 600;
 
-  --background-color: cadetblue;
-  --cell-color: antiquewhite;
+  --background-color: #023047;
+  --cell-color: #caf0f8;
+  --button-color: #219ebc;
 
-  --error-color: maroon;
+  --player-status-color: #8ecae6;
 
-  --miss-color: lightslategrey;
-  --hit-color: lightcoral;
+  --error-color: #ff6666;
 
-  --ship-background: darkgrey;
-  --is-placed-color: slategrey;
-  --carrier-color: darkred;
-  --battleship-color: darkblue;
-  --cruiser-color: darkcyan;
-  --submarine-color: darkgreen;
-  --destroyer-color: darkmagenta;
+  --miss-color: #415a77;
 
-  --summary-values-font-color: orangered;
+  --ship-background: #979dac;
+  --is-placed-color: #5c677d;
+  --carrier-color: #c5172e;
+  --battleship-color: #f4631e;
+  --cruiser-color: #732255;
+  --submarine-color: #fcf259;
+  --destroyer-color: #399918;
+
+  --main-font-color: #e0e1dd;
+  --secondary-font-color: #1b263b;
+  --summary-values-font-color: #ffee32;
 }
 
 body {
@@ -45,6 +49,11 @@ body {
   padding: 2.5% 5%;
   max-width: 1400px;
   margin: 0 auto;
+}
+
+body,
+dialog {
+  user-select: none;
 }
 
 button,
@@ -61,6 +70,7 @@ main {
   display: grid;
   grid-template-columns: 0.75fr 1.5fr 0.75fr;
   grid-template-rows: auto 1fr;
+  color: var(--main-font-color);
 }
 
 header {
@@ -96,11 +106,13 @@ header h1 {
 .player1-stats,
 .player2-stats {
   padding: 1rem;
-  background-color: lightcoral;
+  background-color: var(--player-status-color);
+  color: var(--secondary-font-color);
 }
 
 .player1 span,
 .player2 span {
+  font-size: 1.25rem;
   font-weight: var(--header-font-weight);
 }
 
@@ -112,8 +124,8 @@ header h1 {
 
 .hp-bar {
   height: 1.1rem;
-  border: 2px solid black;
-  background-color: gainsboro;
+  border: 2px solid #0d1321;
+  background-color: #d9d9d9;
   width: 100%;
   padding: 0.1rem;
 }
@@ -121,7 +133,7 @@ header h1 {
 .actual-hp {
   width: 100%;
   height: 100%;
-  background-color: green;
+  background-color: #0b9116;
 }
 
 .remaining-ships-container {
@@ -219,11 +231,14 @@ header h1 {
 
 .end-turn-btn button,
 .play-again-btn button {
+  border: none;
   margin: 2rem 0;
   height: 3rem;
   width: 100%;
   font-family: var(--secondary-font);
   font-size: 1.25rem;
+  color: var(--secondary-font-color);
+  background-color: var(--button-color);
   transition: transform 200ms;
 }
 
@@ -270,6 +285,7 @@ header h1 {
   max-height: none;
   border: none;
   background-color: var(--background-color);
+  color: var(--main-font-color);
 }
 
 .start-screen-content {
@@ -285,6 +301,7 @@ header h1 {
   font-family: var(--main-font);
   font-weight: var(--header-font-weight);
   font-size: 10rem;
+  color: var(--main-font-color);
 }
 
 .game-setup-container {
@@ -295,12 +312,15 @@ header h1 {
 
 .start-new-game {
   grid-column-start: 2;
+  border: none;
   margin: 0 auto;
   margin-top: 5rem;
   font-family: var(--secondary-font);
   font-size: 2rem;
+  color: var(--secondary-font-color);
   height: 5rem;
   width: 80%;
+  background-color: var(--button-color);
   transition: transform 200ms;
 }
 
@@ -317,12 +337,15 @@ header h1 {
 
 .vs-player,
 .vs-computer {
+  border: none;
   margin-top: 5rem;
   font-family: var(--secondary-font);
   font-size: 2rem;
   line-height: 2rem;
+  color: var(--secondary-font-color);
   height: 5rem;
   width: 80%;
+  background-color: var(--button-color);
   transition: transform 200ms;
 }
 
@@ -352,6 +375,7 @@ header h1 {
   display: grid;
   width: 100%;
   gap: 0.5rem;
+  color: var(--secondary-font-color);
 }
 
 .ship {
@@ -418,6 +442,7 @@ header h1 {
 }
 
 .name-start-container input {
+  user-select: text;
   height: 2.5rem;
   width: 100%;
   font-family: var(--secondary-font);
@@ -439,10 +464,13 @@ header h1 {
 }
 
 .action-btn {
+  border: none;
   height: 3.5rem;
   width: 100%;
   font-family: var(--secondary-font);
   font-size: 2rem;
+  color: var(--secondary-font-color);
+  background-color: var(--button-color);
   transition: transform 100ms;
 }
 
@@ -485,6 +513,7 @@ header h1 {
 
 .is-placed {
   background-color: var(--is-placed-color);
+  pointer-events: none;
 }
 
 .miss {
@@ -510,6 +539,7 @@ header h1 {
   max-height: none;
   border: none;
   background-color: var(--background-color);
+  color: var(--main-font-color);
 }
 
 .loading-screen-content {
@@ -535,11 +565,14 @@ header h1 {
 
 .loading-screen button {
   display: none;
+  border: none;
   margin: 2rem 0;
   height: 3rem;
   width: 20%;
   font-family: var(--secondary-font);
   font-size: 1.5rem;
+  background-color: var(--button-color);
+  color: var(--secondary-font-color);
   transition: transform 100ms;
 }
 
@@ -557,7 +590,7 @@ header h1 {
   width: 60px;
   margin: auto;
   aspect-ratio: 4;
-  background: radial-gradient(circle closest-side, #000 90%, #0000) 0 /
+  background: radial-gradient(circle closest-side, #fdfaf6 90%, #0000) 0 /
     calc(100% / 3) 100% space;
   clip-path: inset(0 100% 0 0);
   animation: l1 1s steps(4) infinite;

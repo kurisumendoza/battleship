@@ -171,13 +171,9 @@ const handlePlacementHover = (ship, orientation, cell, isHovering = true) => {
     );
 
     if (isHovering) {
-      hoveredCell.style.transform = 'scale(1.25)';
-      hoveredCell.style.backgroundColor = 'gray';
+      hoveredCell.style.backgroundColor = '#808080B3';
       hoveredCell.style.transition = '0ms';
-    } else {
-      hoveredCell.style.transform = '';
-      hoveredCell.style.backgroundColor = '';
-    }
+    } else hoveredCell.style.backgroundColor = '';
   }
 };
 
