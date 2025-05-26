@@ -133,6 +133,12 @@ const initializeShipPlacementBoard = (playerBoard) => {
   board.addEventListener('mouseout', (e) =>
     handleHoverShipOnBoard(e, pickedShip.ship, pickedShip.orientation, false),
   );
+  board.addEventListener('touchstart', (e) =>
+    handleHoverShipOnBoard(e, pickedShip.ship, pickedShip.orientation),
+  );
+  board.addEventListener('touchend', (e) =>
+    handleHoverShipOnBoard(e, pickedShip.ship, pickedShip.orientation, false),
+  );
 };
 
 const playerSetup = {
