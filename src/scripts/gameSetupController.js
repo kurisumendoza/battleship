@@ -174,6 +174,12 @@ const playerSetup = {
         message: 'Name too long! Name should be no longer than 12 characters.',
       };
 
+    if (name.trim().replace(/\s+/g, ' ') === activePlayer.opponent.name)
+      return {
+        valid: false,
+        message: 'Name cannot be the same as Player 1',
+      };
+
     return { valid: true, name: name.trim().replace(/\s+/g, ' ') };
   },
 
