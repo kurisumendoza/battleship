@@ -24,6 +24,8 @@ const resetGame = () => {
   resetPlayers();
   activePlayer.reset();
 
+  playerStatsUI.p1Health.dataset.hp = 100;
+  playerStatsUI.p2Health.dataset.hp = 100;
   playerStatsUI.p1Health.style.width = '100%';
   playerStatsUI.p2Health.style.width = '100%';
   playerStatsUI.p1Health.style.backgroundColor = '';
