@@ -215,10 +215,10 @@ header h1 {
 .game-stats-container {
   display: grid;
   grid-template-columns: 1fr;
-  width: 75%;
+  width: 100%;
   min-width: 300px;
   padding-top: 1rem;
-  margin-right: auto;
+  margin: auto;
   padding-left: 2rem;
   font-family: var(--secondary-font);
 }
@@ -447,6 +447,7 @@ header h1 {
   width: 100%;
   font-family: var(--secondary-font);
   font-size: 1.75rem;
+  text-align: center;
   padding: 1.5rem 5% 1.5rem 5%;
   margin-top: 1rem;
   border: none;
@@ -837,7 +838,6 @@ header h1 {
   }
 
   .name-start-container input {
-    text-align: center;
     font-size: 2rem;
     margin-top: 0.5rem;
   }
@@ -856,5 +856,85 @@ header h1 {
 
   .loading-screen button {
     width: 80%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) and (orientation: landscape) {
+  .start-screen-content h1 {
+    font-size: 8rem;
+  }
+
+  .vs-player,
+  .vs-computer {
+    margin-top: calc(2rem + 3vh);
+  }
+
+  .ship-setup-container,
+  .name-start-container {
+    min-width: 200px;
+  }
+
+  .ship-setup-container {
+    padding-right: 0;
+  }
+
+  .name-start-container {
+    padding: 0;
+  }
+
+  .ship-setup-label,
+  .input-name-label {
+    font-size: 1.25rem;
+  }
+
+  .ship {
+    padding: 0.5rem;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem;
+  }
+
+  .ship-name {
+    font-weight: var(--header-font-weight);
+    font-size: 1rem;
+  }
+
+  .ship-health {
+    margin-right: 0.25rem;
+  }
+
+  .ship-model {
+    height: 2rem;
+  }
+
+  .gameboard-container,
+  .ship-placement-container {
+    min-width: 300px;
+  }
+
+  .stats-container,
+  .game-stats-container {
+    min-width: 200px;
+    padding: 0;
+  }
+
+  .stats-container {
+    width: 100%;
+  }
+
+  .action-btn {
+    font-size: 1.5rem;
+  }
+
+  .player1 span,
+  .player2 span {
+    font-size: 1.1rem;
+  }
+
+  .remaining-ships-container div {
+    aspect-ratio: 1 / 1;
+  }
+
+  .your-board-preview {
+    padding: 1rem;
   }
 }
